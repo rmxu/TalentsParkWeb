@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type='text/javascript'>
+function change_ico(){
+	if(document.getElementById('advance_ico').style.display==''){
+		document.getElementById('advance_ico').style.display='none';
+		document.getElementById('advance_ico_tip').style.display='none';
+		document.getElementById('normal_ico').style.display='';
+		document.getElementById('normal_ico_tip').style.display='';
+	}else{
+		document.getElementById('advance_ico').style.display='';
+		document.getElementById('advance_ico_tip').style.display='';
+		document.getElementById('normal_ico').style.display='none';
+		document.getElementById('normal_ico_tip').style.display='none';
+		
+	}
+}
+</script>
+</head>
+<body id="iframecontent">
+<h2 class="app_user">{echo:lp{u_conf};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li><a href="modules.php?app=user_info" title="{echo:lp{u_info};/}">{echo:lp{u_info};/}</a></li>
+        <li class="active"><a href="modules.php?app=user_ico" title="{echo:lp{u_icon};/}">{echo:lp{u_icon};/}</a></li>
+        <li><a href="modules.php?app=user_pw_change" title="{echo:lp{u_pw};/}">{echo:lp{u_pw};/}</a></li>
+        <li><a href="modules.php?app=user_dressup" title="{echo:lp{u_dressup};/}">{echo:lp{u_dressup};/}</a></li>
+        <li><a href="modules.php?app=user_affair" title="{echo:lp{u_set_affair};/}">{echo:lp{u_set_affair};/}</a></li>
+    </ul>
+</div>
+	<div class="rs_head">{echo:lp{u_set_ico};/}</div>
+	
+	<table class='form_table' cellpadding="0" cellspacing="0">
+		<tr>
+			<th valign="top">{echo:lp{u_ico_now};/}：</th>
+			<td><img class="photo_frame" src="{echo:str_replace('_small','',get_sess_userico());/}"></td>
+		</tr>
+		<tr>
+			<th>{echo:lp{u_ico_spc};/}：</th>
+			<td>{echo:lp{u_ico_siz};/}</td>
+		</tr>
+	</table>
+	
+	<table class='form_table' id='advance_ico' cellpadding="0" cellspacing="0" style="display:none">
+		<div class="rs_head" id='advance_ico_tip' style="display:none">
+			<span class="right"><a href='javascript:change_ico()'>{echo:lp{u_normal_ico};/}</a></span>{echo:lp{u_set_advanceway};/}
+		</div>
+		<tr>
+			<td colspan=2>
+				<form name="form2" method="post" action="do.php?act=user_ico_upload" enctype="multipart/form-data">
+					<input type="hidden" name='type' value='ico'/>
+					<input  class='left mr10' style="height:23px;" type="file" name="attach[]"/>
+					<input class='small-btn left' type="submit" name="submit" id="UploadButton2" value="{echo:lp{u_upload};/}"  />
+				</form>
+			</td>
+		</tr>
+	</table>
+	
+	<table class='form_table' id="normal_ico"  cellpadding="0" cellspacing="0">
+		<div class="rs_head" id='normal_ico_tip'>
+			<span class="right"><a href='javascript:change_ico()'>{echo:lp{u_advance_ico};/}</a></span>{echo:lp{u_set_way};/}
+		</div>
+		<tr>
+			<td colspan=2>{echo:lp{u_b};/}</td>
+		</tr>
+		<tr>
+			<td colspan=2>
+				<form name="form1" method="post" action="do.php?act=user_ico_upload" enctype="multipart/form-data">
+					<input type="hidden" name='type' value='photo' />
+					<input  class='left mr10' style="height:23px;" type="file" name="attach[]" />
+					<input class='small-btn left' type="submit" name="submit" id="UploadButton" value="{echo:lp{u_upload};/}"/>
+				</form>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2>{echo:lp{u_c};/}</td>
+		</tr>
+		<tr>
+			<td colspan=2>{echo:lp{u_cho_alb};/}:
+				{sta:album_name($album_rs,$album_id);/}
+
+				<script type='text/javascript'>
+					var album_select=document.getElementById("album_name");
+					album_select.onchange=list_album_photos;
+					function list_album_photos(){
+					//获取接受返回信息层
+					var album_select_val=document.getElementById("album_name").value;
+					var photos_list=document.getElementById("photos_list");
+					if(album_select_val==""){
+						return false;
+					}else{
+						photos_list.innerHTML="{echo:lp{u_data};/}";
+						var get_album=new Ajax();
+						get_album.getInfo("modules.php","get","app","app=user_ico_select&album_id="+album_select_val,function(c){photos_list.innerHTML=c;});
+						}
+					}
+					</script>
+					<div id='photos_list'></div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

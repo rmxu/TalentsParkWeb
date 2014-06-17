@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script src="servtools/area.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+	function check_form(){
+		document.getElementById('birth_province').value=document.getElementById('s1').value;
+		document.getElementById('birth_city').value=document.getElementById('s2').value;
+		document.getElementById('reside_province').value=document.getElementById('r1').value;
+		document.getElementById('reside_city').value=document.getElementById('r2').value;
+	
+		var qq=document.form.qq.value;
+		if(qq){
+			if(!qq.match("^[0-9]*[1-9][0-9]*$") || qq<10001){
+			parent.Dialog.alert("{echo:lp{u_qq_err};/}");
+			return false;
+			}
+		}
+		var mood_text=trim(document.form.name.value);
+		if(mood_text==''){
+			parent.Dialog.alert("{echo:lp{u_no_name};/}");
+			return false;
+		}
+	}
+</script>
+<body id="iframecontent">
+{sta:if($url_uid == $ses_uid)[exc]}
+<div class="create_button">
+	<a target="frame_content" href="modules.php?app=user_info&is_finish=1">{echo:lp{u_perfect_info};/}</a>
+</div>
+{end:if/}
+<h2 class="app_user">{echo:lp{u_profile};/}</h2>
+{sta:if(!$show_type)[exc]}
+{sta:if(!$is_finish)[exc]}
+<div class="tabs">
+	<ul class="menu">
+	  <li class="active"><a href="modules.php?app=user_info" title="{echo:lp{u_info};/}">{echo:lp{u_info};/}</a></li>
+	  <li><a href="modules.php?app=user_ico" title="{echo:lp{u_icon};/}">{echo:lp{u_icon};/}</a></li>
+	  <li><a href="modules.php?app=user_pw_change" title="{echo:lp{u_pw};/}">{echo:lp{u_pw};/}</a></li>
+	  <li><a href="modules.php?app=user_dressup" title="{echo:lp{u_dressup};/}">{echo:lp{u_dressup};/}</a></li>
+	  <li><a href="modules.php?app=user_affair" title="{echo:lp{u_set_affair};/}">{echo:lp{u_set_affair};/}</a></li>
+	</ul>
+</div>
+<div class="rs_head">{echo:lp{u_fill};/}</div>
+{end:if/}
+		<form name="form" method="post" action="do.php?act=user_info&is_finish={echo:$is_finish;/}" onsubmit="return check_form();">
+			<table class="form_table" border="0">
+				<tr>
+					<th>{echo:lp{u_name};/}</th>
+					<td>{echo:$user_row['user_name'];/} <span title="{echo:count_level($user_row['integral']);/}">{echo:grade($user_row['integral']);/}</span>&nbsp;&nbsp;<span class="gray">(<font color='red'>{echo:$user_row['integral'];/}</font>{echo:lp{u_integral};/})</span></td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_sex};/}</th>
+					<td>
+							{echo:($user_row['user_sex']==0)?lp{u_wen}:lp{u_man};/}
+					</td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_marr};/}</th>
+					<td>
+						<select id="marry" name="marry">
+							<option value="0" {echo:$sec_c;/}>{echo:lp{u_sec};/}</option>
+							<option value="1" {echo:$mer_c;/}>{echo:lp{u_marr_n};/}</option>
+							<option value="2" {echo:$n_mer_c;/}>{echo:lp{u_marr_y};/}</option>
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_bird};/}</th>
+					<td>
+						{echo:get_birth_date($user_row['birth_year'],$user_row['birth_month'],$user_row['birth_day']);/}
+					</td>
+				</tr>
+				<tr>
+					<th>{echo:lp{u_bld};/}</th>
+					<td>
+						{echo:get_blood($user_row['user_blood']);/}
+					</td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_birc};/}</th>
+
+					<td>
+						<div id="birth"><select name='s1' id="s1" onchange="document.getElementById('birth_province').value=this.value;"><option>{echo:lp{u_select};/}</option></select>
+							<input type='hidden' name='birth_province' id='birth_province' value='{echo:$user_row["birth_province"];/}' />
+							<select name='s2' id="s2" onchange="document.getElementById('birth_city').value=this.value;"><option>{echo:lp{u_select};/}</option></select>
+							<input type='hidden' name='birth_city' id='birth_city' value='{echo:$user_row["birth_city"];/}' />
+						  <script type="text/javascript">
+								setup();
+								document.getElementById('s1').value='{echo:$user_row["birth_province"];/}';
+								change(1);
+								document.getElementById('s2').value='{echo:$user_row["birth_city"];/}';
+							</script>
+
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_res};/}</th>
+					<td>
+						<div id="reside">
+							<select name='r1' id="r1" ><option>{echo:lp{u_select};/}</option></select>
+							<input type='hidden' name='reside_province' id='reside_province' value='{echo:$user_row["reside_province"];/}' />
+							<select name='r2' id="r2" ><option>{echo:lp{u_select};/}</option></select>
+							<input type='hidden' name='reside_city' id='reside_city' value='{echo:$user_row["reside_city"];/}' />
+						  <script type="text/javascript">
+								setup2();
+								document.getElementById('r1').value='{echo:$user_row['reside_province'];/}';
+								change2(1);
+								document.getElementById('r2').value='{echo:$user_row['reside_city'];/}';
+							</script>
+
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<th>QQ</th>
+					<td><input class="small-text" type="text" id="qq" name="qq" value="{echo:$user_row['user_qq'];/}" maxlength="16" autocomplete='off'/></td>
+				</tr>
+
+				<tr>
+					<th>{echo:lp{u_reg_time};/}</th>
+					<td>{echo:$user_row['user_add_time'];/}</td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td>
+						<input type="submit" name="profilesubmit2" value="{echo:lp{u_b_con};/}" class="regular-btn" />
+						<input type="reset" name="Submit" class="regular-btn" value="{echo:lp{u_b_can};/}" />
+					</td>
+				</tr>
+			</table>
+</form>
+	{end:if/}
+	{sta:if($show_type)[exc]}
+		<table class="form_table">
+      <tr><th>{echo:lp{u_name};/}：</th><td>{echo:$user_row['user_name'];/}</td></tr>
+			<tr><th>{echo:lp{u_sex};/}：</th><td>{echo:$man_c ? $u_wen : $u_man;/}</td></tr>
+			<tr><th>{echo:lp{u_marr};/}：</th><td>{echo:$mer_c ? $u_marr_n : ($n_mer_c ? $u_marr_y : $u_sec);/}</td></tr>
+			<tr><th>{echo:lp{u_bird};/}：</th><td>{echo:$user_row["birth_year"]&&$user_row["birth_month"]&&$user_row["birth_day"]?$user_row["birth_year"].lp{u_year}.$user_row["birth_month"].lp{u_month}.$user_row["birth_day"].lp{u_day}:lp{u_set};/}</td></tr>
+			<tr><th>{echo:lp{u_bld};/}：</th><td>{echo:$user_row['user_blood'] ? $user_row['user_blood'] : lp{u_sec};/}</td></tr>
+			<tr><th>{echo:lp{u_birc};/}：</th><td>{echo:$user_row["birth_province"]?($user_row["birth_province"]==$user_row["birth_city"]?$user_row["birth_province"]:$user_row["birth_province"].$user_row["birth_city"]):lp{u_set};/}</td></tr>
+			<tr><th>{echo:lp{u_res};/}：</th><td>{echo:$user_row["reside_province"]?($user_row["reside_province"]==$user_row["reside_city"]?$user_row["reside_province"]:$user_row["reside_province"].$user_row["reside_city"]):lp{u_set};/}</td></tr>
+			<tr><th>QQ：</th><td>{echo:$user_row['user_qq']?$user_row['user_qq']:lp{u_set};/}</td>
+		</table>
+	{end:if/}
+</body>
+</html>

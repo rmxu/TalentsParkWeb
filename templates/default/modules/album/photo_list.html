@@ -1,0 +1,77 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+{sta:echo $is_self=='Y' ? "<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>" : "";/}
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+</head>
+<body id="iframecontent" oncontextmenu="return false;">
+{sta:if($is_self=='Y')[exc]}
+<div class="create_button"><a href="modules.php?app=album_edit">{echo:lp{a_creat};/}</a></div>
+<div class="create_button"><a href="modules.php?app=photo_upload">{echo:lp{a_upload};/}</a></div>
+{end:if/}
+<h2 class="app_album">{echo:$a_who;/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs {echo:$button;/}">
+	<ul class="menu">
+        <li class="active"><a href="modules.php?app=album" hidefocus="true">{echo:lp{a_mine};/}</a></li>
+        <li><a href="modules.php?app=album_friend" hidefocus="true">{echo:lp{a_friend};/}</a></li>
+    </ul>
+</div>
+{end:if/}
+{sta:if($show_data)[exc]}
+{sta:if($is_self=='N'&&$ses_uid)[exc]}
+<div class="rs_head">
+	<span class="right">
+		<a href="javascript:void(0);" onclick="parent.show_share(2,{echo:$album_row['album_id'];/},'{echo:$album_row['album_name'];/}','','');">{echo:lp{mn_share};/}</a>&nbsp;
+		<a href="javascript:void(0);" onclick="parent.report(2,{echo:$album_row['user_id'];/},{echo:$album_row['album_id'];/});">{echo:lp{mn_report};/}</a>
+	</span>
+	{echo:filt_word($album_row['album_name']);/}
+</div>
+{end:if/}
+{sta:foreach($photo_rs as $val)[loop]}
+{sta:newline('4');$is_pri=check_pri($val['user_id'],$val['privacy']);/}
+<div class="album_photo_box">
+  <a href='{echo:$is_pri ? rewrite_fun("modules.php?app=photo&photo_id=".$val['photo_id']."&album_id=".$album_id."&user_id=".$user_id) : "javascript:void(0)";/}'>
+  	<img {sta:if($is_self=='Y')[exc]}title="{echo:lp{a_tip_pri};/}" onmouseDown="menu_pop_show(event,this);" id='{echo:$t_photo;/}:{echo:$val['photo_id'];/}:{echo:$val['privacy'];/}' {end:if/} src={echo:$is_pri ? $val['photo_thumb_src'] : "skin/$skinUrl/images/error.gif";/} width="100px"  class="user_ico" />
+  </a>
+</div>
+{end:foreach/}
+<div class="clear"></div>
+{sta:page_show($isNull,$page_num,$page_total);/}
+<div class="album_info">
+	<div class="album_info_content">
+		<div class="album_title">{echo:lp{a_name};/}{echo:filt_word($album_row['album_name']);/}</div>
+		<div class="album_summary">{echo:lp{a_inf};/}{echo:filt_word($album_information);/}</div>
+	</div>
+</div>
+<div class="tleft ml20">
+	<div class="comment">
+    <div id='show_2_{echo:$album_row["album_id"];/}'>
+    	<script type='text/javascript'>parent.get_mod_com(2,{echo:$album_row['album_id'];/},0,20);</script>
+    </div>
+    {sta:if($ses_uid!='')[exc]}
+		<div class="reply">
+			<img class="figure" src="{echo:get_sess_userico();/}" />
+			<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)" id="reply_2_{echo:$album_row['album_id'];/}_input"></textarea></p>
+			<div class="replybt">
+				<input class="left button" onclick="parent.restore_com({echo:$album_row['user_id'];/},2,{echo:$album_row['album_id'];/});show('face_list_menu',200);" type="submit" name="button" id="button" value="{echo:lp{a_b_com};/}" />
+				<a id="reply_a_{echo:$blog_row['log_id'];/}_input" class="right" href="javascript: void(0);" onclick="showFace(this,'face_list_menu','reply_2_{echo:$album_row['album_id'];/}_input');">{echo:lp{a_face};/}</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{end:if/}
+	</div>
+</div>
+{end:if/}
+	<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+	<div class="guide_info {echo:$none_photo;/}">{echo:$no_pht;/}</div>
+</body>
+</html>

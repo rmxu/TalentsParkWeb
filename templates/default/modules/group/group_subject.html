@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT language=JavaScript src="servtools/editor/nicEdit.js"></SCRIPT>
+<SCRIPT language=JavaScript src="servtools/imgfix.js"></SCRIPT>
+<SCRIPT language=JavaScript src="skin/default/js/jooyea.js"></SCRIPT>
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script Language="JavaScript">
+bkLib.onDomLoaded(function(){
+	nicE=new nicEditor({fullPanel : true}).panelInstance('CONTENT');
+});
+var oldContent = '';
+function CheckForm(){
+	var content_inner=$("CONTENT").previousSibling.children[0].innerHTML;
+	oldContent = content_inner;
+	if(document.myform.LOG_TITLE.value==""){
+		parent.Dialog.alert("{echo:lp{g_title};/}");
+		document.myform.LOG_TITLE.focus();
+		return false;
+	}
+	if(trim(content_inner)==''){
+		parent.Dialog.alert("{echo:lp{g_none_content};/}");
+		return false;
+	}
+}
+window.onbeforeunload = function ()
+{
+	var newContent = document.getElementById("CONTENT").previousSibling.children[0];
+	if(newContent && trim(newContent.innerHTML.toString()) == trim(oldContent.toString())){return;}else{return '{echo:lp{g_content_not_saved};/}!';}
+}
+parent.hiddenDiv();
+</script>
+</head>
+
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=group_space&group_id={echo:$group_id;/}&user_id={echo:$user_id;/}">{echo:lp{g_re_space};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_subject};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="javascript:;" hidefocus="true">{echo:lp{g_subject};/}</a></li>
+        </ul>
+    </div>
+	<form action="do.php?act=group_send_sub&group_id={echo:$group_id;/}&user_id={echo:$u_id;/}"  method="post" style="margin-top:10px" name="myform" onSubmit="return CheckForm();">
+		<table border="0" class="form_table" cellpadding="2" cellspacing="1" >
+			<tr>
+				<th nowrap="nowrap">{echo:lp{g_subject};/}：</th>
+				<td><input class="med-text" type="text" name="LOG_TITLE" value="" maxlength="30" /></td>
+			</tr>
+			<tr>
+      			<th valign="top">{echo:lp{g_content};/}：</th>
+				<td style="line-height:1.5"><textarea name="CONTENT" id="CONTENT" class="textarea" style='width:550px;height:300px;_width:550px;'></textarea></td>
+		   </tr>
+   		<tr>
+	      <th>{echo:lp{g_pic};/}：</th>
+	      <td>
+	      	<div id="POPUP_KE_IMAGE">
+	      		<iframe name="KindImageIframe" id="KindImageIframe" width="100%" height=30 align=top allowTransparency="true" scrolling=no src='modules.php?app=upload_form' frameborder=0></iframe>
+	      	</div>
+		  </td>
+		</tr>
+		<tr>
+			<th></th>
+    		<td>{echo:album_name($album_rs,$album_id);/}{echo:lp{g_sel_album};/}</td>
+			<script type='text/javascript'>
+				var album_select=document.getElementById("album_name");
+				album_select.onchange=list_album_photos;										      
+				function list_album_photos(){
+					//获取接受返回信息层 
+					var album_select_val=document.getElementById("album_name").value;
+					var photos_list=document.getElementById("photos_list");
+					if(album_select_val==""){
+					return false;
+					}else{
+					photos_list.innerHTML="{echo:lp{g_data_loading};/}...";
+					var get_album=new Ajax();//实例化Ajax
+					get_album.getInfo("modules.php","get","app","app=user_ico_select&type=blog_photo&album_id="+album_select_val,function(c){photos_list.innerHTML=c;});
+					}
+				}
+			</script>
+			</tr>
+			<tr>
+				<th></th>
+				<td><div id='photos_list'></div></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><input type="submit" class="regular-btn" value="{echo:lp{g_button_yes};/}"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	text-align:left;
+}
+.main {
+	text-align:left;
+	line-height:22px;
+}
+  .hp_title {
+	  margin:10px 0px;
+	  text-align:left;
+  }
+  .main table {
+	  text-align:left;
+	  table-layout:fixed;
+	  margin-top:20px;
+}
+  .main td {
+	  text-align:left;
+	  height:110px;
+  }
+.toptd {height:50px !important;}
+  .td_main {
+	  padding:5px 8px;
+	  line-height:25px;
+}
+  .td_main b {
+	  font-size:14px;
+	  color:#666;
+}
+.main a,.td_main a {
+	  margin:0 6px; _margin:0 6px 0 0;white-space:nowrap; 
+ }
+p {
+	margin:8px auto;
+}
+p a {
+	margin:5px;
+	font-weight:700;
+	font-size:13px;
+	color:#ccc;
+}
+p span a {
+	font-size:12px; 
+	color:#666;
+	font-weight:normal;
+	background:url(../images/top.gif) no-repeat left;
+	padding-left:15px;
+	float:right;
+}
+.sitemap a { 
+background:url(house.gif) no-repeat left ;
+padding-left:23px;
+}
+.font_12 {
+	float:right;
+}
+.cont {
+	margin-bottom:5px;
+}
+.ctitle {
+	font-size:14px;
+	font-weight:bolder;
+	border-bottom:1px #ccc solid;
+	padding-left:15px;
+	line-height:36px;
+}
+.cont_body {
+	padding:8px 14px;
+}

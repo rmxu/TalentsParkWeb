@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<script type="text/javascript">
+	
+function check_form(){
+	if(document.form1.home_acess.value==''){
+		parent.Dialog.alert("{echo:lp{pr_no_data};/}");
+		return false;
+	}
+}
+	
+function show_aps(){
+	document.getElementById('acess_pass_set').style.display='';
+}
+
+function hidden_aps(){     
+	document.getElementById('acess_pass_set').style.display='none';
+}
+</script>
+
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <h2 class="app_blog">{echo:lp{pr_conf};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+		    <li class="active"><a href="modules.php?app=privacy" title="{echo:lp{pr_access};/}" >{echo:lp{pr_access};/}</a></li>
+		    <li><a href="modules.php?app=pr_inputmess" title="{echo:lp{pr_inputmess};/}">{echo:lp{pr_inputmess};/}</a></li>
+		    <li><a href="modules.php?app=pr_reqcheck" title="{echo:lp{pr_reqcheck};/}">{echo:lp{pr_reqcheck};/}</a></li>
+        </ul>
+    </div>
+	<div class="rs_head">{echo:lp{pr_home};/}</div>
+	<form id="form1" name="form1" method="post" action="do.php?act=pr_access" onsubmit="return check_form();">
+	<table border="0" class='form_table'>
+		<tr>
+			<th width="20%"><input type="radio" value="0" name="home_acess" id="home_acess" {echo:radio_checked(0,$user_privacy['access_limit']);/} onclick='javascript:hidden_aps();'>
+			</th>
+			<td width="80%">
+				<label>{echo:lp{pr_public};/}</label>
+			</td>
+		</tr>
+		<tr>
+	    	<th><input type="radio" value="1" name="home_acess" id="home_acess" {echo:radio_checked(1,$user_privacy['access_limit']);/} onclick='javascript:hidden_aps();'>
+			</th>
+	    	<td><label>{echo:lp{pr_only_reger};/}</label></td>
+		</tr>
+		<tr>
+			<th><input type="radio" value="2" name="home_acess" id="home_acess" {echo:radio_checked(2,$user_privacy['access_limit']);/} onclick='javascript:hidden_aps();'></th>
+			<td><label>{echo:lp{pr_only_pals};/}</label></td>
+		</tr>
+		<tr><th><input type="radio" value="3" name="home_acess" id="home_acess" {echo:radio_checked(3,$user_privacy['access_limit']);/} onclick='javascript:show_aps();'></th><td align="left"><label>{echo:lp{pr_set_ques};/}</label></td>
+		</tr>
+		<tr id='acess_pass_set' style='display:none;'>
+			<th>&nbsp;</th>
+			<td>        
+				<div>
+					<label>{echo:lp{pr_ques1};/}： </label>
+					<input class="med-text" type="text" value="{echo:$access_qa_array[0]['q'];/}" name="question_1" maxlength="20" size="20"></div><div>
+					<label>{echo:lp{pr_ans1};/}： </label>
+					<input class="med-text" type="text" value='{echo:$access_qa_array[0]['a'];/}' name="answer_1" maxlength="20" size="20">
+				</div>
+				<div>
+					<label>{echo:lp{pr_ques2};/}： </label>
+					<input class="med-text" type="text" value="{echo:$access_qa_array[1]['q'];/}" name="question_2" maxlength="20" size="20"></div><div>
+					<label>{echo:lp{pr_ans2};/}： </label>
+					<input class="med-text" type="text" value="{echo:$access_qa_array[1]['a'];/}" name="answer_2" maxlength="20" size="20">
+				</div>	
+				<div>											
+					<label>{echo:lp{pr_ques3};/}： </label>
+					<input class="med-text" type="text" value="{echo:$access_qa_array[2]['q'];/}" name="question_3" maxlength="20" size="20"></div><div>
+					<label>{echo:lp{pr_ans3};/}： </label>
+					<input class="med-text" type="text" value="{echo:$access_qa_array[2]['a'];/}" name="answer_3" maxlength="20" size="20">
+				</div>
+				<p>{echo:lp{pr_que_limit};/}</p>
+				<div class="example">
+					<strong>{echo:lp{pr_example};/}</strong> 
+					{echo:lp{pr_ex_que};/}
+					<br />
+					{echo:lp{pr_ex_an};/}
+				</div>
+			</td>
+  		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" name="Submit" class="regular-btn" value="{echo:lp{pr_button_action};/}" /><input type="button" name="Submit2" class="regular-btn" onclick="location.href='modules.php?app=privacy'" value="{echo:lp{pr_button_cancel};/}" /></td>
+		</tr>  
+	</table>
+{sta:if(strstr(radio_checked(3,$user_privacy['access_limit']),'checked'))[exc]}
+ <script type="text/javascript">show_aps();</script>
+{end:if/}
+</form>
+</body>
+</html>

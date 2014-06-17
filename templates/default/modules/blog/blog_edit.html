@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+{sta:plugin_hook('blog_add_bottom');/}
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+<SCRIPT language=JavaScript src="servtools/imgfix.js"></SCRIPT>
+<SCRIPT language=JavaScript src="skin/default/js/jooyea.js"></SCRIPT>
+<SCRIPT language=JavaScript src="servtools/editor/nicEdit.js"></SCRIPT>
+<script Language="JavaScript">
+bkLib.onDomLoaded(function(){
+	new nicEditor({fullPanel : true}).panelInstance('CONTENT');
+});
+var oldContent = '{echo:$ulogTxt;/}';
+function CheckForm(){
+	var content_inner=$("CONTENT").previousSibling.children[0].innerHTML;
+	oldContent = content_inner;
+	if(document.myform.blog_title.value==""){
+		parent.Dialog.alert("{echo:lp{b_empty_t};/}");
+		document.myform.blog_title.focus();
+		return (false);
+	}
+	if(trim(content_inner)==""){
+		parent.Dialog.alert("{echo:lp{b_empty_content};/}");
+		return false;
+   }
+}
+window.onbeforeunload = function ()
+{
+	var newContent = document.getElementById("CONTENT").previousSibling.children[0];
+	if(newContent && trim(newContent.innerHTML.toString()) == trim(oldContent.toString())){
+		return;
+	}else{
+		return '{echo:lp{b_content_not_saved};/}';
+	}
+}
+parent.hiddenDiv();
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="#" onclick="javascript:window.history.go(-1);return false;">{echo:lp{b_re_last};/}</a></div>
+    <h2 class="app_blog">{echo:$titleStr;/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="modules.php?app=blog_list" hidefocus="true">{echo:$titleStr;/}</a></li>
+        </ul>
+    </div>
+   <form action="{echo:$form_action;/}" method="post"  name="myform" onSubmit="return CheckForm();">
+	<table border="0" cellpadding="2" cellspacing="1" class="form_table">
+        <tr>
+			<th>{echo:lp{b_title};/}：</th>
+			<td colspan="2"><input class="med-text" type="text" autocomplete='off' name="blog_title" value="{echo:$ulogTitle;/}" maxlength="30">
+			</td>
+		</tr>
+   		<tr>
+			<th>{echo:lp{b_sort};/}：</th>
+			<td colspan="2">
+			  <script language=JavaScript>
+					function trim(str){ //删除左右两端的空格
+						return str.replace(/(^\s*)|(\s*$)|(　*)/g , "");
+					}
+					function saveNowSort(){//获取接受返回信息层
+						var sort_list=$("blog_sort_list");
+						var sort_add_msg=$("sort_add_msg");
+						var blog_sort=trim($("new_sort_name").value);
+						$("blog_sort_name").value=blog_sort;
+						if(blog_sort==""){
+							parent.Dialog.alert("{echo:lp{b_empty};/}");
+							return false;
+						}
+						//需要POST的值，把每个变量都通过&来联接
+						var postStr="new_sort="+blog_sort;
+						var saveNowSort=new Ajax();//实例化Ajax
+						saveNowSort.getInfo("do.php?act=blog_sort_add","post","app","new_sort="+blog_sort,function(c){sort_list.innerHTML=c;newCancel();});
+					}
+
+			  function newShow(){
+					document.getElementById('newSort').style.display='';
+					document.getElementById('sortManage').style.display='none';
+			  }
+
+        function newCancel(){
+      		var sort_add_msg=document.getElementById("sort_add_msg");
+      		document.getElementById('new_sort_name').value='';
+          document.getElementById('newSort').style.display='none';
+          document.getElementById('sortManage').style.display='';
+        }
+        </script>
+         <table border="0">
+         	   <tr>
+         	    	<td>
+	         	      <div id=blog_sort_list>
+	                    {echo:blog_sort_list($blog_sort_rs,$usubPara);/}
+	                  </div>
+                    </td>
+                <td>
+                	<input type='hidden' name='blog_sort_name' id='blog_sort_name' value='{echo:$blog_sort_name;/}' />
+	                <span id='sort_add_msg'></span>
+                    <div id=newSort style="display:none">
+                        <input type=text class="small-text" name='new_sort_name' maxlength="20" id='new_sort_name' width='5'>
+                        <input type=button class="small-btn" value='{echo:lp{b_button_save};/}' onclick="saveNowSort();">
+                        <input type=button class="small-btn" value='{echo:lp{b_button_cancel};/}' onclick="newCancel();">
+                    </div>
+                    <span id=sortManage>
+                        &nbsp;<a onclick="newShow();" href='javascript:;'>{echo:lp{b_add_sort};/}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='modules.php?app=blog_manager_sort'>{echo:lp{b_manage_sort};/}</a>
+                    </span>
+                </td>
+              </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+      	<th>{echo:lp{b_label};/}：</th>
+        <td><input type='text' class='small-text' name='tag' value='{echo:$tag;/}' /></td>
+        <td><span class="right"><input type='hidden' name='privacy' id='privacy' value='{echo:$privacy;/}' /></span></td>
+      </tr>
+      <tr>
+		<th width="60">{echo:lp{b_limit};/}：</th>
+		<td colspan="2">
+			<a href="javascript:void(0)" onmousedown='menu_pop_show(event,this,1);' id='{echo:$t_blog;/}:{echo:$ulog_id;/}:{echo:$privacy;/}' class="authority_set">{echo:lp{b_set_permissions};/}</a></div>
+		</td>
+		</tr>      
+      <tr>
+		<th valign="top">{echo:lp{b_content};/}：</th>
+        <td colspan="2" style="line-height:1.5">
+			   <textarea name="CONTENT" id="CONTENT" class="textarea" style='width:550px;height:300px;_width:550px;'>{echo:$ulogTxt;/}</textarea>
+		</td>
+	    </tr>
+	   	<tr>
+            <th valign="top">{echo:lp{b_pic};/}：</th>
+            <td colspan="2">
+                <div id="POPUP_KE_IMAGE">
+                    <iframe name="KindImageIframe" id="KindImageIframe" width="100%" height=50  allowTransparency="true" scrolling=no src='modules.php?app=upload_form' frameborder=0></iframe>
+                </div>
+            </td>
+	    </tr>
+			<!-- plugins !-->
+			<div class="blog_add_bottom">
+				{echo:isset($plugins['blog_add_bottom'])?show_plugins($plugins['blog_add_bottom']):'';/}
+			</div>
+			<!-- plugins !-->
+	    <tr>
+	    	<td></td>
+	    	<td colspan="2">{echo:album_name($album_rs,$album_id);/}{echo:lp{b_sel_album};/}</td>
+	    	<script type='text/javascript'>
+				var album_select=document.getElementById("album_name");
+				album_select.onchange=list_album_photos;
+				function list_album_photos(){//获取接受返回信息层
+					var album_select_val=document.getElementById("album_name").value;
+					var photos_list=document.getElementById("photos_list");
+					if(album_select_val==""){
+						return false;
+					}else{
+						photos_list.innerHTML="{echo:lp{b_data_loading};/}";
+						var get_album=new Ajax();//实例化Ajax
+						get_album.getInfo("modules.php","get","app","app=user_ico_select&type=blog_photo&album_id="+album_select_val,function(c){photos_list.innerHTML=c});
+					}
+				}
+			</script>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2"><div id='photos_list'></div></td>
+			</tr>
+     		<tr>
+			<th></th>
+			<td colspan="2">
+				<input type=submit class="regular-btn" value="{echo:lp{b_button_sure};/}" />
+				<input type=button class="regular-btn" value="{echo:lp{b_button_cancel};/}" onclick='location.href="{echo:$goBackUrl;/}"' />
+			</td>
+    </tr>
+  </table>
+  </form>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=all_app">{echo:lp{pl_add_app};/}</a></div>
+    <h2 class="app_set">{echo:lp{pl_manage};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="modules.php?app=mag_app" >{echo:lp{pl_set_app};/}</a></li>	
+        </ul>
+    </div>
+	{sta:if($app_rs)[exc]}
+	
+      <div class="iframe_contentbox">
+		<ul class="app_list">
+			{sta:foreach($app_rs as $rs)[loop]}		{sta:$small_url=$rs['image']?preg_replace("/(.*)(\.\w+)/","$1_small$2","plugins/".$rs['name']."/".$rs['image']):$def_small_image;/}
+			<li onmouseover="this.className += ' list_app_active';" onmouseout="this.className='app_list';">
+				<div class="figure_box">
+					<a href="modules.php?app=add_app&id={echo:$rs["id"];/}"><img src="{echo:$small_url;/}" /></a>
+				</div>
+				<h3 class="name">
+					<a href="modules.php?app=add_app&id={echo:$rs["id"];/}">{echo:$rs["title"];/}</a>
+				</h3>
+				<p class="description">{echo:$rs["info"];/}</p>
+                <div class="statistics">
+					<span>{echo:str_replace("{num}",$rs["use_num"],lp{pl_total_num});/}</span>
+					<!--|&nbsp;<span>{echo:lp{pl_comment};/}({echo:$rs["comment_num"];/})</span>!-->
+				</div>
+				<div class="app_control">
+                    <a href="do.php?act=del_app&id={echo:$rs["id"];/}" onclick="return confirm('{echo:lp{pl_ask_del};/}')";>{echo:lp{pl_del};/}
+</a>
+				</div>
+			</li>
+			{end:foreach/}
+		</ul>
+	</div>
+
+	{end:if/}
+	{sta:if(empty($app_rs))[exc]}
+	<div class="guide_info">
+		{echo:lp{pl_mine_none};/}
+	</div>
+	{end:if/}
+</body>
+</html>

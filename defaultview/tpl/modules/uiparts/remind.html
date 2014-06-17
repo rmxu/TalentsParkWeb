@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="500" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/layout.css">
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type='text/javascript'>
+	function clear_remind(remind_id){
+		var ajax_remind=new Ajax();
+		ajax_remind.getInfo("do.php","GET","app","act=message_del&id="+remind_id,function(c){window.location.reload();});
+	}
+</script>
+</head>
+<body id="remindbody">
+<div class="sideitem {echo:$isset_data;/}" >
+    <div class="container">
+        <div class="sideitem_head"><h4>{echo:lp{rem_wait_act};/}</h4></div>
+        <div class="sideitem_body">
+            <ul class="textlist">
+            	{sta:foreach($remind_rs as $rs)[loop]}
+                <li class="remind_{echo:$rs['type_id'];/}"><a href="{echo:$rs['link'];/}" target='frame_content' onclick='clear_remind({echo:$rs['id'];/});'>{echo:str_replace("{num}",$rs['count'],$rs['content']);/}</a></li>
+              {end:foreach/}
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

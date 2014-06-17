@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script language="JavaScript">
+	
+function change_logo(){
+	window.document.getElementById("change_logo").innerHTML="<input type='file' name='attach[]' />";
+}
+function textarea_sub(){
+	var group_resume = document.getElementById('group_resume').value;
+	var gonggao = document.getElementById('gonggao').value;
+	if(group_resume.length>100){
+		parent.Dialog.alert("{echo:lp{g_fill_100_characters};/}");
+		return;
+	}
+	if(gonggao.length>200){
+		parent.Dialog.alert("{echo:lp{g_fill_200_characters};/}");
+		return;
+	}
+}
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=group">{echo:lp{g_return};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_manage};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li><a href="modules.php?app=group_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info};/}" class="nowbutl">{echo:lp{g_info};/}</a></li>
+            <li class="active"><a href="modules.php?app=group_info_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info_change};/}">{echo:lp{g_info_change};/}</a></li>
+            <li><a href="modules.php?app=group_member_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_manage_member};/}">{echo:lp{g_manage_member};/}</a></li>
+            <li><a href="modules.php?app=group_space&group_id={echo:$group_id;/}" title="{echo:lp{g_en_space};/}">{echo:lp{g_en_space};/}</a></li>
+        </ul>
+    </div>
+		<form action="do.php?act=group_change_group_info&group_id={echo:$group_id;/}" method="post" enctype="multipart/form-data">
+<table class='form_table'>
+	<tr>
+		<input type="hidden" name="group_type_name" id="group_type_name" value="{echo:$group_row['group_type'];/}" />
+		<input type="hidden" name="old_group_logo" value={echo:$group_row['group_logo'];/} />
+		<th>{echo:lp{g_name};/}:</th>
+		<td><input type='text' class="med-text" name='group_name' size="32" maxlength="15" value={echo:$group_row['group_name'];/} autocomplete='off' /></td>
+	</tr>
+	
+	<tr>
+		<th height="96">{echo:lp{g_resume};/}:</th>
+	  <td><textarea id="group_resume" class="med-textarea" rows='4' cols='29' name='group_resume'>{echo:$group_row['group_resume'];/}</textarea></td>
+	</tr>
+		
+	<tr><th height="88">{echo:lp{g_gonggao};/}:</th>
+	  <td><textarea id="gonggao" class="med-textarea" rows='4' cols='29' name='gonggao'>{echo:$group_row['affiche'];/}</textarea></td>
+	</tr>
+	
+	<tr><th>{echo:lp{g_tag};/}:</th>
+			<td><input type='text' class="med-text" name='tag' size="32" maxlength="20" value={echo:$group_row['tag'];/} autocomplete='off' /></td>
+	</tr>
+	
+	<tr>
+		<th>{echo:lp{g_join_type};/}:</th>
+		<td>
+			<select name='group_join_type'>
+				<option value='0' {echo:$free;/}>{echo:lp{g_freedom_join};/}</option>
+				<option value='1' {echo:$check;/}>{echo:lp{g_check_join};/}</option>
+				<option value='2' {echo:$enjoin;/}>{echo:lp{g_refuse_join};/}</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<th>{echo:lp{g_type};/}:</th>
+		<td>
+			{echo:group_sort_list($group_sort_rs,$group_row['group_type_id']);/}
+		</td>
+	</tr>
+	
+	<tr>
+	  <th valign="top">{echo:lp{g_logo};/}:</th>
+	  <td id='change_logo2'><img onerror="parent.pic_error(this)" src="{echo:$group_row['group_logo'] ? $group_row['group_logo'] : 'uploadfiles/group_logo/default_group_logo.jpg';/}" width='150px' height='150px' class='mt8' /></td>
+    </tr>
+	<tr>
+		<th>&nbsp;</th>
+	  <td id='change_logo'><input type='button'  value={echo:lp{g_change_logo};/}  onclick='change_logo();' /></td>
+	</tr>
+
+	<tr>
+		<td></td>
+		<td><input type='submit' value='{echo:lp{g_button_yes};/}' class='regular-btn' name='action' onclick="textarea_sub()" />&nbsp;&nbsp;<input type='reset' value='{echo:lp{g_button_re};/}' class='regular-btn' /></td>
+	</tr>
+	
+</table>
+		</form>
+
+</body>
+</html>

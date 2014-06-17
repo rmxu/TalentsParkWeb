@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<base href='{echo:$siteDomain;/}' />
+<title></title>
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+{sta:echo $is_self=='Y' ? "<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>" : "";/}
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+<script type="text/javascript">
+function change_photo_callback(content){
+	var return_text=content;
+	var return_text=return_text.replace(/[\s\n\r]/g,"");
+	if(return_text==""){
+	$("def_photo_info").innerHTML="{echo:lp{a_pht_inf};/}";}
+	else{$("def_photo_info").innerHTML=return_text;}
+	$("def_photo_info").style.display="";
+	$("photo_info").style.display="none";
+}
+function change_photo(){
+	var photo_id=$("photo_id").value;
+	var photo_information_value=$("information_value").value;
+	var change_photo=new Ajax();
+	change_photo.getInfo("do.php?act=photo_im&photo_id={echo:$photo_id;/}&album_id={echo:$album_id;/}","post","app","photo_id="+photo_id+"&information_value="+photo_information_value,function(c){change_photo_callback(c);});
+}
+
+function change_state(){
+	var return_text=$("def_photo_info").innerHTML;
+	var return_text=return_text.replace(/[\s\n\r]/g,"");
+	if(return_text=="{echo:lp{a_pht_inf};/}"){
+		var information="";
+	}else{
+		var information=return_text;
+	}
+	$("information_value").value=information;
+	$("def_photo_info").style.display="none";
+	$("photo_info").style.display="";
+}
+
+function chancel(){
+	$("def_photo_info").style.display="";
+	$("photo_info").style.display="none";
+}
+
+function Get_mouse_pos(obj){
+	var event=getEvent();
+	if(navigator.appName=='Microsoft Internet Explorer'){
+		return event.offsetX;
+	}else if(navigator.appName=='Netscape'){
+		return event.pageX-obj.offsetLeft;
+	}
+}
+</script>
+</head>
+<body id="iframecontent" oncontextmenu="return false;">
+{sta:if($is_self=='Y')[exc]}
+<div class="create_button"><a href="modules.php?app=album_edit">{echo:lp{a_creat};/}</a></div>
+<div class="create_button"><a href="modules.php?app=photo_upload&album_id={echo:$album_id;/}">{echo:lp{a_upload};/}</a></div>
+{end:if/}
+<h2 class="app_album">{echo:$a_who;/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs">
+	<ul class="menu">
+        <li class="active"><a href="modules.php?app=album" hidefocus="true">{echo:lp{a_mine};/}</a></li>
+        <li><a href="modules.php?app=album_friend" hidefocus="true">{echo:lp{a_friend};/}</a></li>
+    </ul>
+</div>
+{end:if/}
+{sta:if($photo_row)[exc]}
+	<div class="iframe_contentbox">
+		<div class="photo_showbox">
+			<div class="sub_box">
+				<div class="photo_name">{echo:filt_word($photo_row['photo_name']);/}<span>《{echo:filt_word($album_name);/}》</span></div>
+				<div class="photo_uploadtime">{echo:str_replace("{date}",$photo_row['add_time'],lp{a_send_time});/}</div>
+				<div class="photo_view">
+					<img {sta:if($is_self=='Y')[exc]}onmouseDown="menu_pop_show(event,this);"{end:if/} id='{echo:$t_photo;/}:{echo:$photo_row['photo_id'];/}:{echo:$photo_row["privacy"];/}' style='display:none;max-width:470' onerror="parent.pic_error(this)" onmousemove='turnover(this);' />
+					<img id='show_ajax' src='skin/default/jooyea/images/loading.gif' />
+				</div>
+
+				{sta:if($photo_row['user_id']==$ses_uid)[exc]}
+				<div class='photo_intro'>
+					<input class="med-text" type='hidden' name='photo_id' id='photo_id' value={echo:$photo_id;/} />
+					<div id='def_photo_info' onmouseover="this.style.backgroundColor='#ffffce';this.style.borderColor='#efcf7b';" onmouseout="this.style.backgroundColor='#fffbff';this.style.borderColor='#ececec';" onclick="change_state();">{echo:filt_word($photo_inf);/}</div>
+					<div id='photo_info' style='display:none;text-align:center;'>
+						<textarea class="med-textarea" cols='40' rows='2' name='information_value' id='information_value'></textarea><br />
+						<input type='button' value='{echo:lp{a_b_con};/}' class='small-btn' onclick='change_photo()' />
+						<input type='button' value='{echo:lp{a_b_del};/}' class='small-btn' onclick='chancel()' />
+					</div>
+				</div>
+				<div class="photo_operate">
+					<a href='do.php?act=album_skin&photo_id={echo:$photo_row['photo_id'];/}&album_id={echo:$album_id;/}'>{echo:lp{a_set_cov};/}</a>
+					<a href="javascript:void(0);" onclick="change_state();">{echo:lp{a_set_info};/}</a>
+					<a href='do.php?act=photo_del&photo_id={echo:$photo_row['photo_id'];/}&album_id={echo:$album_id;/}' onclick="return confirm('{echo:lp{a_del_asc};/}');">{echo:lp{a_com_del};/}</a>
+					<a href="{echo:$photo_row['photo_src'];/}" target="_blank">{echo:lp{a_see_pic};/}</a>
+					<a href="modules.php?app=photo_list&album_id={echo:$album_id;/}&user_id={echo:$url_uid;/}">{echo:lp{a_bak_list};/}</a>
+				</div>
+				{end:if/}
+			</div>
+		</div>
+		<div class="photo_operate">
+			{sta:if($photo_row['user_id']!=$ses_uid)[exc]}
+				{sta:if($photo_row['photo_information']!='')[exc]}
+				<div id='def_photo_info'>{echo:filt_word($photo_row['photo_information']);/}</div>
+				{end:if/}
+				{sta:if($ses_uid)[exc]}
+				<a href="javascript:void(0);" onclick="parent.show_share(3,{echo:$photo_row['photo_id'];/},'{echo:$photo_row['photo_name'];/}','');">{echo:lp{mn_share};/}</a>
+				<a href="javascript:void(0);" onclick="parent.report(3,{echo:$photo_row['user_id'];/},{echo:$photo_row['photo_id'];/});">{echo:lp{mn_report};/}</a>
+				{end:if/}
+			<a href="{echo:$photo_row['photo_src'];/}" target="_blank">{echo:lp{a_see_pic};/}</a>
+			<a href="modules.php?app=photo_list&album_id={echo:$album_id;/}&user_id={echo:$url_uid;/}">{echo:lp{a_bak_list};/}</a>
+			{end:if/}
+		</div>
+	</div>
+
+<div class="tleft ml20">
+	<div class="comment">
+        <div id='show_3_{echo:$photo_row["photo_id"];/}' class="tleft">
+            <script type='text/javascript'>parent.get_mod_com(3,{echo:$photo_row['photo_id'];/},0,20);</script>
+        </div>
+		{sta:if($ses_uid!='')[exc]}
+		<div class="reply" {echo:$show_content;/}>
+				<img class="figure" src="{echo:get_sess_userico();/}" />
+				<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)" id="reply_3_{echo:$photo_row['photo_id'];/}_input"></textarea></p>
+				<div class="replybt">
+					<input class="left button" onclick="parent.restore_com({echo:$photo_row['user_id'];/},3,{echo:$photo_row['photo_id'];/});" type="submit" name="button" id="button" value="{echo:lp{a_b_com};/}" />
+					<a class="right" href="javascript: void(0);" onclick="showim(''); showFace(this,'face_list_menu','reply_3_{echo:$photo_row['photo_id'];/}_input');">表情</a>
+				</div>
+				<div class="clear"></div>
+		</div>
+		{end:if/}
+	</div>
+</div>
+{end:if/}
+
+<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+<!--锁定控制-->
+<div class="guide_info {echo:$show_error;/}">{echo:lp{a_ine};/}</div>
+<div class="guide_info {echo:$show_content;/}">{echo:lp{a_add_pvw};/}</div>
+
+{sta:if($photo_row)[exc]}
+	<script type='text/javascript'>
+		var img_obj=$('{echo:$t_photo;/}:{echo:$photo_row["photo_id"];/}:{echo:$photo_row["privacy"];/}');
+		var ajax_obj=$('show_ajax');
+		var show_img=new Image;
+		show_img.src='{echo:$is_pri ? $photo_row["photo_src"] : "skin/$skinUrl/images/error.gif";/}';
+		var time_id=window.setTimeout("test_img_complete()",200);
+		var show_width=130;
+		{sta:if($is_pri)[exc]}
+		var show_width={echo:$img_info[0];/}>470?470:{echo:$img_info[0];/};
+		{end:if/}
+		function test_img_complete(){
+			if(show_img.complete==true){
+				img_obj.src='{echo:$is_pri ? $photo_row["photo_src"] : "skin/$skinUrl/images/error.gif";/}';
+				img_obj.width=show_width;
+				img_obj.style.display='';
+				ajax_obj.style.display='none';
+				window.clearTimeout(time_id);
+			}else{
+				var time_id=window.setTimeout("test_img_complete()",200);
+			}
+		}
+		function turnover(obj){
+			var move_x=Get_mouse_pos(obj);
+			if(move_x >= show_width/2){
+				obj.style.cursor="URL(skin/default/jooyea/images/next.cur),auto";
+				obj.title='{echo:lp{a_page_down};/}';
+				obj.onclick=function(){location.href="{echo:$siteDomain;/}modules.php?app=photo&photo_id={echo:$photo_id;/}&album_id={echo:$album_id;/}&prev_next=next&user_id={echo:$url_uid;/}"};
+			}else{
+				obj.style.cursor="URL(skin/default/jooyea/images/pre.cur),auto";
+				obj.title='{echo:lp{a_page_up};/}';
+				obj.onclick=function(){location.href="{echo:$siteDomain;/}modules.php?app=photo&photo_id={echo:$photo_id;/}&album_id={echo:$album_id;/}&prev_next=prev&user_id={echo:$url_uid;/}"};
+			}
+		}
+	</script>
+{end:if/}
+</body>
+</html>

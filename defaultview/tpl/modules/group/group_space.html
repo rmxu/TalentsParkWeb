@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<!--[if lt IE 7]>
+<style type="text/css">
+.uico_photo_small span { behavior: url(skin/default/jooyea/css/ie_png_fix.htc);}
+</style>
+<![endif]-->
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type="text/javascript" src="servtools/imgfix.js"></script>
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script Language="JavaScript">
+function check_form(){
+	if(trim(document.getElementById("key_word").value)==""){
+		parent.Dialog.alert("{echo:lp{g_not_null};/}");
+		return false;
+	}
+}
+function join_group(group_id){
+	{echo:$join_js;/};
+}
+function join_group_var(group_id){
+	var join_group=new Ajax();
+	join_group.getInfo("do.php","GET","app","act=group_join&group_id="+group_id,function(c){parent.Dialog.alert(c);});
+}
+</script>
+</head>
+
+<body id="iframecontent">
+	{sta:if($ses_uid)[exc]}
+  <div class="create_button"><a href="{echo:$button_url;/}" hidefocus="true">{echo:lp{g_search_group};/}</a></div>
+  <div class="create_button"><a href="javascript:;" hidefocus="true" onclick="join_group({echo:$group_row['group_id'];/});">{echo:lp{g_click_join};/}</a></div>
+  {end:if/}
+  <h2 class="app_group">{echo:lp{g_space};/}</h2>
+  {sta:if($is_self=='Y')[exc]}
+  <div class="tabs">
+    <ul class="menu">
+      <li class="active"><a href="modules.php?app=group" hidefocus="true">{echo:lp{g_mine};/}</a></li>
+      <li><a href="modules.php?app=group_hot" hidefocus="true">{echo:lp{g_hot};/}</a></li>
+    </ul>
+  </div>
+  {end:if/}
+{sta:if($is_show==1)[exc]}
+	{sta:if($ses_uid!=$group_row['add_userid']&&$ses_uid)[exc]}
+		<div class="rs_head"><span class="right">
+			<a href="javascript:void(0);" onclick="parent.show_share(1,{echo:$group_row['group_id'];/},'{echo:$group_row['group_name'];/}','','');">{echo:lp{mn_share};/}</a>
+			<a href="javascript:void(0);" onclick="parent.report(1,{echo:$group_row['add_userid'];/},{echo:$group_row['group_id'];/});">{echo:lp{mn_report};/}</a></span>{echo:filt_word($group_row['group_name']);/}
+		</div>
+  {end:if/}
+<table class="group_intro {echo:$show_data;/}">
+	<tr>
+      <th rowspan="2" style="width:140px; background:#fff;">
+      	<img onerror="parent.pic_error(this)" src="{echo:$group_row['group_logo']?$group_row['group_logo']:'uploadfiles/group_logo/default_group_logo.jpg';/}" width='120px' height='120px' class='user_ico' />
+      </th>
+      <th><strong>{echo:lp{g_intro};/}</strong></th>
+      <th style="width:10px; background:#fff;"></th>
+      <th><strong>{echo:lp{g_gonggao};/}</strong></th>
+	</tr>
+	<tr>
+		<td height="92" valign="top">{echo:filt_word($group_row['group_resume']);/}</td>
+        <td style="width:10px; background:#fff;"></td>
+		<td height="92" valign="top">{echo:filt_word($group_row['affiche']);/}</td>
+	</tr>
+</table>
+<div class="rs_head {echo:$show_data;/}">{echo:lp{g_members};/}</div>
+	{sta:foreach($group_members as $rs)[loop]}
+			<div class="group_user_list">
+				<a class="avatar" href="home.php?h={echo:$rs['user_id'];/}" target="_blank">
+					<img src={echo:$rs['user_ico'];/} onerror="parent.pic_error(this)" width="50px" height="50px" title="{echo:$rs['user_name'];/}" alt="{echo:$rs['user_name'];/}" />
+				</a>
+			  <div><a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:sub_str($rs['user_name'],5,true);/}</a></div>
+			</div>
+	{end:foreach/}
+	<div class="rs_head  {echo:$show_data;/}">
+		<div class="subject_search">
+			{sta:if(isset($role)&&$ses_uid!='')[exc]}
+				<div class="right"><a href='modules.php?app=group_subject&group_id={echo:$group_id;/}&user_id={echo:$userid;/}'>{echo:lp{g_send};/}</a></div>
+			{end:if/}
+			<form class="right mr10" onsubmit='return check_form();' method="post" action='modules.php?app=search_subject&group_id={echo:$group_id;/}&user_id={echo:$userid;/}'>
+				<input type='text' name='key_word' id='key_word' maxlength='10' size='20' style="height: 21px;border:1px #ccc solid" autocomplete='off' />
+				<input type='submit' value='{echo:lp{g_search};/}' class="small-btn" />
+			</form>
+		</div>
+		{echo:lp{g_bbs};/}
+		<span>{echo:str_replace("{t_num}",$group_row['subjects_num'],lp{g_topic_num});/}</span>
+	</div>
+
+		{sta:foreach($subject_rs as $rs)[loop]}
+		<div class="poll_list_box">
+			<div class="poll_user"><a class="avatar" href="home.php?h={echo:$rs['user_id'];/}" target="_blank"><img src={echo:$rs['user_ico'];/} alt='{echo:$rs['user_name'];/}' title='{echo:$rs['user_name'];/}' /></a></div>
+			<div class="subject_content">
+				<dl>
+					<dt><a href="modules.php?app=group_sub_show&subject_id={echo:$rs['subject_id'];/}&group_id={echo:$group_id;/}&user_id={echo:$userid;/}">{echo:filt_word($rs['title']);/}</a></dt>
+					<dd><a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:filt_word($rs['user_name']);/}</a> <span class='gray'>{echo:str_replace("{date}",$rs['add_time'],lp{g_send_time});/}</span></dd>
+					<dd><span class="gray">{echo:lp{g_read};/}({echo:$rs['hits'];/})</span> <span class="gray">{echo:lp{g_re};/}({echo:$rs['comments'];/})</span></dd>
+				</dl>
+			</div>
+			<div class="subject_status">
+				<a href="modules.php?app=group_sub_show&subject_id={echo:$rs['subject_id'];/}&group_id={echo:$group_id;/}&user_id={echo:$userid;/}">{echo:lp{g_examine};/}</a>
+				<a href='do.php?act=group_del_sub&group_id={echo:$group_id;/}&subject_id={echo:$rs["subject_id"];/}&user_id={echo:$userid;/}&sendor_id={echo:$rs["user_id"];/}' class="{echo:$action_ctrl;/}" onclick='return confirm("{echo:lp{g_del_subject};/}");'>{echo:lp{g_del};/}</a>
+			</div>
+		</div>
+		{end:foreach/}
+	{echo:page_show($isNull,$page_num,$page_total);/}
+{end:if/}
+
+<!--错误控制-->
+	<div class="guide_info {echo:$show_error;/}">
+		{echo:$error_str;/}
+	</div>
+
+</body>
+</html>

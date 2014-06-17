@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body>
+{sta:foreach($photo_rs as $val)[loop]}
+{sta:$size=getimagesize($webRoot.$val['photo_thumb_src']);/}
+<div class="album_photo_box">
+    <a href="{echo:do_url($type,$val['photo_src'],$url_uid);/}" hidefocus="true">{sta:src_wh($size[0],$size[1],$siteDomain.$val['photo_thumb_src']);/}</a>
+</div>
+{end:foreach/}
+{sta:if(empty($photo_rs))[exc]}
+	<div class="guide_info">
+		{echo:lp{a_no_upl};/},<a href='modules.php?app=photo_upload&album_id={echo:$album_id;/}'>{echo:lp{a_upl_pht};/}</a>
+	</div>
+{end:if/}
+</body>
+</html>

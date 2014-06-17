@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script language=JavaScript src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript'>
+	function check_form(){
+		var mail_array=document.getElementsByName('attach[]');
+		var num=mail_array.length;
+		var check_num=0;
+		for(array_length=0;array_length<num;array_length++){
+			if(mail_array[array_length].checked==true){
+				check_num++;
+			}
+		}
+		if(check_num==0){
+			parent.Dialog.alert('{echo:lp{m_none_wrong};/}');
+		}else{
+			parent.Dialog.confirm('{echo:lp{m_del_ask};/}',function(){document.forms[0].submit();});
+		}
+	}
+
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=msg_creator">{echo:lp{m_creat};/}</a></div>
+    <h2 class="app_msgscrip">{echo:lp{m_title};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li><a href="modules.php?app=msg_minbox" title="{echo:lp{m_in};/}" hidefocus="true">{echo:lp{m_in};/}</a></li>
+            <li class="active"><a href="javascript:void(0)" title="{echo:lp{m_out};/}" hidefocus="true">{echo:lp{m_out};/}</a></li>
+            <li><a href="modules.php?app=msg_notice" title="{echo:lp{m_notice};/}" hidefocus="true">{echo:lp{m_notice};/}</a></li>
+        </ul>
+    </div>
+<form action='do.php?act=msg_del&t=1' method='post' onsubmit='check_form()'>
+<div class="rs_head {echo:$show_data;/}">
+	<span class="right">{echo:str_replace("{num}",count($msg_outbox_rs),lp{m_num_mail});/}</span>
+	<span>{echo:lp{m_choose};/}
+    	<a href="javascript:select_attach(1);">{echo:lp{m_all};/}</a> - 
+		<a href="javascript:select_attach(0);">{echo:lp{m_b_can};/}</a>
+    </span>
+    <span><a href="javascript:document.forms[0].onsubmit();">{echo:lp{m_del};/}</a></span>
+</div>
+<table class="msg_inbox {echo:$show_data;/}">
+{sta:foreach($msg_outbox_rs as $key => $val)[loop]}
+	 <tr>
+	   <td width="25"><input name="attach[]" type="checkbox" value="{echo:$val["mess_id"];/}" /></td>
+		 <td width="30"><img title="{echo:$val["state"]?lp{m_sed}:lp{m_have_access};/}" src='skin/default/jooyea/images/messend_{echo:$val["state"];/}.gif' /></td>
+		 <td width="70"><div class="avatar"><a target="_blank" href='home.php?h={echo:$val['to_user_id'];/}'><img src="{echo:$val["to_user_ico"];/}"/></a></div></td>
+		 <td width="135">{echo:lp{m_given};/}：<a target="_blank" href='home.php?h={echo:$val['to_user_id'];/}'>{echo:$val["to_user"];/}</a>
+         <br /><span class="gray">{echo:$val["add_time"];/}</span></td>
+		 <td><a title='{echo:$val["mess_title"];/}' href='modules.php?app=msg_rpshow&id={echo:$val["mess_id"];/}&t=1'>{echo:$val["mess_title"];/}</a></td>
+		 <td width="20"><a href='do.php?act=msg_del&id={echo:$val["mess_id"];/}&t=1' onclick='return confirm("{echo:lp{m_del_ask};/}");'><img title="{echo:lp{m_del};/}" src="skin/default/jooyea/images/del.png" /></a></td>
+	 </tr>
+{end:foreach/}
+</table>
+<div class="rs_head {echo:$show_data;/}">
+	<span class="right"></span>
+    <span>{echo:lp{m_choose};/}<a href="javascript:select_attach(1);">{echo:lp{m_all};/}</a> - <a href="javascript:select_attach(0);">{echo:lp{m_b_can};/}</a> &nbsp <a href="javascript:document.forms[0].onsubmit();">{echo:lp{m_del};/}</a></span>
+</div>
+</form>
+{echo:page_show($isNull,$page_num,$page_total);/}
+<div class="guide_info {echo:$content_data_none;/}">
+  {echo:lp{m_out_none};/}
+</div>
+</body>
+</html>

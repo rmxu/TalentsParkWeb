@@ -1,0 +1,56 @@
+<style type="text/css">
+.mini_button{background:url(servtools/dialog/images/button.gif)  no-repeat;width:58px;height:24px; margin-right:5px;line-height:24px;cursor:pointer;overflow:hidden;border:0;}
+.bottom_td{border-top: 1px solid #DADEE5; padding: 8px 20px; text-align: right; background-color:#f6f6f6;}
+td.showdialog { text-align:left; padding:0px 0 15px 15px;}
+</style>
+	<?php if($set_option=="stop_award"){?>
+		<tr><td class="showdialog"><b>{echo:lp{pol_grant_end};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_grant_back};/}</td></tr>
+		<tr><td class="bottom_td"><input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick="frame_content.action_set_config('{echo:$set_option;/}','{echo:$pid;/}');" />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>
+	<?php }?>
+	
+	<?php if($set_option=="add_award"){?>
+		<tr><td class="showdialog"><table id='award_table'>
+		<tr><td class="showdialog"><b>{echo:lp{pol_add_grant};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_add_grant_total};/}：<input type='text' size=5 id='add_award_sum' value='' />（0~{echo:$u_int['integral'];/}）</td></tr>
+		<?php if($poll_info['percredit'] < 10){?>
+			<tr><td class="showdialog">{echo:lp{pol_add_grant_singular};/}：<input type='text' size=5 id='add_award_sing' value='' />（{echo:str_replace("{max_p}",10-$poll_info['percredit'],lp{pol_r_point});/}）</td></tr>
+		<?php }?>
+		</table></td></tr>
+        <tr><td class="bottom_td"><input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick='frame_content.action_set_config("{echo:$set_option;/}",{echo:$pid;/});' />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>		
+	<?php }?>
+		
+	<?php if($set_option=="add_option"){?>	
+		<tr><td class="showdialog"><b>{echo:lp{pol_add_option};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_add_new_option};/}：</td></tr>
+		<tr><td class="showdialog"><input type='text' id='add_new_option' /></td></tr>
+		<tr><td class="bottom_td"><input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick='frame_content.action_set_config("{echo:$set_option;/}",{echo:$pid;/});' />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>
+	<?php }?>
+		
+	<?php if($set_option=="del_poll"){?>	
+		<tr><td class="showdialog"><b>{echo:lp{pol_del};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_del_con};/}</td></tr>
+		<tr><td class="bottom_td"><input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick='frame_content.action_set_config("{echo:$set_option;/}",{echo:$pid;/});' />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>
+	<?php }?>
+		
+	<?php if($set_option=="change_date"){?>	
+		<tr><td class="showdialog"><b>{echo:lp{pol_amend_end_time};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_new_end_time};/}：</td></tr>
+        <tr><td class="showdialog"><input type='text' readonly id='expiration' style='width:80px' value="{echo:date('Y-m-d',time()+60*60*720);/}" onclick='calendar(this)' /></td></tr>
+		<tr><td class="bottom_td">
+		
+		<input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick='frame_content.action_set_config("{echo:$set_option;/}",{echo:$pid;/});' />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>	
+	<?php }?>
+		
+	<?php if($set_option=="add_summary"){?>	
+		<tr><td class="showdialog"><b>{echo:lp{pol_sum};/}</b></td>
+		<tr><td class="showdialog">{echo:lp{pol_write_sum};/}：</td></tr>
+		<tr><td class="showdialog"><textarea style="width:92%" rows='5' id='add_summary'>{echo:$poll_info['summary'];/}</textarea></td></tr>
+		<tr><td class="bottom_td"><input type='button' class='mini_button' value='{echo:lp{pol_con};/}' onclick='frame_content.action_set_config("{echo:$set_option;/}",{echo:$pid;/});' />
+		<input type='button' class='mini_button' value='{echo:lp{pol_cancel};/}' onclick='Dialog.close();' /></td></tr>
+	<?php }?>

@@ -1,0 +1,4 @@
+<?php
+//ÓïÑÔ°üÒýÈë
+$ah_langpackage=new arrayhomelp;
+?>

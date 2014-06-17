@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type='text/javascript' src='servtools/calendar.js'></script>
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript'>
+function CheckForm(){
+	if(trim(document.myform.CONTENT.value)==""){
+		parent.Dialog.alert("{echo:lp{g_not_null};/}");
+		return (false);
+	}
+		return (true);
+}
+
+	function check_form(){
+		var checked_num=0;
+		var def=0;
+		var pol_cho=document.getElementsByName("pol_cho[]");
+		for(def=0;def<pol_cho.length;def++){
+			if(pol_cho[def].checked){
+				checked_num++;
+			}
+		}
+		if(checked_num==0||checked_num>{echo:$poll_row['maxchoice'];/}){
+			parent.Dialog.alert('{echo:lp{pol_num_option};/}:1~{echo:$poll_row["maxchoice"];/}');
+			return false;
+		}
+	}
+
+	function refuse_poll(){
+		parent.Dialog.alert('{echo:$refuse_str;/}');
+		return false;
+	}
+
+	function show_config_callback(content){
+		var diag = new parent.Dialog();
+		diag.Width = 300;
+		diag.Height = 200;
+		diag.Top="50%";
+		diag.Left="50%";
+		diag.Title = "{echo:lp{pol_voting};/}";
+		diag.InnerHtml= content;
+		diag.show();
+	}
+
+	function show_set_config(set_option,pid){
+		var show_config=new Ajax();
+		show_config.getInfo("modules.php","GET","app","app=poll_show_config&set_option="+set_option+"&pid="+pid,function(c){show_config_callback(c);});
+	}
+
+	function act_config_callback(content,type_value){
+		if(content=='success'){
+			if(type_value=='del_poll'){
+				window.location.href="modules.php?app=poll_mine";
+			}else{
+				window.location.reload();
+			}
+		}else{
+			parent.Dialog.alert(content);
+		}
+	}
+
+	function action_set_config(set_option,pid){
+		var act_config=new Ajax();
+		var send_str='';
+
+		switch(set_option){
+			case "stop_award":
+			send_str='';
+			break;
+
+			case "add_award":
+			var obj_num=parent.document.getElementById("award_table").rows.length;
+			if(obj_num==3){
+				var add_award_sing=parent.document.getElementById("add_award_sing").value;
+				var add_award_sum=parent.document.getElementById("add_award_sum").value;
+				if(!isNaN(add_award_sum)||!isNaN(add_award_sing)){
+					send_str="add_award_sum="+add_award_sum+"&add_award_sing="+add_award_sing;
+				}
+			}
+			if(obj_num==2){
+				var add_award_sum=parent.document.getElementById("add_award_sum").value;
+				if(!isNaN(add_award_sum)){
+					send_str="add_award_sum="+add_award_sum;
+				}
+			}
+			break;
+
+			case "add_option":
+			var add_new_option=parent.document.getElementById("add_new_option").value;
+				send_str="add_new_option="+add_new_option;
+			break;
+
+			case "del_poll":
+			send_str='';
+			break;
+
+			case "change_date":
+			var expiration=parent.document.getElementById("expiration").value;
+			send_str="expiration="+expiration;
+			break;
+
+			case "add_summary":
+			var add_summary=parent.document.getElementById("add_summary").value;
+				send_str="add_summary="+add_summary;
+			break;
+		}
+		act_config.getInfo("do.php?act=poll_set_config&set_option="+set_option+"&pid="+pid,"post","app",send_str,function(c){act_config_callback(c,set_option);parent.Dialog.close();});
+	}
+
+
+</script>
+</head>
+<body id="iframecontent">
+{sta:if($is_self=='Y')[exc]}
+<div class="create_button"><a href="javascript:location.href='modules.php?app=poll_send';">{echo:lp{pol_send};/}</a></div>
+{end:if/}
+<h2 class="app_vote">{echo:lp{pol_title};/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs">
+	<ul class="menu">
+    <li class="{echo:$new_active;/}"><a href="modules.php?app=poll_list&m=new" hidefocus="true">{echo:lp{pol_new};/}</a></li>
+    <li class="{echo:$hot_active;/}"><a href="modules.php?app=poll_list&m=hot" hidefocus="true">{echo:lp{pol_hot};/}</a></li>
+    <li class="{echo:$reward_active;/}"><a href="modules.php?app=poll_list&m=reward" hidefocus="true">{echo:lp{pol_reward};/}</a></li>
+    <li class="{echo:$mine_active;/}"><a href="modules.php?app=poll_mine" hidefocus="true">{echo:lp{pol_mine};/}</a></li>
+  </ul>
+</div>
+{end:if/}
+	<div class="iframe_contentbox">
+    {sta:if($ses_uid&&$poll_row['user_id']!=$ses_uid)[exc]}
+			<span class="right">
+				<a class="highlight" href='javascript:void(0)' onclick="parent.show_share(4,{echo:$poll_row['p_id'];/},'{echo:filt_word($poll_row['subject']);/}','','');">{echo:lp{mn_share};/}</a>
+				<a class="highlight" href="javascript:void(0);" onclick="parent.report(4,{echo:$poll_row['user_id'];/},{echo:$poll_row['p_id'];/});">{echo:lp{mn_report};/}</a>
+			</span>
+			{end:if/}
+		<div class="poll_initiator {echo:$sendor_info;/}">
+			<div class='poll_photo'>
+				<a class="avatar" href="home.php?h={echo:$poll_row['user_id'];/}" target="_blank">
+				<img src="{echo:$poll_row['user_ico'];/}" onerror="parent.pic_error(this)" alt='{echo:$poll_row['username'];/}' title='{echo:$poll_row['username'];/}' height='43px' width='43px' /></a>
+			</div>
+			<div class="poll_userinfo">
+				<h3><label style="color:#ce1221">{echo:filt_word($poll_row['username']);/}</label>{echo:lp{pol_sponsored_vote};/}</h3>
+				<p><a class="first" href='home.php?h={echo:$poll_row['user_id'];/}' target='_blank'>{echo:str_replace("{name}",filt_word($poll_row['username']),lp{pol_who_home});/}</a><a href="modules.php?app=poll_list&user_id={echo:$poll_row['user_id'];/}">TA{echo:lp{pol_vote};/}</a><a href='javascript:window.history.go(-1);'>{echo:lp{pol_re_last};/}</a></p>
+			</div>
+		</div>
+		<div class="clear"></div>
+		{sta:if($poll_row['is_pass']==1 || $is_admin!='' && !empty($poll_row))[exc]}
+			<dl class="poll_info">
+				<dd>{echo:lp{pol_send_date};/}<span>{echo:$poll_row['dateline'];/}</span></dd>
+				<dd>{echo:lp{pol_stop_time};/}<span>{echo:$poll_row['expiration'];/}</span><dd>
+				<dd>{echo:lp{pol_leave_int};/}<span>{echo:$poll_row['credit'];/}</span><dd>
+				<dt>{echo:lp{pol_join_num};/}<span>{echo:$poll_row['voternum'];/}</span><dt>
+			</dl>
+			{sta:if($ses_uid==$poll_row['user_id'])[exc]}
+			<ul class="poll_mag {echo:$show_data;/}">
+				<li><a href='javascript:void(0)' onclick='show_set_config("stop_award",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_s_award};/}</a></li>
+				<li><a href='javascript:void(0)' onclick='show_set_config("add_award",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_add_award};/}</a></li>
+				<li><a href='javascript:void(0)' onclick='show_set_config("add_option",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_add_option};/}</a></li>
+				<li><a href='javascript:void(0)' onclick='show_set_config("del_poll",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_del_poll};/}</a></li>
+				<li><a href='javascript:void(0)' onclick='show_set_config("change_date",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_c_date};/}</a></li>
+				<li><a href='javascript:void(0)' onclick='show_set_config("add_summary",{echo:$poll_row["p_id"];/});'>{echo:lp{pol_write_sum};/}</a></li>
+			</ul>
+			{end:if/}
+		   <div class="clear"></div>
+		   <div class="poll_title">
+		   	<span class="main_title_dot5"></span>{echo:filt_word($poll_row['subject']);/}<span class="poll_choice">{echo:str_replace("{s_num}",$poll_row['maxchoice'],lp{pol_s_num});/}</span>
+		   </div>
+           <div class="poll_credit">{echo:filt_word($poll_row['message']);/}</div>
+		   <div class='poll_credit {echo:$show_award_int;/}'>{echo:str_replace("{int}",$poll_row['percredit'],lp{pol_award_int});/}</div>
+	<form action='{echo:$action_URL;/}' method='post' onsubmit='return {echo:$check_form;/}' style='margin-left:0px'>
+		<input type='hidden' name='credit' value='{echo:$poll_row['credit'];/}' />
+		<input type='hidden' name='percredit' value='{echo:$poll_row['percredit'];/}' />
+		<input type='hidden' name='subject' value='{echo:$poll_row['subject'];/}' />
+	{sta:$default_id=0;/}
+	{sta:foreach($p_result_rs as $rs)[loop]}
+		<div class="poll_area"><input type='{echo:choo_type($poll_row['multiple']);/}' name='pol_cho[]' value="{echo:$rs['oid'];/}" class='{echo:$show_check;/} poll_selbt' />
+			<div class="poll_option">{echo:$rs['option'];/}：</div>
+			<div class="poll_percent">
+				<div id='poll_bg_{echo:$default_id;/}' class="poll_init" style="width:1px;"></div>
+			</div>&nbsp;{echo:$rs['votenum'];/}&nbsp;({echo:option_per($rs['votenum'],$sum_poll_num['sum_votenum']);/}%)
+		</div>
+	{sta:if(!empty($sum_poll_num['sum_votenum']))[exc]}
+		<script type='text/javascript'>
+			function incr(){
+				var width_val=parseInt(document.getElementById("poll_bg_{echo:$default_id;/}").style.width);
+				if(width_val>=140*{echo:$rs['votenum']/$sum_poll_num['sum_votenum'];/}){
+					window.clearInterval("padding_option_{echo:$default_id;/}");
+				}else{
+					document.getElementById("poll_bg_{echo:$default_id;/}").style.width=width_val+3+"px";
+				}
+			}
+			var color_type=Array("b1.gif","b2.gif","b3.gif","b4.gif","b5.gif","b6.gif","b7.gif","b8.gif","b9.gif","b10.gif","b1.gif");
+			var color_s=Math.round(Math.random()*10);
+			var url = "url(skin/default/jooyea/images/vote/";
+			document.getElementById("poll_bg_{echo:$default_id;/}").style.backgroundImage = url + color_type[color_s] +')';
+			var padding_option_{echo:$default_id;/}=window.setInterval(incr,30);
+		</script>
+	{end:if/}
+	{sta:$default_id++;/}
+	{end:foreach/}
+	<div class="poll_button">
+		<input type='submit' class='small-btn' name='action' value='{echo:lp{pol_title};/}' />&nbsp;&nbsp;<input type='checkbox' value='1' style="vertical-align:middle" name='anonymity' /> {echo:lp{pol_anon};/}
+	</div>
+	</form>
+<div class="clear"></div>
+<!--总结报告!-->
+	<div class='poll_summary {echo:$show_sumary;/}'>
+		{echo:str_replace("{name}",filt_word($poll_row['username']),lp{pol_sumary});/}
+		<div class='poll_summary_content'>
+			<div class="left_g left"></div><div class="center_g left">{echo:filt_word($poll_row['summary']);/}</div><div class="right_g left"></div>
+		</div>
+	</div>
+</div>
+
+<!--最新投票区!-->
+	<div class="container {echo:$show_poll_info;/}">
+		<div class="rs_head">{echo:lp{pol_info};/}</div>
+	</div>
+
+	<ul class="poll_list {echo:$show_poll_info;/}">
+	{sta:foreach($p_put_info as $rs)[loop]}
+		<li class='poll_credit'>{echo:anon_poll($rs['anony'],$rs['uid'],$rs['username']);/} {echo:str_replace(array("{date}","{option}"),array(format_datetime_txt($rs['dateline']),$rs['option']),lp{pol_input_info});/}</li>
+	{end:foreach/}
+	</ul>
+
+	<div class="tleft ml20 mt20">
+		<div class="comment">
+	    <div id='show_4_{echo:$poll_row["p_id"];/}'>
+	    	<script type='text/javascript'>parent.get_mod_com(4,{echo:$poll_row['p_id'];/},0,20);</script>
+	    </div>
+	    {sta:if($ses_uid!='')[exc]}
+			<div class="reply">
+				<img class="figure"  src='{echo:get_sess_userico();/}' onerror="parent.pic_error(this)" />
+				<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)" istyle="height:50px" id="reply_4_{echo:$poll_row['p_id'];/}_input"></textarea></p>
+				<div class="replybt">
+					<input class="left button" onclick="parent.restore_com({echo:$poll_row['user_id'];/},4,{echo:$poll_row['p_id'];/});show('face_list_menu',200)" type="submit" name="button" id="button" value="{echo:lp{pol_submit};/}" />
+					<a id="reply_a_{echo:$poll_row['p_id'];/}_input" class="right" href="javascript:void(0);" onclick=" showFace(this,'face_list_menu','reply_4_{echo:$poll_row['p_id'];/}_input');">{echo:lp{pol_face};/}</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+			{end:if/}
+		</div>
+	</div>
+	{end:if/}
+<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+<div class="guide_info {echo:$show_error;/}">{echo:$error_str;/}</div>
+</body>
+</html>

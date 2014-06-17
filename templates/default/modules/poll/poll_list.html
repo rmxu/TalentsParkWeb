@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+<div class="create_button">
+	<a href="javascript:location.href='modules.php?app=poll_send';">{echo:lp{pol_send};/}</a>
+</div>
+
+<h2 class="app_vote">{echo:lp{pol_mine};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+    <li class="{echo:$new_active;/}"><a href="modules.php?app=poll_list&m=new" hidefocus="true">{echo:lp{pol_new};/}</a></li>
+    <li class="{echo:$hot_active;/}"><a href="modules.php?app=poll_list&m=hot" hidefocus="true">{echo:lp{pol_hot};/}</a></li>
+    <li class="{echo:$reward_active;/}"><a href="modules.php?app=poll_list&m=reward" hidefocus="true">{echo:lp{pol_reward};/}</a></li>
+    <li><a href="modules.php?app=poll_mine" hidefocus="true">{echo:lp{pol_mine};/}</a></li>
+  </ul>
+</div>
+
+{sta:foreach($poll_rs as $rs)[loop]}
+<dl class="poll_list friend">
+  <div class="avatar"><a href="home.php?h={echo:$rs['user_id'];/}" target="_blank"><img src="{echo:$rs['user_ico'];/}" /></a></div>
+  <dt>
+	<strong><a href="modules.php?app=poll&p_id={echo:$rs['p_id'];/}&m={echo:$mod;/}">{echo:$rs['subject'];/}</a></strong>
+  <br /><label>{echo:lp{pol_this_vote_by};/} <a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:$rs['username'];/}</a> {echo:lp{pol_launch};/}</label><span>{echo:$rs['dateline'];/}</span> </dt>
+  <dd class="poll_list_content">
+		<p><input type={echo:choo_type($rs['multiple']);/} disabled />{echo:choo_option(filt_word($rs['option']),0);/}</p>
+		<p><input type={echo:choo_type($rs['multiple']);/} disabled />{echo:choo_option(filt_word($rs['option']),1);/}</p>
+  </dd>
+  <dd>
+  	<span>{echo:lp{pol_whether_reward};/}：{echo:$rs['percredit']?lp{pol_yes}:lp{pol_no};/}</span>
+  	<span>|</span>
+  	<span>{echo:lp{pol_status};/}：{sta:if(strtotime($rs['expiration']) <= time())[exc]}{echo:lp{pol_expired};/}{end:if/}{sta:if(strtotime($rs['expiration']) >= time())[exc]}<a href="modules.php?app=poll&p_id={echo:$rs['p_id'];/}&m={echo:$mod;/}">{echo:lp{pol_immediately_involved};/}</a>{end:if/}</span>
+  	<span>|</span>
+  	<span>{echo:lp{pol_comment};/}({echo:$rs['comments'];/})</span>
+  </dd>
+  <div class="poll_status"><h4><strong>{echo:$rs['voternum'];/}</strong>{echo:lp{pol_join};/}</h4><a href="modules.php?app=poll&p_id={echo:$rs['p_id'];/}&m={echo:$mod;/}">{echo:lp{pol_go_see};/}</a></div>
+</dl>
+{end:foreach/}
+
+{echo:page_show($isNull,$page_num,$page_total);/}
+
+<div class="guide_info {echo:$none_data;/}">
+	{echo:lp{pol_data_none};/}
+</div>
+
+</body>
+</html>

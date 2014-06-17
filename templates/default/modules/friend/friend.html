@@ -1,0 +1,12 @@
+{sta:foreach($mypals_rs as $val)[loop]}
+	<li>
+		<a class="avatar" href="home.php?h={echo:$val["pals_id"];/}" target="_blank" title="{echo:lp{f_fri};/}">
+			<img src="{echo:$val['pals_ico'];/}" />
+		</a>
+		<span class="name"><a href="home.php?h={echo:$val["pals_id"];/}" target="_blank" title="{echo:lp{f_fri};/}">{echo:sub_str(filt_word($val['pals_name']),6,true);/}</a></span>
+		<span>
+			<img style="cursor:pointer;" onclick="{echo:$send_hi;/}({echo:$val["pals_id"];/})" src="skin/default/jooyea/images/hi.gif" title="{echo:lp{f_greet};/}" />&nbsp;&nbsp;
+			<img class="{echo:$show_add_friend;/}" style="cursor:pointer;" onclick="{echo:$add_friend;/}({echo:$val["pals_id"];/})" src="skin/default/jooyea/images/add.gif"  title="{echo:lp{f_add_friend};/}" />
+		</span>
+	</li>
+{end:foreach/}

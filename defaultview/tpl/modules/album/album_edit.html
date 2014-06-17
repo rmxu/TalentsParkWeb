@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+</head>
+<script type='text/javascript'>
+function check_form(){
+	if(($("album_name").value=="")||($("album_information").value=="")){
+		parent.Dialog.alert("{echo:lp{a_inp_err};/}");
+		return false;
+	}
+}
+</script>
+<body id="iframecontent">
+<div class="create_button"><a href="modules.php?app=album_edit">{echo:lp{a_creat};/}</a></div>
+<div class="create_button"><a href="modules.php?app=photo_upload">{echo:lp{a_upload};/}</a></div>
+<h2 class="app_album">{echo:lp{a_title};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li class="active"><a href="modules.php?app=album" hidefocus="true">{echo:lp{a_mine};/}</a></li>
+        <li><a href="modules.php?app=album_friend" hidefocus="true">{echo:lp{a_friend};/}</a></li>
+    </ul>
+</div>
+<form name="form" action="{echo:$act_url;/}" method="post" onsubmit='return check_form()'>
+<table class="form_table">
+	<tr>
+		<th>{echo:lp{a_name};/}</th>
+		<td><input class="med-text" type="text" name="album_name" id="album_name" value="{echo:$album_name;/}" /></td>
+	</tr>
+	<tr>
+		<th valign="top">{echo:lp{a_inf};/}</th>
+		<td><textarea class="med-textarea" name="album_information" id="album_information" cols="30" rows="5">{echo:$album_info;/}</textarea></td>
+	</tr>
+	<tr>
+		<th valign="top">{echo:lp{a_label};/}：</th>
+		<td><input class="med-text" type="text" name="tag" id="tag" value="{echo:$tag;/}" /></td>
+	</tr>
+	<tr>
+		<th>{echo:lp{a_secret};/}</th>
+		<td><input type='hidden' id='privacy' name='privacy' value="{echo:$album_pri;/}" /><a href='javascript:;' onmouseDown="menu_pop_show(event,this,1);" id="{echo:$t_album;/}:{echo:$album_id;/}:{echo:$album_pri;/}" />{echo:lp{a_privacy_set};/}</a></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" class="regular-btn" value="{echo:$act_str;/}" name='action' /></td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

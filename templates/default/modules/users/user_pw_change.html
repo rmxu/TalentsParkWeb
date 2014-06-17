@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<script type="text/javascript">
+// 检测原密码
+old_password = function(){
+	var old_password = document.getElementById('formerly_pw');
+	if(old_password.value=='') {
+		parent.Dialog.alert('{echo:lp{u_fill_old_password};/}！');
+		old_password.focus();
+		return false;
+	}
+	return true;
+};
+// 检测密码
+user_password = function(){
+	var user_password = document.getElementById('new_pw');
+	if(user_password.value=='') {
+		parent.Dialog.alert('{echo:lp{u_fill_new_password};/}！');
+		user_password.focus();
+		return false;
+	} else if(user_password.value.length<6 || user_password.value.length>16) {
+		parent.Dialog.alert('{echo:lp{u_new_password_format_error};/}！');
+		user_password.focus();
+		return false;
+	}
+	return true;
+};
+
+// 检测确认密码
+user_repassword = function(){
+	var user_password = document.getElementById('new_pw');
+	var user_repassword = document.getElementById('new_pw_repeat');
+	if(user_repassword.value=='') {
+		parent.Dialog.alert('{echo:lp{u_repeat_fill_new_password};/}！');
+		user_repassword.focus();
+		return false;
+	} else if(user_repassword.value!=user_password.value) {
+		parent.Dialog.alert('{echo:lp{u_pw2_err};/}');
+		return false;
+	}
+	return true;
+};
+
+function check_form(){
+	if(old_password() && user_password() && user_repassword()){
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+<h2 class="app_user">{echo:lp{u_conf};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li><a href="modules.php?app=user_info" title="{echo:lp{u_info};/}">{echo:lp{u_info};/}</a></li>
+        <li><a href="modules.php?app=user_ico" title="{echo:lp{u_icon};/}">{echo:lp{u_icon};/}</a></li>
+        <li class="active"><a href="modules.php?app=user_pw_change" title="{echo:lp{u_pw};/}">{echo:lp{u_pw};/}</a></li>
+        <li><a href="modules.php?app=user_dressup" title="{echo:lp{u_dressup};/}">{echo:lp{u_dressup};/}</a></li>
+        <li><a href="modules.php?app=user_affair" title="{echo:lp{u_set_affair};/}">{echo:lp{u_set_affair};/}</a></li>
+    </ul>
+</div>
+
+<form id="form1" name="form1" method="post" class="form_table" action="do.php?act=user_pw_change" onsubmit="return check_form();">
+<table border="0" class='form_table'>
+  <tr>
+    <th width="18%">{echo:lp{u_fml_pw};/}</th>
+    <td width="82%"><input class="small-text2" type="password" name="formerly_pw" id="formerly_pw" value="" autocomplete="off" /></td>
+  </tr>
+  <tr>
+    <th>{echo:lp{u_new_pw};/}</th>
+    <td><input class="small-text2" type="password" name="new_pw" id="new_pw" value="" /></td>
+  </tr>
+  <tr>
+    <th>{echo:lp{u_repeat_pw};/}</th>
+    <td><input class="small-text2" type="password" name="new_pw_repeat" id="new_pw_repeat" value="" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td class="gray">{echo:lp{u_character_length};/} </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="submit" name="Submit" class="regular-btn" value="{echo:lp{u_b_con};/}" /><input type="button" name="Submit2" class="regular-btn" onclick="location.href='modules.php?app=user_pw_change'" value="{echo:lp{u_b_can};/}" /></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" href="skin/default/jooyea/css/layout.css" />
+<link rel="stylesheet" href="skin/default/jooyea/css/iframe.css" />
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDrag.js"></script>
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDialog.js"></script>
+<script type='text/javascript' src="servtools/ajax_client/ajax.js"></script>
+<script type='text/javascript'>
+function fixImage(i,w,h){
+	return true;
+}
+//新鲜事
+function list_recent_affair(h_id,ra_type,is_more){
+	hidden_obj('msg_content');show_obj('affair_content');
+	hidden_obj('none_data');show_obj('affair_info');
+	var recent_affair_div=$("sec_Content");
+	if(is_more!=1){//重新切换类别新鲜事则清空预设值
+		$('affair_start_num').value=0;
+		recent_affair_div.innerHTML="<div style=\"width:150px; margin-left:auto; margin-right:auto; height:100px; padding:60px; *padding:30px; line-height:32px;\"><span class='right'>{echo:lp{ah_loading_data};/}</span><img src='skin/default/jooyea/images/loading.gif'></div>";
+	}else{
+		$('affair_start_num').value=parseInt($('affair_start_num').value)+{echo:$homeAffairNum;/};
+	}
+	if(ra_type==='')	ra_type=$('affair_type').value;
+		else	$('affair_type').value=ra_type;
+	var start_num=parseInt($('affair_start_num').value);
+	var list_affair=new Ajax();//实例化Ajax
+	list_affair.getInfo("modules.php","get","app","app=recent_affair&user_id="+h_id+"&t="+ra_type+"&start_num="+start_num,function(c){
+		if(is_more==1){
+			recent_affair_div.innerHTML=recent_affair_div.innerHTML+c;
+		}else{
+			recent_affair_div.innerHTML=c;
+		}
+		if(c==''){
+			hidden_obj('affair_info');show_obj('none_data');
+		}else{
+			pick_script(c);
+		}	
+	});
+}
+
+//留言板
+function get_msg(uid){
+	hidden_obj('affair_content');
+	show_obj('msg_content');
+	$('msg_content').innerHTML="<div style=\"width:150px; margin-left:auto; margin-right:auto; height:100px; padding:60px; *padding:30px; line-height:32px;\"><span class='right'>{echo:lp{ah_loading_data};/}</span><img src='skin/default/jooyea/images/loading.gif'></div>";
+	var list_msg=new Ajax();//实例化Ajax
+	list_msg.getInfo("modules.php","get","app","app=msgboard&user_id="+uid,function(c){$('msg_content').innerHTML=c;});
+}
+
+//给主人留言
+function send_msg(uid){
+	var content=$('msgboard').value;
+	if(content == '')
+	{
+		parent.Dialog.alert("{echo:lp{ah_fill_content};/}");
+		return;
+	}
+	var to_user_id=$('user_id').value;
+	var act_msg=new Ajax();//实例化Ajax
+	act_msg.getInfo("do.php?act=msgboard_send&ajax=1&user_id="+uid,"post","app","msgboard="+content+"&to_user_id="+to_user_id,function(c){$('msgboard').value='';$('user_id').value='';get_msg(uid);});
+}
+
+function changeStyle(obj){
+	var tagList = obj.parentNode;
+	var tagOptions = tagList.getElementsByTagName("li");
+	for(i=0;i<tagOptions.length;i++){
+		if(tagOptions[i].className.indexOf('active')>=0){
+			tagOptions[i].className = '';
+		}
+	}
+	obj.className = 'active';
+}
+parent.showDiv();
+</script>
+
+</head>
+<body id="iframecontent">
+<input type="hidden" name="to_user_id" id="user_id" value="" />
+<input type='hidden' id='affair_type' value=0 />
+<input type='hidden' id='affair_start_num' value=0 />
+<!-- album start -->
+{sta:if($holder_photo)[exc]}
+<div class="module zoom">
+  <h3>{echo:lp{ah_latest_photos};/}</h3>
+  <ul class="albumlist">
+  	{sta:foreach($holder_photo as $photo_item)[loop]}
+  	<li>
+  		<a href="{echo:rewrite_fun("home.php?h=".$holder_id."&app=photo&photo_id=".$photo_item['photo_id']."&album_id=".$photo_item['album_id']."&user_id=".$holder_id);/}" target="_blank">
+  			<img src="{echo:$photo_item['photo_thumb_src'];/}" />
+  		</a>
+  		<h5><a class="highlight" target="_blank" href="{echo:rewrite_fun("home.php?h=".$holder_id."&app=photo&photo_id=".$photo_item['photo_id']."&album_id=".$photo_item['album_id']."&user_id=".$holder_id);/}">{echo:$photo_item['photo_name'];/}</a></h5>
+  		<p class="meta">{echo:$photo_item['add_time'];/}</p>
+  	</li>
+  	{end:foreach/}
+  </ul>
+  <div class="more"><a target="_blank" class="highlight" title="{echo:lp{ah_view_all_my_photos};/}" href="home.php?h={echo:$holder_id;/}&app=album&user_id={echo:$holder_id;/}">{echo:lp{ah_all_photos};/} »</a></div>
+</div>
+{end:if/}
+<!-- album end -->
+
+<!-- blog start -->
+{sta:if($holder_blog)[exc]}
+<div class="module zoom">
+    <h3>{echo:lp{ah_latest_blog};/}</h3>
+	<ul class="bloglist">
+		{sta:foreach($holder_blog as $blog_item)[loop]}
+        <li>
+            <h4><a target="_blank" class="highlight" href="{echo:rewrite_fun("home.php?h=".$holder_id."&app=blog&id=".$blog_item['log_id']."&user_id=".$holder_id);/}">{echo:$blog_item['log_title'];/}</a><span class="meta">{echo:$blog_item['add_time'];/}</span></h4>
+            <p class="meta">{echo:get_short_txt($blog_item['log_content']);/}</p>
+        </li>
+        {end:foreach/}
+  	</ul>
+  <div class="more"><a target="_blank" class="highlight" title="{echo:lp{ah_see_all_my_log};/}" href="home.php?h={echo:$holder_id;/}&app=blog_list&user_id={echo:$holder_id;/}">{echo:lp{ah_all_logs};/} »</a></div>
+</div>
+{end:if/}
+<!-- blog end -->
+<!--msg!-->
+{sta:if($show_msg==1)[exc]}
+<div class="msg">
+	<p><span>{echo:lp{ah_you_can_enter};/}<input disabled="disabled" value="150" id="msgnum">{echo:lp{ah_word};/}</span>{echo:lp{ah_to};/}<label>{echo:$holder_name;/}</label>{echo:lp{ah_message};/}</p>
+	<p><textarea name="msgboard" id="msgboard"  maxlength="150" onpropertychange="javascript:$('msgnum').value=''+(150-this.value.length)+'';" onkeyup="return isMaxLen(this)"></textarea></p>
+	<script>var $=function(o){return document.getElementById(o)};if(window.addEventListener){$('msgboard').addEventListener('input',function(){$('msgnum').value=''+(150-this.value.length)+'';}, false);}</script>
+	<p><a class="em_bg left" href="javascript:void(0);" onclick="showFace(this,'face_list_menu','msgboard');"  hidefocus="true">{echo:lp{ah_expression};/}</a><input class="button right" name="" onclick="{echo:$msg_act;/}" type="button" value="{echo:lp{ah_message};/}" /></p>
+</div>
+{end:if/}
+<!--msg!-->
+<div class="tabs">
+	<ul class="menu">
+  	<li class="active" onclick="list_recent_affair({echo:$holder_id;/},0);changeStyle(this);"><a href="javascript:;" hidefocus="true">{echo:lp{ah_new_nothing};/}</a></li>
+    <li onclick="get_msg({echo:$holder_id;/});changeStyle(this);"><a href="javascript:;" hidefocus="true">{echo:lp{ah_message_board};/}</a></li>
+  </ul>
+</div>
+<div class="feedcontainer" id="affair_content">
+	<ul id="sec_Content"></ul>
+	<div id='none_data' style="display:none;" class="gray mt20">{echo:lp{rf_none};/}</div>
+	<div title="{echo:lp{ah_see_more_novelty};/}" id="affair_info" onclick="list_recent_affair({echo:$holder_id;/},'',1);" class="more"></div>
+</div>
+
+<div class="message" id="msg_content"></div>
+
+<div id="face_list_menu" style="display:none;z-index:100;" class="emBg"></div>
+<script type='text/javascript'>
+	list_recent_affair({echo:$holder_id;/},0);
+</script>
+</body>
+</html>

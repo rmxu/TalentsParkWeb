@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<script type="text/javascript" src="servtools/imgfix.js"></script>
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+{sta:echo $is_self=='Y' ? "<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>" : "";/}
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+<script type='text/javascript'>
+function CheckForm(){
+	if (trim(document.myform.CONTENT.value)==""){
+		parent.Dialog.alert("{echo:lp{b_empty};/}");
+		return false;
+	}
+}
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button {echo:$button_ctrl_his;/}"><a href="modules.php?app=blog_friend&user_id={echo:$userid;/}">{echo:lp{b_re_list};/}</a></div>
+    <div class="create_button {echo:$button_ctrl_mine;/}"><a href="modules.php?app=blog_list&user_id={echo:$userid;/}">{echo:lp{b_re_list};/}</a></div>
+    <h2 id="page_title" class="app_blog">{echo:lp{b_scan};/}</h2>
+	{sta:if($is_show)[exc]}
+	<dl class="log_list">
+		<dt>
+			<strong>{echo:filt_word($blog_row["log_title"]);/}</strong><br />
+			<span>{echo:lp{b_sort};/}：<a href="modules.php?app=blog_list&sort_id={echo:$blog_row['log_sort'];/}&sort_name={echo:urlencode($blog_row['log_sort_name']);/}&user_id={echo:$blog_row['user_id'];/}" title="{echo:lp{b_same_sort};/}">{echo:empty($blog_row['log_sort_name'])? lp{b_default_sort} :filt_word($blog_row['log_sort_name']);/}</a></span><span class="log_list_options">{echo:$blog_row["add_time"];/}</span>
+    </dt>
+		<dd class="log_list_content">{echo:filt_word($blog_row['log_content']);/}</dd>
+        <dd><span>{echo:lp{b_label};/}：{echo:$blog_row['tag'];/}</span>
+        	<span>{echo:str_replace("{b_com_num}",$blog_row['comments'],lp{b_com_num});/}</span>
+					<span>{echo:str_replace("{b_read_num}",$blog_row['hits'],lp{b_read_num});/}</span>
+					{sta:if($blog_row['user_id']!=$ses_uid&&$ses_uid)[exc]}
+					<span>
+						<a href="javascript:void(0);" onclick="parent.show_share(0,{echo:$blog_row['log_id'];/},'{echo:$blog_row['log_title'];/}','');">{echo:lp{mn_share};/}</a>
+						<a href="javascript:void(0);" onclick="parent.report(0,{echo:$blog_row['user_id'];/},{echo:$blog_row['log_id'];/});">{echo:lp{mn_report};/}</a>
+					</span>
+					{end:if/}
+          {sta:if($blog_row['user_id']==$ses_uid)[exc]}
+					<span class="log_edit_link">
+						<a href='modules.php?app=blog_edit&id={echo:$blog_row["log_id"];/}'>{echo:lp{b_edit};/}</a>
+					</span>
+					<span class="log_del_link">
+						<a href='do.php?act=blog_del&id={echo:$blog_row["log_id"];/}' onclick='return confirm("{echo:lp{b_a_del};/}");'>{echo:lp{b_del};/}</a>
+					</span>
+					<span onmousedown='menu_pop_show(event,this,1);' id='{echo:$t_blog;/}:{echo:$blog_row["log_id"];/}:{echo:$blog_row["privacy"];/}' class="authority_set">
+						<a href="javascript:void(0)">{echo:lp{b_pri};/}</a>
+					</span>
+					{end:if/}
+       </dd>
+		<!--评论控制显示!-->
+		<dd class="log_list_comment"></dd>
+	</dl>
+	<div class="tleft ml20">
+	<div class="comment">
+        <div id='show_0_{echo:$blog_row["log_id"];/}'>
+            <script type='text/javascript'>parent.get_mod_com(0,{echo:$blog_row['log_id'];/},0,20);</script>
+        </div>
+    {sta:if($ses_uid!='')[exc]}    
+		<div class="reply">
+				<img class="figure" src="{echo:get_sess_userico();/}" />
+				<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)" id="reply_0_{echo:$blog_row['log_id'];/}_input"></textarea></p>
+				<div class="replybt">
+					<input class="left button" onclick="parent.restore_com({echo:$blog_row['user_id'];/},0,{echo:$blog_row['log_id'];/});show('face_list_menu',200)" type="submit" name="button" id="button" value="{echo:lp{b_button_re};/}" />
+					<a id="reply_a_{echo:$blog_row['log_id'];/}_input" class="right" href="javascript: void(0);" onclick=" showFace(this,'face_list_menu','reply_0_{echo:$blog_row['log_id'];/}_input');">{echo:lp{b_face};/}</a>
+				</div>
+				<div class="clear"></div>
+		</div>
+		{end:if/}
+	</div>
+	</div>
+	{end:if/}
+	<!-- face begin -->
+	<div id="face_list_menu" class="emBg" style="display:none;z-index:100;">
+	</div>
+	<!-- face end -->
+	<div class="guide_info {echo:$show_error;/}">{echo:$error_str;/} </div>
+</body>
+</html>

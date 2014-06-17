@@ -1,0 +1,17 @@
+{sta:if($is_show==1)[exc]}
+	{sta:foreach($com_rs as $rs)[loop]}
+		<div class="reaction" id="record_{echo:$type_id;/}_{echo:$rs["comment_id"];/}">
+			{sta:if($visitor_id==$rs['host_id'])[exc]}
+				<a href="javascript:parent.del_com({echo:$rs["host_id"];/},{echo:$type_id;/},{echo:$mod_id;/},{echo:$rs["comment_id"];/},{echo:$rs["visitor_id"];/})" class="replyclose"></a>
+			{end:if/}
+			<a href="home.php?h={echo:$rs["visitor_id"];/}" target="_blank" class="figure"><img src="{echo:$rs["visitor_ico"];/}" /></a>
+			<a href="home.php?h={echo:$rs["visitor_id"];/}" target="_blank">{echo:filt_word($rs["visitor_name"]);/}</a><label>{echo:$rs["add_time"];/}
+			{sta:if($visitor_id!=$rs["visitor_id"])[exc]}
+				<a href="javascript:void(0)" onclick=parent.restore("{echo:$rs['visitor_name'];/}",{echo:$type_id;/},{echo:$mod_id;/},{echo:$rs["visitor_id"];/})>{echo:lp{pu_re};/}</a>
+			{end:if/}
+			</label>
+			<p class="left">{echo:filt_word(get_face($rs["content"]));/}</p>
+		</div>
+	{end:foreach/}
+	<div class="stat"><a href="javascript:void(0)" id="page_{echo:$type_id;/}_{echo:$mod_id;/}" onclick="{echo:$function;/}">{echo:lp{pu_total_com};/}<span id="total_{echo:$type_id;/}_{echo:$mod_id;/}">{echo:$info_row["comments"];/}</span>{echo:lp{pu_one_pi};/}，{echo:lp{pu_local_show};/}<span id="max_{echo:$type_id;/}_{echo:$mod_id;/}">{echo:$show_str;/}</span>{echo:lp{pu_one_pi};/}</a></div>
+{end:if/}

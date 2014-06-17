@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+	<div class="create_button"><a href="javascript:location.href='modules.php?app=group_space&group_id={echo:$group_id;/}&user_id={echo:$url_uid;/}'">{echo:lp{g_re_space};/}</a></div>
+	<h2 class="app_friend">{echo:lp{g_subject};/}</h2>
+	<div class="tabs">
+    <ul class="menu">
+      <li class="active"><a href="javascript:;">{echo:lp{g_search_result};/}</a></li>
+    </ul>
+	</div>
+	
+{sta:foreach($subject_rs as $rs)[loop]}
+<div class="poll_list_box {echo:$isset_data;/}">
+	<div class="poll_user">
+		<a class="avatar" href="home.php?h={echo:$rs['user_id'];/}" target="_blank"><img src={echo:$rs['user_ico'];/} alt='{echo:$rs['user_name'];/}' title='{echo:$rs['user_name'];/}' /></a>
+		<a href="home.php?h={echo:$rs['url_uid'];/}" target="_blank">{echo:sub_str($rs['user_name'],6,true);/}</a>
+	</div>
+	<div class="subject_content">
+		<dl>
+			<dt><a href="modules.php?app=group_sub_show&subject_id={echo:$rs['subject_id'];/}&group_id={echo:$group_id;/}&user_id={echo:$url_uid;/}">{echo:filt_word($rs['title']);/}</a></dt>
+			<dd><a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:filt_word($rs['user_name']);/}</a> <span class='gray' style='padding-left:15px'>{echo:str_replace("{date}",$rs['add_time'],lp{g_send_time});/}</span></dd>
+			<dd><span class='gray'>{echo:lp{g_read};/}({echo:$rs['hits'];/})</span> <span class='gray' style='padding-left:15px;'>{echo:lp{g_re};/}({echo:$rs['comments'];/})</span></dd>
+		</dl>
+	</div>
+	<div class="subject_status">
+		<a href="modules.php?app=group_sub_show&subject_id={echo:$rs['subject_id'];/}&group_id={echo:$group_id;/}&user_id={echo:$url_uid;/}">{echo:lp{g_examine};/}</a>
+	</div>
+</div>
+{end:foreach/}
+{echo:page_show($isNull,$page_num,$page_total);/}
+<div class="guide_info {echo:$none_data;/}">
+	{echo:lp{g_s_none_sub};/},<a href='modules.php?app=group_space&group_id={echo:$group_id;/}&user_id={echo:$url_uid;/}'>{echo:lp{g_re_search};/}</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+
+<body id="iframecontent">
+    <h2 class="app_friend">{echo:$guest_title;/}</h2>
+	<div class="friend_list {echo:$show_data;/}">
+     <ul class="user_list">
+{sta:foreach($guest_rs as $val)[loop]}
+		 <li>
+				<div class="photo">
+				<a class="avatar" href="home.php?h={echo:$val['guest_user_id'];/}" target="_blank" title="{echo:lp{gu_see};/}"><img src="{echo:$val['guest_user_ico'];/}" /></a>
+				</div>
+					<dl>
+						<dt><a href="home.php?h={echo:$val["guest_user_id"];/}" target="_blank" title="{echo:lp{gu_see};/}"> {echo:sub_str(filt_word($val['guest_user_name']),6,true);/}</a></dt>
+						<dd>{echo:format_datetime_short($val['add_time']);/}</dd>
+					</dl>
+			</li>
+	{end:foreach/}		
+	</div>		
+<div class="guide_info {echo:$none_data;/}">{echo:lp{gu_none_data};/}</div>
+</body>
+</html>

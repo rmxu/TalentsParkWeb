@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<SCRIPT type='text/javascript' src="servtools/ajax_client/ajax.js"></SCRIPT>
+<SCRIPT language=JavaScript src="skin/default/js/jooyea.js"></SCRIPT>
+<script type='text/javascript'>
+function mood_com(mood_id,mod_id,type_id,start_num,end_num){
+	var obj_mood=$('content_mood_'+mood_id);
+	if(obj_mood.style.display=='none'){
+		obj_mood.style.display="";
+		if($("show_"+type_id+"_"+mod_id).innerHTML==''){
+			parent.get_mod_com(type_id,mod_id,start_num,end_num);
+		}
+	}else{
+		obj_mood.style.display='none';
+		$('face_list_menu').style.display='none';
+	}
+}
+</script>
+</head>
+
+<body id="iframecontent">
+<h2 class="app_mood">{echo:lp{mo_mood};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li><a href="modules.php?app=mood_more" hidefocus="true">{echo:lp{mo_mine};/}</a></li>
+            <li class="active"><a href="modules.php?app=mood_friend" hidefocus="true">{echo:lp{mo_pals};/}</a></li>
+        </ul>
+    </div>
+
+    <div class="mood_box">
+		<ul>
+			{sta:foreach($mood_rs as $val)[loop]}
+			<li class="mood_list">
+				<div class="user_photo"><a href='home.php?h={echo:$val["user_id"];/}' target='_blank' class="avatar"><img src="{echo:$val["user_ico"];/}" onerror="parent.pic_error(this)" /></a></div>
+				<div class="mood_cont">
+					<div class="mood_text">{echo:filt_word(get_face($val['mood']));/}</div>
+					<div class="mood_info">
+						<span>{echo:$val['user_name'];/}&nbsp;&nbsp;{echo:$val['add_time'];/}</span>
+						<span><a id="restore_mood_{echo:$val['mood_id'];/}" href='javascript:mood_com({echo:$val['mood_id'];/},{echo:$val['mood_id'];/},6,0,10);'>{echo:lp{mo_com};/}(<label id="num_6_{echo:$val['mood_id'];/}">{echo:$val['comments'];/}</label>)</a></span>
+					</div>
+          <div class="tleft" style="display:none;" id='content_mood_{echo:$val["mood_id"];/}'>
+          <div class="comment">
+          <div id='show_6_{echo:$val["mood_id"];/}'></div>
+          {sta:if($ses_uid!='')[exc]}
+            <div class="reply">
+              <img class="figure" src='{echo:get_sess_userico();/}' />
+              <p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)"  id="reply_6_{echo:$val['mood_id'];/}_input"></textarea></p>
+              <div class="replybt">
+                  <input class="left button" onclick="parent.restore_com({echo:$val['user_id'];/},6,{echo:$val['mood_id'];/});show('face_list_menu',200)" type="button" name="button" id="button" value="{echo:lp{mo_b_con};/}" />
+                  <a id="reply_a_{echo:$val['mood_id'];/}_input" class="right" href="javascript:void(0);" onclick=" showFace(this,'face_list_menu','reply_6_{echo:$val['mood_id'];/}_input');">{echo:lp{mo_face};/}</a>
+              </div>
+              <div class="clear"></div>
+            </div>
+          {end:if/}    
+          </div>
+          </div>
+				</div>
+				<div class="clear"></div>
+			{end:foreach/}
+			</li>
+		</ul>
+		<div class="clear"></div>
+			{echo:page_show($isNull,$page_num,$page_total);/}
+    </div>
+
+<!-- face begin -->
+<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+<!-- face end -->
+<div class="guide_info {echo:$data_none;/}">
+	{echo:lp{mo_none_data};/}
+</div>
+</body>
+</html>

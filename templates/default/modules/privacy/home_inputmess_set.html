@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<script type="text/javascript">
+	function check_form(){
+		if(document.form1.input_mess.value==''){
+			parent.Dialog.alert("{echo:lp{pr_no_data};/}");
+			return false;
+		}
+  }
+</script>
+
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <h2 class="app_blog">{echo:lp{pr_conf};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+		    <li><a href="modules.php?app=privacy" title="{echo:lp{pr_access};/}" >{echo:lp{pr_access};/}</a></li>
+		    <li class="active"><a href="modules.php?app=pr_inputmess" title="{echo:lp{pr_inputmess};/}">{echo:lp{pr_inputmess};/}</a></li>
+		    <li><a href="modules.php?app=pr_reqcheck" title="{echo:lp{pr_reqcheck};/}">{echo:lp{pr_reqcheck};/}</a></li>
+        </ul>
+    </div>
+	<div class="rs_head">{echo:lp{pr_send_set};/}</div>
+<form id="form1" name="form1" method="post" action="do.php?act=pr_inputmess" onsubmit="return check_form();">
+
+<table cellpadding="0" cellspacing="0" border="0" class='form_table'>
+  <tr>
+    <th width="20%"><input type="radio" value="0" {echo:radio_checked(0,$user_privacy[0]);/} name="input_mess" id="input_mess" /></th>
+    <td width="80%"><label>{echo:lp{pr_send_public};/}</label></td>
+  </tr>
+	<tr>
+    <th><input type="radio" value="1" {echo:radio_checked(1,$user_privacy[0]);/}  name="input_mess" id="input_mess" /></th><td><label>{echo:lp{pr_send_pals};/}</label></td>
+	</tr>
+	<tr><th><input type="radio" value="2" {echo:radio_checked(2,$user_privacy[0]);/}  name="input_mess" id="input_mess"></th>
+	<td><label>{echo:lp{pr_send_pri};/}</label></td>
+  </tr>
+  <tr><td></td>
+	<td><input type="submit" name="Submit" class="regular-btn" value="{echo:lp{pr_button_action};/}" /><input type="button" name="Submit2" class="regular-btn" onclick="location.href='modules.php?app=pr_inputmess'" value="{echo:lp{pr_button_cancel};/}" /></td>
+  </tr>  <tr><td colspan="2" height="20"></td></tr>
+
+</table>
+</form>
+</body>
+</html>

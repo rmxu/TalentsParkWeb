@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDrag.js"></script>
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDialog.js"></script>
+<SCRIPT type='text/javascript' src="servtools/ajax_client/ajax.js"></SCRIPT>
+
+<script type='text/javascript'>
+function copy(obj, aoConfig) {
+	if(obj.type != "hidden" && obj.value != "") {
+		obj.focus();
+	}
+		obj.select();
+	if(copyToClipboard(obj.value)) {
+		parent.Dialog.alert(aoConfig.sMsg);
+	}
+}
+
+function copyToClipboard(value){
+	if(window.clipboardData) { 
+		window.clipboardData.clearData(); 
+		window.clipboardData.setData("Text", value); 
+	}else if(navigator.userAgent.indexOf("Opera") != -1) {
+		window.location = value;
+	}else if(window.netscape){
+		try{
+			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect"); 
+		}
+		catch (e) {
+			parent.Dialog.alert(aoConfig.fMsg);
+			return false;
+		}
+    var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+    if (!clip) return; 
+    var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable); 
+    if (!trans) return; 
+    trans.addDataFlavor('text/unicode'); 
+    var str = new Object(); 
+    var len = new Object(); 
+    var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString); 
+    var copytext = value; 
+    str.data = copytext; 
+    trans.setTransferData("text/unicode",str,copytext.length*2); 
+    var clipid = Components.interfaces.nsIClipboard; 
+    if (!clip)
+        return false; 
+    clip.setData(trans,null,clipid.kGlobalClipboard); 
+	}
+		return true;
+}
+	
+function select_item(type_value){
+	var mail_array=document.getElementsByName('attach[]');
+	var num=mail_array.length;
+	for(array_length=0;array_length<num;array_length++){
+		if(type_value==1){
+			mail_array[array_length].checked='checked';
+		}else if(type_value==0){
+			mail_array[array_length].checked='';
+		}
+	}
+}
+	
+function check_form(){
+	var mail_array=document.getElementsByName('attach[]');
+	var num=mail_array.length;
+	var check_num=0;
+	for(array_length=0;array_length<num;array_length++){
+		if(mail_array[array_length].checked==true){
+			check_num++;
+		}
+	}
+	if(check_num==0){
+		parent.Dialog.alert('请选择要输出的验证码');
+	}else{
+		parent.Dialog.confirm('是否删除？',function(){document.forms[0].submit();});
+	}
+}	
+		
+function produce_invite_code(){
+	var ajax_invite_code=new Ajax();
+	ajax_invite_code.getInfo("modules.php?app=mypals_invite&invite_code=1","GET","app","",function(c){show_invite_code(c);});
+}
+
+function show_invite_code(invite_code){
+	var diag = new Dialog();
+	diag.Top="50%";
+	diag.Left="50%";
+	diag.Width = 300;
+	diag.Title = "生成邀请码";
+	diag.InnerHtml= '<div style="text-align:left">'+invite_code+'</div>';
+	diag.OKEvent = function(){window.location.href="modules.php?app=mypals_invite";diag.close();};
+	diag.show();
+}
+</script>
+
+</head>
+<body id="iframecontent">
+  <div class="create_button"><a href="modules.php?app=mypals_search">{echo:lp{mp_add};/}</a></div>
+  <h2 class="app_friend">{echo:lp{mp_mypals};/}</h2>
+  <div class="tabs">
+      <ul class="menu">
+          <li><a href="modules.php?app=mypals" title="{echo:lp{mp_list};/}">{echo:lp{mp_list};/}</a></li>
+          <li><a href="modules.php?app=mypals_request" title="{echo:lp{mp_req};/}">{echo:lp{mp_req};/}</a></li>
+          <li class="active"><a href="modules.php?app=mypals_invite" title="{echo:lp{mp_invite};/}">{echo:lp{mp_invite};/}</a></li>
+          <li><a href="modules.php?app=mypals_sort" title="{echo:lp{mp_m_sort};/}">{echo:lp{mp_m_sort};/}</a></li>
+      </ul>
+  </div>
+  
+{sta:if(!$inviteCode)[exc]}
+		<dl class="invite_info">
+			<dt><strong>{echo:lp{mp_invite_more};/}{echo:$siteName;/}！</strong></dt>
+			<dd>{echo:lp{mp_instant_ct_link};/}</dd>
+			<dd><a href="{echo:$user_home_url;/}" target="_blank">{echo:$user_home_url;/}</a></dd>
+			<dd>{echo:lp{mp_instant_ct_send};/}</dd>
+			<dd><strong>{echo:lp{mp_brief_invitation};/}:</strong></dd>
+			<dd><textarea class="textarea" id="codeTxt" style="height:280px; overflow-x:hidden">
+Hi，{echo:lp{mp_i};/}{echo:filt_word(get_sess_username());/}，
+
+{echo:$siteName;/}{echo:lp{mp_invite_you};/}
+
+{echo:lp{mp_contact_me};/}
+
+{echo:lp{mp_invited_postscript};/}
+
+{echo:lp{mp_links_invite};/}
+{echo:$user_invite_url;/}
+
+{echo:lp{mp_if_you_have};/}{echo:$siteName;/}{echo:lp{mp_view_personal_homepage};/}
+{echo:$user_home_url;/}
+			</textarea>
+			</dd>
+			<input type=button id="copy_start" value="{echo:lp{mp_ctrlc_start};/}"></dd>
+		</dl>
+{end:if/}
+
+{sta:if($inviteCode)[exc]}
+{sta:if($invite_rs)[exc]}
+<div class="rs_head">
+    <span>
+    	{echo:lp{mp_select};/}：<a href="javascript:select_item(1);">{echo:lp{mp_all};/}</a> -
+      <a href="javascript:select_item(0);">{echo:lp{mp_cancel};/}</a>
+    </span>
+    <span><a href="javascript:document.forms[0].onsubmit();">{echo:lp{mp_delete};/}</a></span>
+</div>
+<form action='modules.php?app=mypals_invite&del_code=1' method='post' onsubmit="check_form()">
+<table class="msg_inbox">
+	<tr>
+        <td width="25"></td>
+        <td>链接地址</td>
+        <td>剩余时间</td>
+        <td>操作</td>
+    </tr>
+	{sta:foreach($invite_rs as $rs)[loop]}
+	<tr>
+    <td width="25"><input name="attach[]" type="checkbox" value="{echo:$rs['id'];/}" /></td>
+		<td><input type='text' onclick='copy(this,{sMsg : "{echo:lp{mp_ctrlc_success};/}", fMsg : "{echo:lp{mp_ctrlc_failure};/}"})' onmouseover='this.style.background = "#ffffcc"' onmouseout='this.style.background = "#ffffff"' id='inviteTxt_{echo:$rs['id'];/}' class='med-text' value="{echo:$siteDomain;/}modules.php?app=user_reg&invite_code={echo:$rs['code_txt'];/}" /></td>
+		<td>{echo:leave_time($rs['add_time'],$inviteCodeLife);/}</td>
+		<td><a href='modules.php?app=mypals_invite&del_code=1&id={echo:$rs['id'];/}'><img src="skin/default/jooyea/images/del.png" /></a></td>
+	</tr>
+	{end:foreach/}
+</table>
+</form>
+<div class="rs_head">
+    <span>
+    	{echo:lp{mp_select};/}：<a href="javascript:select_item(1);">{echo:lp{mp_all};/}</a> -
+      <a href="javascript:select_item(0);">{echo:lp{mp_cancel};/}</a>
+    </span>
+    <span><a href="javascript:document.forms[0].onsubmit();">{echo:lp{mp_delete};/}</a></span>
+</div>
+{end:if/}
+<input class="invite-btn" type='button' onclick=produce_invite_code(); value='{echo:lp{mp_generate_invite};/}' />
+<p class="gray">{echo:lp{mp_invite_cost};/}{echo:$inviteCodeValue;/}{echo:lp{mp_integral};/}</p>
+<div class="rs_head">{echo:lp{mp_surplus_integral};/}: {echo:$intg;/}</div>
+<p class="tleft gray">{echo:lp{mp_invitation_code_period};/}{echo:$inviteCodeLife;/}{echo:lp{mp_in_hours};/}</p>
+{end:if/}
+
+<script type="text/javascript">
+	if(document.getElementById("copy_start")){
+		var copyStart=document.getElementById("copy_start");
+		copyStart.onclick=function() {
+			copy(document.getElementById("codeTxt"), {sMsg : "{echo:lp{mp_ctrlc_success};/}", fMsg : "{echo:lp{mp_ctrlc_failure};/}"});
+		}
+		copyStart.onmouseover = function(){
+			this.style.background = "#ffffcc"
+		}
+		copyStart.onmouseout = function(){
+			this.style.background = "#efefef"
+		}
+	}
+</script>
+
+</body>
+</html>

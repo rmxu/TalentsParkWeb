@@ -1,0 +1,20 @@
+{sta:if($mes_rs)[exc]}
+{sta:foreach($mes_rs as $val)[loop]}
+<dl class="msg_list">
+	<div class="avatar"><a target="_blank" href='home.php?h={echo:$val['from_user_id'];/}'><img src="{echo:$val['from_user_ico'];/}" /></a></div>
+	<dt><span><a target="_blank" href='home.php?h={echo:$val['from_user_id'];/}'>{echo:filt_word($val['from_user_name']);/}</a></span><span>[{echo:$val['add_time'];/}]</span></dt>
+	<dd class="msg_list_content">{echo:filt_word(get_face($val['message']));/}</dd>
+	<dd>
+		<span><a href="javascript:;"  onclick=parent.leave_message("{echo:$val['from_user_name'];/}","{echo:$val['from_user_id'];/}");>{echo:lp{mb_res};/}</a></span>
+		{sta:if($is_self=='Y')[exc]}
+		<span>|</span>
+		<span><a href="do.php?act=msgboard_del&user_id={echo:$userid;/}&mess_id={echo:$val['mess_id'];/}" onclick='return confirm("{echo:lp{mb_delete_remaining};/}？");'>{echo:lp{mb_del};/}</a></span>
+		{end:if/}
+	</dd>
+</dl>
+{end:foreach/}
+<div class="more"><a href="modules.php?app=msgboard_more&user_id={echo:$userid;/}" class="highlight" title="{echo:lp{mb_all_my_message};/}" href="">{echo:lp{mb_full_message};/} »</a></div>
+{end:if/}
+{sta:if(empty($mes_rs))[exc]}
+<div class="guide_info">{echo:lp{mb_message_content_empty};/}</div>
+{end:if/}

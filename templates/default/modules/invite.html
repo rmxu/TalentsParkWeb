@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/layout.css">
+<div class="recom_user" style="margin-bottom:-20px">
+   	<div id="invite">
+        <div class="top"><h2 class="highlight">{echo:lp{ah_welcome_you};/}<a class="highlight"  href="home.php?h={echo:$user_info['user_id'];/}" target="_blank">{echo:$user_info['user_name'];/}</a>{echo:lp{ah_invite_you_friends};/}</h2></div>
+        <div class="clear"></div>
+        <div class="invite_text">
+        {echo:lp{ah_after_friend};/}
+        </div>
+	   	<table cellpadding="10" cellspacing="0" class="invite_table">
+	   		<tr>
+	   			<td width="28%" valign="top" align="left">
+	   				<a class="photo_iframe" href="home.php?h={echo:$user_info['user_id'];/}">
+                    <img src="{echo:str_replace("_small","",$user_info['user_ico']);/}" /></a>
+	   			</td>
+	   			<td width="72%" valign="top">
+		   			 {echo:lp{u_uname};/}：
+		   			 	<a href="home.php?h={echo:$user_info['user_id'];/}">
+		   			 		<span class="highlight"><b>{echo:$user_info["user_name"];/}</b></span>
+		   			 	</a><img src={echo:$ol_state_ico;/} />
+						 <span id='ol_label_txt' class="gray">{echo:$ol_state_label;/}</span><br/>
+					     <span id='ol_label_txt' class="gray">
+					    	{echo:get_uhome_url($holder_id);/}
+					     </span>
+				     <p> 	{echo:str_replace(array("{visitor_num}","{integral}"),array($user_info['guest_num'],$user_info['integral']),lp{u_ustate});/}
+				     </p>
+				     {echo:lp{u_sex};/}：{echo:info_item_format($info_item_init,$user_sex_txt);/}<br />	   			
+	   			      {echo:lp{u_from};/}：{echo:info_item_format($info_item_init,$user_info["reside_province"].$user_info["reside_city"]);/}
+                     <p class="mt20"><a href="home.php?h={echo:$user_info['user_id'];/}" ><img src="skin/default/jooyea/images/tohomelabel.gif" align="middle"></a></p>
+	   			</td>
+	   		</tr>
+	   </table>
+	</div>   
+</div>
+<div class="clear"></div>

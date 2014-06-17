@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=mag_app">{echo:lp{pl_return_mine};/}</a></div>
+    <h2 class="app_set">{echo:lp{pl_add_app};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="javascript:;">{echo:lp{pl_add};/}{echo:$app_rs["title"];/}</a></li>
+        </ul>
+    </div>
+	<form action='do.php?act=add_app&id={echo:$app_rs["id"];/}' method='post'>
+    <div class="rs_head">{echo:lp{pl_add};/}<a href="javascript:document.forms[0].submit()" title="{echo:$app_rs["title"];/}">{echo:$app_rs["title"];/}</a>，{echo:lp{pl_add_hint};/}</div>
+    <ul class="app_list">
+   		<li onmouseover="this.className += ' list_app_active';" onmouseout="this.className='app_list';">
+            <div class="figure_box"><img src="{echo:$image_url;/}" /></div>
+            <h3 class="name"><a href="javascript:document.forms[0].submit()" title="{echo:$app_rs['title'];/}">{echo:$app_rs['title'];/}</a></h3>
+            <p class="description">{echo:$app_rs["info"];/}<br /><br /><input id="choose" value="1" checked="checked" style="vertical-align:middle" name="is_affair" type="checkbox"><label for="choose">{echo:lp{pl_tell_pals};/}</label></p>
+            <div class="app_control" style="display:block">
+            	<a href="javascript:document.forms[0].submit()" title="{echo:lp{pl_agree};/}">{echo:lp{pl_enter_app};/}</a> <a href="javascript:history.go(-1)" title="{echo:lp{pl_cancel};/}">{echo:lp{pl_cancel};/}</a>
+            </div>
+        </li>
+    </ul>
+
+	</form>
+</body>
+</html>

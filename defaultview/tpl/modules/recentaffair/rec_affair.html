@@ -1,0 +1,37 @@
+{sta:foreach($ra_rs as $rs)[loop]}
+<li id="feed_{echo:$rs['id'];/}" onmouseover="{echo:str_replace('{id}',$rs['id'],$hidden_button_over);/}" onmouseout="{echo:str_replace('{id}',$rs['id'],$hidden_button_out);/};">
+	<a id="a_feed_menu_{echo:$rs['id'];/}" class="popbtn" href="javascript:void(0);" onclick="ajaxmenu(this, this.id,{echo:$rs['user_id'];/},{echo:$rs['mod_type'];/})" style="display: none;"></a>
+	<div class="avatar">
+		<a href="home.php?h={echo:$rs['user_id'];/}" target="_blank" title="{echo:lp{rf_v_home};/}"><img src='{echo:$rs["user_ico"];/}' /></a>
+	</div>
+  <div class="details">
+  	<h3><a href="home.php?h={echo:$rs['user_id'];/}" target="_blank" title="{echo:lp{rf_v_home};/}">{echo:filt_word($rs["user_name"]);/}</a>{echo:$rs['title'];/}</h3>
+    <div class="content">
+    	{echo:filt_word(get_face($rs['content']));/}
+	</div>
+		<div class="toolbar toolbar_{echo:$rs['mod_type'];/}">
+			<span>({echo:format_datetime_txt($rs['date_time']);/})</span>
+			{sta:if($rs['for_content_id']!=0)[exc]}<a onclick=toggle("replycontent",{echo:$rs['mod_type'];/},{echo:$rs['for_content_id'];/}) id="openreply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}" href="javascript:void(0);">{echo:lp{rf_re_com};/}</a>{end:if/}
+		</div>
+		<div id='replycontent_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}'>
+		{sta:if($rs['for_content_id']!=0)[exc]}
+    <div class="comment">
+			<div id="show_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}"><script>parent.get_mod_com({echo:$rs['mod_type'];/},{echo:$rs['for_content_id'];/},0,3);</script></div>
+    {sta:if($user_id!='')[exc]}
+    <div id="reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}_1" class="replyer"><input onclick='toggle2("reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}")' name="input" value="{echo:lp{rf_add_com};/}" type="text"></div>
+		<div id="reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}_2" class="reply" style="display: none;">
+			<img class="figure" src="{echo:$visitor_ico;/}">
+			<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)" id="reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}_input" onblur=toggle2("reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}")></textarea></p>
+			<div class="replybt">
+				<input class="left button" onclick="parent.restore_com({echo:$rs['user_id'];/},{echo:$rs['mod_type'];/},{echo:$rs['for_content_id'];/});" type="submit" name="button" id="button" value="{echo:lp{rf_submit};/}" />
+				<a class="right" href="javascript: void(0);" onclick="showim(''); showFace(this,'face_list_menu','reply_{echo:$rs['mod_type'];/}_{echo:$rs['for_content_id'];/}_input');">{echo:lp{rf_face};/}</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{end:if/}
+	</div>
+		{end:if/}
+		</div>
+  </div>
+</li>
+{end:foreach/}

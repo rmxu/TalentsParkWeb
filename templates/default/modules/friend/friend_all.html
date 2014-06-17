@@ -1,0 +1,51 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<!--[if lt IE 7]>
+<style type="text/css">
+.uico_photo_small span { behavior: url(skin/default/jooyea/css/ie_png_fix.htc);}
+</style>
+<![endif]-->
+</head>
+
+<body id="iframecontent">
+    <h2 class="app_friend">{echo:$friend_title;/}</h2>
+
+<div class="photo_view_box {echo:$text_friend;/}">
+	<div class="friend_list {echo:$show_data;/}">
+	<ul class="user_list">
+	{sta:foreach($mypals_rs as $val)[loop]}
+		<!--<div class="friend_infobox" onmouseover="this.className = 'friend_infobox_active';"  onmouseout="this.className = 'friend_infobox';">
+				<div class="friend_infobox_photo">
+				<a href="home.php?h={echo:$val['pals_id'];/}" target="_blank" title="{echo:lp{f_fri};/}"><img src="{echo:$val['pals_ico'];/}" width="43px" height="43px" /></a>
+				</div>
+				<div class="friend_infobox_info">
+					<dl>
+						<dt><a href="home.php?h={echo:$val["pals_id"];/}" target="_blank" title="{echo:lp{f_fri};/}"> {echo:sub_str(filt_word($val['pals_name']),6,true);/}</a></dt>
+						<dd>{echo:$val['pals_sort_name'];/}</dd>
+					</dl>
+				</div>
+			</div>-->
+			<li>
+				<div class="photo">
+				<a class="avatar" href="home.php?h={echo:$val['pals_id'];/}" target="_blank" title="{echo:lp{f_fri};/}"><img src="{echo:$val['pals_ico'];/}" /></a>
+				</div>
+					<dl>
+						<dt><a href="home.php?h={echo:$val["pals_id"];/}" target="_blank" title="{echo:lp{f_fri};/}"> {echo:sub_str(filt_word($val['pals_name']),6,true);/}</a></dt>
+						<dd>{echo:$val['pals_sort_name'];/}</dd>
+					</dl>
+			</li>
+	{end:foreach/}		
+	</ul>
+	</div>
+</div>		
+<div style='clear:both'>{echo:page_show($isNull,$page_num,$page_total);/}</div>
+<div class="guide_info {echo:$text_no_friend;/}">{echo:lp{f_no};/}</div>
+
+</body>
+</html>

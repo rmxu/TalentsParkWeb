@@ -1,0 +1,110 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<SCRIPT language=JavaScript src="skin/default/js/jooyea.js"></SCRIPT>
+<script type="text/javascript">
+function save_sort(sort_id,text_id){
+	var sort_value=document.getElementById(text_id).value;
+	if(trim(sort_value)==''){
+		parent.Dialog.alert('{echo:lp{mp_sort_wrong};/}');
+	}else{
+		var save_sort=new Ajax();
+		save_sort.getInfo("do.php?act=pals_sort_change&id="+sort_id,"post","app","name="+sort_value,function(c){$('info_'+sort_id).style.display="";$('info_'+sort_id+'_edit').style.display="none";$('show_info_'+sort_id).innerHTML=sort_value;});
+	}
+}
+
+function exit_sort(info_id,show_id,text_id){
+	document.getElementById(info_id).style.display="";
+	document.getElementById(info_id+"_edit").style.display="none";
+}
+
+function edit_sort(info_id){
+	document.getElementById(info_id).style.display="none";
+	document.getElementById(info_id+"_edit").style.display="";
+}
+
+function show_add(){
+	document.getElementById("show_add_button").style.display="none";
+	document.getElementById("add_area").style.display="";
+}
+
+function exit_add(){
+	document.getElementById("add_area").style.display="none";
+	document.getElementById("show_add_button").style.display="";
+	document.getElementById("new_sort").value="";
+}
+
+function check_form(){
+	var new_sort=document.getElementById("new_sort").value;
+	if(trim(new_sort)==''){
+		parent.Dialog.alert('{echo:lp{mp_sort_wrong};/}');
+		return false;
+	}else{
+		return true;
+	}
+}
+
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=mypals_search">{echo:lp{mp_add};/}</a></div>
+    <h2 class="app_friend">{echo:lp{mp_mypals};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li><a href="modules.php?app=mypals" title="{echo:lp{mp_list};/}">{echo:lp{mp_list};/}</a></li>
+            <li><a href="modules.php?app=mypals_request" title="{echo:lp{mp_req};/}">{echo:lp{mp_req};/}</a></li>
+            <li><a href="modules.php?app=mypals_invite" title="{echo:lp{mp_invite};/}">{echo:lp{mp_invite};/}</a></li>
+            <li class="active"><a href="modules.php?app=mypals_sort" title="{echo:lp{mp_m_sort};/}">{echo:lp{mp_m_sort};/}</a></li>
+        </ul>
+    </div> 
+    <div class="rs_head"><a href='modules.php?app=mypals&sort_id=0'>{echo:lp{mp_no_sort};/}</a>（{echo:lp{mp_def_sort};/}）</div>
+	<table class="form_table" id='sort_table' cellspacing="0">
+		<tr>
+		{sta:foreach($pals_sort_rs as $rs)[loop]}
+			
+		<tr id="info_{echo:$rs['id'];/}">
+			<td>
+					<div id="show_info_{echo:$rs['id'];/}">
+						<a href='modules.php?app=mypals&sort_id={echo:$rs["id"];/}'>{echo:$rs['name'];/}</a>
+					</div>
+			</td>
+			<td>
+					<a  href=javascript:edit_sort("info_{echo:$rs['id'];/}");>{echo:lp{b_edit};/}</a>&nbsp &nbsp
+					<a href='do.php?act=pals_sort_del&id={echo:$rs["id"];/}' onclick='return confirm("{echo:lp{b_a_del};/}")'>{echo:lp{b_del};/}</a>
+			</td>
+		</tr>
+		
+		<tr id="info_{echo:$rs['id'];/}_edit" style="display:none;">
+				<td><input class="small-text" type='text' id="change_sort_{echo:$rs['id'];/}" value="{echo:$rs['name'];/}" maxlength="8">
+				</td>
+				<td>
+					<a href="javascript:void(0);"  onclick=save_sort("{echo:$rs['id'];/}","change_sort_{echo:$rs['id'];/}"); >{echo:lp{b_button_save};/}</a>&nbsp &nbsp
+				    <a href="javascript:void(0);"  onclick=exit_sort("info_{echo:$rs['id'];/}","show_info_{echo:$rs['id'];/}","change_sort_{echo:$rs['id'];/}"); >{echo:lp{b_button_cancel};/}</a>
+				</td>
+
+		</tr>
+		
+		{end:foreach/}
+	</table>	
+    <table class="form_table" cellspacing="0">
+    	<tr>
+			<td>
+				<input type='button' id='show_add_button' class="regular-btn" style='display:""; font-size:12px;' value='{echo:lp{mp_add_sort};/}' maxlength="8" onclick='show_add();' /></td><td>
+				<div id='add_area' style='display:none'>
+					<form action='do.php?act=pals_sort_add' method='post' onsubmit='return check_form();'>
+						<input class="small-text" type='text' name='new_sort' id='new_sort' />
+						<input type='submit' value='{echo:lp{mp_t_sort};/}' class='small-btn' />&nbsp
+						<input type='button' value='{echo:lp{b_button_cancel};/}' class='small-btn' onclick='exit_add();' />
+					</form>
+				</div>
+			</td>
+		</tr>
+</table>						
+</body>
+</html>

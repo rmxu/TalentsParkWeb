@@ -1,0 +1,16 @@
+<?php
+$plugin_layout=array(
+"index_right"=>"系统首页右侧",
+"index_bottom"=>"系统首页底侧",
+"index_newMember"=>"最新酷友下侧",
+"main_right_guest"=>"首页访客下侧",
+"main_right_friend"=>"首页朋友圈下侧",
+"main_left_menu"=>"首页菜单下侧",
+"home_right_guest"=>"主页访客下侧",
+"home_right_friend"=>"主页朋友圈下侧",
+"home_info_bottom"=>"主页左侧资料下侧",
+"blog_add_bottom"=>"新建日志下侧",
+"plugin_app"=>"应用入口",
+"plugin_back"=>"后台入口",
+);
+?>

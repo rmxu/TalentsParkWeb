@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" href="skin/default/jooyea/css/layout.css" />
+</head>
+<body id="iframecontent">
+<div class="create_button"><a href="modules.php?app=blog_edit">{echo:lp{b_creat};/}</a></div><h2 id="page_title" class="app_blog">{echo:lp{b_blog};/}</h2>
+
+<div class="tabs">
+	<ul class="menu">
+  	<li><a href="modules.php?app=blog_list" hidefocus="true">{echo:lp{b_mine};/}</a></li>
+  	<li class="active"><a href="modules.php?app=blog_friend" hidefocus="true">{echo:lp{b_friend};/}</a></li>
+  </ul>
+</div>
+	{sta:foreach($blog_rs as $rs)[loop]}
+	{sta:$is_pri=check_pri($rs["user_id"],$rs["privacy"]);/}
+	<dl class="log_list friend">
+		<div class="avatar"><a href="home.php?h={echo:$rs["user_id"];/}" target="_blank" title="{echo:lp{rf_v_home};/}"><img src="{echo:$rs["user_ico"];/}" /></a></div>
+		<dt>
+			<strong><a href='{echo:$is_pri ? "modules.php?app=blog&id=".$rs['log_id']."&is_friend=1":"javascript:void(0)";/}'>{echo:$is_pri ? filt_word($rs["log_title"]): lp{b_limit_blog};/}</a></strong>
+			{sta:if(!$is_pri)[exc]}
+			<img src='skin/default/jooyea/images/user_privacye.gif' />
+			{end:if/}
+			<br /><span>{echo:lp{b_sort};/}：{echo:get_blog_sort(filt_word($rs['log_sort_name']));/}</span><span><a href="home.php?h={echo:$rs["user_id"];/}" target="_blank">{echo:filt_word($rs['user_name']);/}</a></span><span>{echo:$rs["add_time"];/}</span></dt>
+			<dd class="log_list_content">{echo:$is_pri ? get_short_txt($rs["log_content"]):lp{b_limit_blog};/}</dd>
+			<dd>
+        <span>{echo:lp{b_label};/}：{echo:$rs['tag'];/}</span>
+        <span>{echo:str_replace("{b_com_num}",$rs['comments'],lp{b_com_num});/}</span><span>|</span><span>{echo:str_replace("{b_read_num}",$rs['hits'],lp{b_read_num});/}</span><span>|</span>{sta:if($is_pri)[exc]}<span><a href="javascript:void(0);" onclick="parent.show_share(0,{echo:$rs['log_id'];/},'{echo:$rs['log_title'];/}','');">{echo:lp{b_share};/}</a></span><span>|</span>{end:if/}<span><a href="javascript:void(0);" onclick="parent.report(0,{echo:$rs['user_id'];/},{echo:$rs['log_id'];/});">{echo:lp{b_report};/}</a></span></dd>
+</dl>
+	{end:foreach/}
+{sta:page_show($isNull,$page_num,$page_total);/}
+<div class='guide_info {echo:$content_data_none;/}'>{echo:lp{b_no_fri_blog};/}</div>
+</body>
+</html>

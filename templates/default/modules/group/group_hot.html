@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script language="JavaScript">
+function join_group(group_id){
+	var join_group=new Ajax();
+	join_group.getInfo("do.php","GET","app","act=group_join&group_id="+group_id,function(c){parent.Dialog.alert(c);});
+}
+</script>
+
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+	<div class="create_button"><a href="modules.php?app=group_select" hidefocus="true">{echo:lp{g_search_group};/}</a></div>
+    <div class="create_button"><a href="modules.php?app=group_creat">{echo:lp{g_creat};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_group};/}</h2>
+    <div class="tabs">
+      <ul class="menu">
+        <li><a href="modules.php?app=group" hidefocus="true">{echo:lp{g_mine};/}</a></li>
+        <li class="active"><a href="modules.php?app=group_hot" hidefocus="true">{echo:lp{g_hot};/}</a></li>
+      </ul>
+    </div>
+
+	{sta:foreach($group_hot_rs as $rs)[loop]}
+		<div class="group_box" onmouseover="this.className = 'group_box_active';" onmouseout="this.className='group_box';">
+			<div class="group_box_content">
+                <div class="group_control">
+                    {echo:group_state($rs['group_id'],$rs['group_join_type'],$user_creat_group,$user_join_group,$rs['group_req_id']);/}
+                    <a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'>{echo:lp{g_en_space};/}</a>
+                </div>
+				<div class="group_photo">
+					<a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'><img src='{echo:$rs['group_logo'];/}' width='100px' height='100px' alt="{echo:$rs['group_name'];/}" onerror="parent.pic_error(this)" /></a>
+				</div>
+				<dl class="group_list">
+					<dt><a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'>{echo:filt_word($rs['group_name']);/}</a></dt>
+					<dd>{echo:lp{g_type};/}：{echo:$rs['group_type'];/}</dd>
+					<dd>{echo:lp{g_founder};/}：<a href='home.php?h={echo:$rs["add_userid"];/}' target="_blank">{echo:filt_word($rs['group_creat_name']);/}</a></dd>
+					<dd>{echo:join_type($rs['group_join_type']);/}<label>({echo:str_replace('{num}',$rs['member_count'],lp{g_join_num});/})</label></dd>
+				</dl>
+			</div>
+		</div>
+	{end:foreach/}
+
+		<div class="guide_info {echo:$list_none;/}">
+			{echo:lp{g_no_group};/}
+		</div>
+
+</body>
+</html>

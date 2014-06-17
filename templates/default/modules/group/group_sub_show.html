@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<SCRIPT language=JavaScript src="servtools/imgfix.js"></SCRIPT>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=group_space&group_id={echo:$url_group_id;/}&user_id={echo:$user_id;/}">{echo:lp{g_re_space};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_space};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="javascript:;" hidefocus="true">{echo:lp{g_subject};/}</a></li>
+        </ul>
+    </div>
+
+{sta:if(!empty($subject_row)&&$is_pri==1)[exc]}
+		<div class="poll_list_box {echo:$isset_data;/}">
+			<div class="poll_user">
+				<a class="avatar" href="home.php?h={echo:$subject_row['user_id'];/}" target="_blank">
+					<img src={echo:$subject_row['user_ico'];/} alt='{echo:$subject_row['user_name'];/}' title='{echo:$subject_row['user_name'];/}'/>
+				</a>
+			</div>
+			<div class="subject_content">
+				<dl style='float:left'>
+					<dt>{echo:filt_word($subject_row['title']);/}</dt>
+					<dd class="{echo:$isset_data;/}">{echo:lp{g_editor};/}：<a href="home.php?h={echo:$subject_row['user_id'];/}" target="_blank">
+				{echo:filt_word($subject_row['user_name']);/}</a> <a href='modules.php?app=msg_creator&2id={echo:$subject_row["user_id"];/}&nw=1'>{echo:lp{g_leave_me};/}</a></dd>
+					<dd style='padding-top:15px;padding-bottom:15px'>{echo:filt_word($subject_row['content']);/}</dd>
+					<dd><span class='gray'>{echo:lp{g_read};/}({echo:$subject_row['hits'];/})</span> <span style='padding-left:15px' class='gray'>{echo:lp{g_re};/}({echo:$subject_row['comments'];/})</span></dd>
+				</dl>
+			</div>
+			{sta:if($visitor_id!=$subject_row['user_id']&&$visitor_id)[exc]}
+			<div class="subject_status" style="padding-top:0;">
+				<a class="fenxiang" href="javascript:void(0);" onclick="parent.show_share(8,{echo:$subject_row['subject_id'];/},'{echo:$subject_row['title'];/}','','');">{echo:lp{mn_share};/}</a>
+				<a class="jubao" href="javascript:void(0);" onclick="parent.report(9,{echo:$subject_row['user_id'];/},{echo:$subject_row['subject_id'];/});">{echo:lp{mn_report};/}</a>
+			</div>
+			{end:if/}
+		</div>
+
+<div class="tleft ml20">
+{sta:if($role!='')[exc]}
+	<div class="comment">
+    <div id='show_1_{echo:$subject_row["subject_id"];/}' class="{echo:$show_com;/}">
+        <script type='text/javascript'>parent.get_mod_com(1,{echo:$subject_row['subject_id'];/},0,20);</script>
+    </div>
+    {sta:if($visitor_id!='')[exc]}
+		<div class="reply">
+			<img class="figure" src='{echo:get_sess_userico();/}' />
+			<p><textarea type="text" maxlength="150"  onkeyup="return isMaxLen(this)" id="reply_1_{echo:$subject_row['subject_id'];/}_input"></textarea></p>
+			<div class="replybt">
+				<input class="left button" onclick="parent.restore_com({echo:$subject_row['user_id'];/},1,{echo:$subject_row['subject_id'];/},'');" type="submit" name="button" id="button" value="{echo:lp{g_submit};/}" />
+				<a class="right" href="javascript: void(0);" onclick="showim(''); showFace(this,'face_list_menu','reply_1_{echo:$subject_row['subject_id'];/}_input');">{echo:lp{g_face};/}</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		{end:if/}
+	</div>
+	{end:if/}
+	</div>
+	{end:if/}
+
+	<div class="guide_info {echo:$show_error;/}">
+		{echo:$error_str;/}
+	</div>
+	<!-- face begin -->
+	<div id="face_list_menu" class="emBg" style="display:none;z-index:100;">
+	</div>
+	<!-- face end -->
+</body>
+</html>

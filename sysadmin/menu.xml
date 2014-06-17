@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE menu SYSTEM "menu.dtd">
+<menu>
+	<part id='default'>
+		<item title='管理首页' target='right.php' default='true' />
+		<item title='评论管理' target='comment_list.php?order_by=comment_id&amp;order_sc=desc' default='false' />
+		<item title='举报管理' target='report.php?order_by=report_id&amp;order_sc=desc' default='false' />
+		<item title='动态管理' target='affair_list.php?order_by=id&amp;order_sc=desc' default='false' />
+		<item title='留言管理' target='msgboard_list.php?order_by=mess_id&amp;order_sc=desc' default='false' />
+		<item title='心情管理' target='mood_list.php?order_by=mood_id&amp;order_sc=desc' default='false' />
+	</part>
+	
+	<part id='base'>
+		<item title='站点设置' target='basic_set.php' default='true' />
+		<item title='邀请码管理' target='invite_manage.php?order_by=id&amp;order_sc=desc' default='false' />
+		<item title='访问限制' target='guest_limit.php' default='false' />
+		<item title='在线升级' target='software_list.php' default='false' />
+	</part>
+
+	<part id='user'>
+		<item title='会员管理' target='member_list.php?order_by=user_id&amp;order_sc=desc' default='true' />
+		<item title='会员推荐管理' target='recommend_list.php?order_by=rec_order&amp;order_sc=asc' default='false' />
+		<item title='好友分类' target='manager_sort.php?module=pals' default='false' />
+		<item title='群组分类' target='manager_sort.php?module=group' default='false' />
+		<item title='积分规则' target='integral.php' default='false' />
+		<item title='会员角色分配' target='rights/front_group_manager.php' default='false' />
+		<item title='会员角色管理' target='rights/user_manager.php' default='false' />
+		<item title='管理员角色分配' target='rights/group_manager.php' default='false' />
+		<item title='管理员角色管理' target='rights/admin_manager.php' default='false' />
+		<item title='修改管理员密码' target='admin_pw_change.php' default='false' />
+	</part>
+
+	<part id='ui'>
+		<item title='模板管理' target='manage_template.php' default='true' />
+		<item title='皮肤管理' target='manage_skin.php' default='false' />
+		<item title='UI恢复' target='ui_restore.php' default='false' />
+		<item title='下载模板' target='download_tpl_list.php' default='false' />
+		<item title='下载皮肤' target='download_skin_list.php' default='false' />
+	</part>
+
+	<part id='application'>
+		<item title='投票管理' target='poll_list.php?order_by=p_id&amp;order_sc=desc' default='true' />
+		<item title='群组管理' target='group_list.php?order_by=group_id&amp;order_sc=desc' default='false' />
+		<item title='话题管理' target='subject_list.php?order_by=subject_id&amp;order_sc=desc' default='false' />
+		<item title='日志管理' target='blog_list.php?order_by=log_id&amp;order_sc=desc' default='false' />
+		<item title='相册管理' target='album_list.php?order_by=album_id&amp;order_sc=desc' default='false' />
+		<item title='照片管理' target='photo_list.php?order_by=photo_id&amp;order_sc=desc' default='false' />
+		<item title='分享管理' target='share_list.php?order_by=s_id&amp;order_sc=desc' default='false' />
+		<item title='插件管理' target='pluginlist.php' default='false' />
+	</part>
+
+	<part id='tool'>
+		<item title='工具箱列表' target='tool_list.php' default='true' />
+		<item title='下载工具箱' target='download_tool_list.php' default='false' />
+		<item title='工具箱管理' target='manage_tool.php' default='false' />
+		<item title='备份数据' target='database.save.php' default='false' />
+		<item title='恢复数据' target='database.recover.php' default='false' />
+	</part>
+</menu>

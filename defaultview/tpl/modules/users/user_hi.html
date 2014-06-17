@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script language=JavaScript src="skin/default/js/jooyea.js"></script>
+<script language='javascript'>
+function del_hi(hi_id)
+{
+	 var del_hi=new Ajax();
+	 del_hi.getInfo("do.php","get","app","act=user_del_hi&hi_id="+hi_id,function(c){$('hi_'+hi_id).style.display='none';}); 
+}
+
+function check_form(){
+	var mail_array=document.getElementsByName('attach[]');
+	var num=mail_array.length;
+	var check_num=0;
+	for(array_length=0;array_length<num;array_length++){
+		if(mail_array[array_length].checked==true){
+			check_num++;
+		}
+	}
+	if(check_num==0){
+		parent.Dialog.alert('{echo:lp{hi_wrong};/}');
+	}else{
+		parent.Dialog.confirm('{echo:lp{hi_del_con};/}',function(){document.forms[0].submit();});
+	}
+}
+</script>
+<body>
+<body id="iframecontent">
+<h2 class="app_user">{echo:lp{hi_my_hi};/}</h2>
+<div class="line"></div>
+{sta:if($hi_rs)[exc]}
+<form action='do.php?act=user_del_hi' method='post' onsubmit='check_form()'>
+<div class="rs_head {echo:$show_data;/}">
+	{echo:lp{hi_select};/}：<a href="javascript:select_attach(1);">{echo:lp{hi_all};/}</a> - 
+    <a href="javascript:select_attach(0);">{echo:lp{u_b_can};/}</a>&nbsp;
+    <a href="javascript:document.forms[0].onsubmit();">{echo:lp{hi_del};/}</a>
+</div>
+<table class="msg_inbox">
+   {sta:foreach($hi_rs as $val)[loop]}
+    <tr class="loop_tr" id="hi_{echo:$val['hi_id'];/}">
+    	<td width="25" align="center"><input name="attach[]" type="checkbox" value="{echo:$val['hi_id'];/}" /></td>
+    	<td width="30">
+		  <div class="avatar"><a href="home.php?h={echo:$val['from_user_id'];/}" target="_blank"><img src="{echo:$val['from_user_ico'];/}"/></a></div>
+      </td>
+        <td width="70"><img src="skin/default/jooyea/images/pokeact_{echo:$val['hi'];/}.gif"></img></td>
+		<td><a href='home.php?h={echo:$val['from_user_id'];/}' target='_blank'>{echo:$val['from_user_name'];/}</a>{echo:show_hi_type($val['hi']);/}</td>
+		<td>{echo:$val['add_time'];/}</td>
+		<td><a href='javascript:void(0)' onclick='parent.hi_action({echo:$val['from_user_id'];/});'>{echo:lp{hi_restore};/}</a></td>
+		<td><a href='javascript:del_hi({echo:$val['hi_id'];/});' title="{echo:lp{hi_del};/}" alt="{echo:lp{hi_del};/}" onclick='return confirm("{echo:lp{hi_del_con};/}");'><img src='skin/default/jooyea/images/del.png' /></a></td>
+  {end:foreach/}
+  </table>
+<div class="rs_head {echo:$show_data;/}">
+	{echo:lp{hi_select};/}：<a href="javascript:select_attach(1);">{echo:lp{hi_all};/}</a> - 
+    <a href="javascript:select_attach(0);">{echo:lp{u_b_can};/}</a>&nbsp;
+    <a href="javascript:document.forms[0].onsubmit();">{echo:lp{hi_del};/}</a>
+</div>
+</form>
+{end:if/}
+<div class="guide_info {echo:$none_data;/}">
+	{echo:lp{hi_data_none};/}
+</div>
+  {echo:page_show($isNull,$page_num,$page_total);/}
+</body>
+</html>

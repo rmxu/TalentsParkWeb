@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<script language="JavaScript">
+function unitinfocheck()
+{
+	oldContent = document.getElementById('msContent').value;
+	if(document.form1.msToId.value=="")
+	{
+		parent.Dialog.alert("{echo:lp{m_no_one};/}");
+		return (false);
+	}
+		var msTitle=trim(document.getElementById("msTitle").value);
+		if(msTitle==''){
+		parent.Dialog.alert("{echo:lp{m_no_tit};/}");
+		return (false);
+	}
+	var msContent=trim(document.getElementById("msContent").value);
+	if(msContent==''){
+		parent.Dialog.alert("{echo:lp{m_no_cont};/}");
+		return (false);
+	}
+}
+
+function trim(str){
+	return str.replace(/(^\s*)|(\s*$)|(　*)/g , "");
+}
+
+function topen(){
+	document.getElementById("sc_nav").focus();
+	document.getElementById("sc_nav").className="displayblock";
+}
+function tclose(){
+	document.getElementById("sc_nav").className="displaynone";
+}
+function navArray(num,id_val) {
+	var navArray=document.getElementById("sc_nav").getElementsByTagName("li");
+	var objChecked = document.getElementsByName ("checked");
+	for(var i=0;i<navArray.length;i++){
+		if(num == i ){
+		  navArray[num].className = "checked";
+			document.getElementById("msToId").value = id_val;
+		  document.getElementById("newsType").innerHTML=navArray[num].innerHTML;
+		  document.getElementById("sc_nav").className="displaynone";
+		}else{
+		  navArray[i].className = "";
+		}
+	}
+}
+function isMaxLen(o){
+	var nMaxLen=o.getAttribute? parseInt(o.getAttribute("maxlength")):"";  
+	if(o.getAttribute && o.value.length>nMaxLen){  
+		o.value=o.value.substring(0,nMaxLen)  
+	}
+}
+</script>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=msg_creator">{echo:lp{m_creat};/}</a></div>
+    <h2 class="app_msgscrip">{echo:lp{m_title};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="javascript:void(0)" hidefocus="true">{echo:lp{m_creat};/}</a></li>
+        </ul>
+    </div>
+    <form name="form1" onSubmit="return unitinfocheck();" method="post" action="do.php?act=msg_crt">
+	 <table class='form_table'>
+		  {echo:$to_id;/}
+          <tr>
+			<th>{echo:lp{m_to_user};/}：</th>
+			<td class="{echo:$id_confirm;/}"><input class="med-text" type="text" name="{echo:$have_2id;/}" autocomplete='off' value='{echo:$to_user_name;/}'  disabled="disabled"  /></td>
+			<td class="{echo:$id_noconfirm;/}" style="position:relative">
+				<input name="msToId" id="{echo:$no_2id;/}" onclick="topen();" onblur="tclose()" type="hidden" value="" />
+				<div id="sc_nav" onblur="setTimeout('tclose()',200)">
+					<div id="newsType" onclick="topen();">{echo:lp{m_cho};/}</div>
+					<ul class="tt">
+						{sta:foreach($user_rs as $val)[loop]}
+						<li class="checked" onClick="navArray('{echo:$i;/}','{echo:$val['pals_id'];/}')"><a href="javascript:void(0)">{echo:$val['pals_name'];/}</a></li>
+						{sta:$i++;/}
+						{end:foreach/}
+					</ul>
+				</div>
+			</td>
+			</tr>
+			<tr>
+				<th>{echo:lp{m_tit};/}：</th>
+				<td><input type="text" class="med-text" name="msTitle" id="msTitle" autocomplete='off' value='{echo:$reTitle;/}' maxlength="30" /></td>
+			</tr><tr><td colspan="2" height="5"></td></tr>
+			<tr>
+				<th valign="top">{echo:lp{m_cont};/}：</th>
+				 <td><textarea maxlength="160" class="med-textarea" name="msContent" id="msContent" onKeyUp="return isMaxLen(this)"></textarea></td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+           		 <td class="{echo:$b_can;/}">
+           		    <input class="regular-btn" type="submit" value="{echo:lp{m_b_con};/}" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type=hidden name="nw" value='{echo:get_argg("nw");/}' />
+		   		    <input class="regular-btn" type="button" value="{echo:lp{m_b_can};/}" onClick="history.go(-1)" />
+				 </td>
+				 <td class="{echo:$b_bak;/}">
+				 	<input class="regular-btn" type="submit" value="{echo:lp{m_b_con};/}" />&nbsp;&nbsp;&nbsp;&nbsp;
+				 	<input class="regular-btn" type="button" value="{echo:lp{m_b_bak};/}" onClick="location.href='modules.php?app=msg_minbox'" />
+				 </td>
+		    </tr>
+		</table>
+       </form>
+	<div id="clickLayer" onclick="setTimeout('tclose()',200)"></div>
+</body>
+</html>

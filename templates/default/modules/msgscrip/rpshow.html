@@ -1,0 +1,66 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type='text/javascript'>
+function mypals_add_callback(content,other_id){
+	if(content=="success"){
+		parent.Dialog.alert("{echo:lp{mp_suc_add};/}");
+	}else{
+		parent.Dialog.alert(content);
+	}
+}
+
+function mypals_add(other_id){
+	var mypals_add=new Ajax();
+	mypals_add.getInfo("do.php","get","app","act=add_mypals&other_id="+other_id,function(c){mypals_add_callback(c,other_id);}); 
+}
+</script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="{echo:$reTurnUrl;/}">{echo:lp{m_b_bak};/}{echo:$reTurnTxt;/}</a></div>
+    <h2 class="app_msgscrip">{echo:lp{m_title};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="javascript:void(0)" hidefocus="true">{echo:lp{m_mess_detail};/}</a></li>
+        </ul>
+    </div>
+	<table class="form_table {echo:$isset_data;/}" >
+		<tr>
+			<th rowspan="5" valign="top" width="22%">
+				<a class="avatar" href='home.php?h={echo:$msg_row[2];/}' target="_blank">
+					<img src='{echo:$msg_row[4];/}' onerror="parent.pic_error(this)" class='user_ico' />
+				</a>
+			</th>	
+			<th>{echo:$relaUserStr;/}：</th>
+			<td>{echo:$msg_row[3];/}</td>
+		</tr>
+		
+		<tr>
+			<th>{echo:lp{m_tit};/}：</th>
+			<td>{echo:$msg_row[0];/}</td>
+		</tr>
+		
+		<tr>
+			<th> {echo:lp{m_time};/}：</th>
+			<td>{echo:$msg_row[5];/}</td>
+		</tr>
+		<tr>
+			<th>{echo:lp{m_cont};/}：</td>
+			<td>{echo:str_replace("{send_join_js}",$send_join_js,$msg_row[1]);/}</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input type=button class="regular-btn" value="{echo:$reButTxt;/}" onclick="location.href='{echo:$reButUrl;/}'">&nbsp;&nbsp;&nbsp;
+				<input type=button class="regular-btn" value="{echo:lp{m_del};/}"	onclick='location.href="do.php?act=msg_del&id={echo:$msg_id;/}&t={echo:get_argg("t");/}";'>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

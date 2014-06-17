@@ -1,0 +1,61 @@
+<?php
+class privacylp{
+	var $pr_conf="隐私设置";
+	var $pr_access="访问权限";
+	var $pr_inputmess="留言权限";
+	var $pr_reqcheck="防打扰设置";
+	var $pr_qanswer_err="您输入的问题答案不对,请重新确认!";
+	var $pr_save_sec="隐私设置更改成功!";
+	var $pr_acc_false="该用户设置了隐私权限限制!";
+	var $pr_no_data="请选择设置项！";
+	var $pr_home="主页访问权限设置";
+	var $pr_public="对所有人开放";
+	var $pr_only_reger="只对社区注册用户开放";
+	var $pr_only_pals="只对好友开放";
+	var $pr_set_ques="所有用户凭问题密码访问";
+	var $pr_ques1="问题1";
+	var $pr_ques2="问题2";
+	var $pr_ques3="问题3";
+	var $pr_ans1="答案1";
+	var $pr_ans2="答案2";
+	var $pr_ans3="答案3";
+	var $pr_que_limit="问题或答案最多可输入20个字符。";
+	var $pr_example="示例";
+	var $pr_ex_que="问题：我的绰号是什么？";
+	var $pr_ex_an="答案：猪坚强";
+	var $pr_button_action="提交";
+	var $pr_button_cancel="取消";
+	var $pr_no_an="请输入问题答案！";
+	var $pr_ans="您需要回答以下问题,才能访问该主页!";
+	var $pr_select_que="选择问题";
+	var $pr_write_ans="填写答案";
+	var $pr_send_set="主页留言及发表评论的权限设置";
+	var $pr_send_public="任何用户都可以留言或发表评论";
+	var $pr_send_pals="只允许好友留言或发表评论";
+	var $pr_send_pri="不允许任何人留言或发表评论";
+	var $pr_role_check="身份验证";
+	var $pr_pals_public="允许任何人加我为好友";
+	var $pr_pals_check="需要验证才能把我列为好友";
+	var $pr_pals_close="不允许任何人把我列为好友";
+	var $pr_forget_sort="忽略类别";
+	var $pr_chose="选择";
+	var $pr_add_sort="添加忽略类别";
+	var $pr_shield_sort="已屏蔽的类别";
+	var $pr_del="移除";
+	var $pr_forget_list="忽略名单";
+	var $pr_add_list="添加忽略人名";
+	var $pr_shield_list="已屏蔽的好友";
+	var $pr_handle_suc="操作成功";
+	var	$pr_type_0="日志";
+	var	$pr_type_1="群组";
+	var	$pr_type_2="照片";
+	var	$pr_type_3="头像";
+	var	$pr_type_4="投票";
+	var	$pr_type_5="分享";
+	var	$pr_type_6="心情";
+	var	$pr_rep_screen="不要重复屏蔽";
+	var	$pr_amend_los="修改失败！";
+	var $pr_affair_set="新鲜事设置";
+	
+}
+?>

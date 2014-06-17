@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT menu (part*)>
+<!ELEMENT part (item*)>
+<!ELEMENT item (#PCDATA)>
+<!ATTLIST part id ID #REQUIRED>
+<!ATTLIST item title CDATA #REQUIRED>
+<!ATTLIST item target CDATA #REQUIRED>

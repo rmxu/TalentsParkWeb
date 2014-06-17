@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" href="skin/default/jooyea/css/iframe.css" />
+<script type="text/javascript" language="javascript" src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript'>
+  function unitinfocheck(){
+	  var mood_text=trim(document.getElementById("msgboard").value);
+		if(mood_text==''){
+			parent.Dialog.alert("{echo:lp{mb_no};/}");
+			return false;
+		}else{
+			return true;
+		}
+  }
+</script>
+</head>
+<body id="iframecontent">
+<form method="post" onsubmit="return unitinfocheck();" action="do.php?act=msgboard_send&user_id={echo:$userid;/}"  name="myform" >
+	<input type="hidden" name="to_user_id" id="user_id" value="" />
+	<h2 class="app_message">{echo:$msg_title;/}</h2>
+	<div class="msg left" style="margin-top:25px;">
+		<p><span>{echo:lp{mb_you_can_also};/}<input disabled="disabled" value="150" id="msgnum">{echo:lp{mb_word};/}</span>{echo:lp{mb_con};/}</p>
+		<p><textarea name="msgboard" id="msgboard" maxlength="150" onpropertychange="javascript:$('msgnum').value=''+(150-this.value.length)+'';" onkeyup="return isMaxLen(this)"></textarea></p>
+		<script>
+		var $=function(o){return document.getElementById(o)};if(window.addEventListener){$('msgboard').addEventListener('input',function(){$('msgnum').value=''+(150-this.value.length)+'';}, false);}
+        </script>
+		<p><a class="em_bg left" href="javascript:void(0);" onclick="showFace(this,'face_list_menu','msgboard');"  hidefocus="true">{echo:lp{mb_face};/}</a><input class="button right" name="" type="submit" value="{echo:lp{mb_con};/}" /></p>
+	</div>
+    <div class="clear"></div>
+	{sta:foreach($mes_rs as $val)[loop]}
+		<dl class="msg_list">
+			<div class="avatar"><a target="_blank" href='home.php?h={echo:$val['from_user_id'];/}'><img src="{echo:$val['from_user_ico'];/}" /></a></div>
+			<dt><span><a target="_blank" href='home.php?h={echo:$val['from_user_id'];/}'>{echo:filt_word($val['from_user_name']);/}</a></span><span>[{echo:$val['add_time'];/}]</span></dt>
+			<dd class="msg_list_content">{echo:filt_word(get_face($val['message']));/}</dd>
+			{sta:if($is_self=='Y')[exc]}
+			<dd>
+				<span><a href="javascript:void(0);" onclick=parent.leave_message("{echo:$val['from_user_name'];/}","{echo:$val['from_user_id'];/}");>{echo:lp{mb_res};/}</a></span>
+				<span>|</span>
+				<span><a href="do.php?act=msgboard_del&user_id={echo:$userid;/}&mess_id={echo:$val['mess_id'];/}" onclick='return confirm("{echo:lp{mb_delete_remaining};/}？");'>{echo:lp{mb_del};/}</a></span>
+			</dd>
+			{end:if/}
+		</dl>
+	{end:foreach/}
+	{sta:page_show($isNull,$page_num,$page_total);/}
+</form>
+<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT type='text/javascript' src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type="text/javascript">
+function show_sort_list(obj,p_id,old_id){
+	var sortwin=document.createElement("div");
+	var parentnode = document.getElementById('mypals_iframe');
+	var t=obj.offsetTop;
+	var l=obj.offsetLeft;
+	while(obj=obj.offsetParent){
+		t+=obj.offsetTop;
+		l+=obj.offsetLeft;
+	}
+  {sta:if($mp_sort_list)[exc]}
+	sortwin.id = "sort_select_"+p_id;
+	sortwin.className = "sort_select";
+	sortwin.style.top = (t+15) + 'px';
+	sortwin.style.left = l + 'px';
+	{sta:foreach($mp_sort_list as $val)[loop]}
+		{sta:$sort_str.="<li><a href='javascript:void(0);' onclick=changeSort(\"+p_id+\",".$val['id'].",this,\"+old_id+\");>".$val['name']."</a></li>";/}
+	{end:foreach/}
+	sortwin.innerHTML = "<div class='sort_sel_box'><ul>{echo:$sort_str;/}</ul></div>";
+	parentnode.appendChild(sortwin);
+	sortwin.focus();
+	{end:if/}
+	if(document.all){
+		sortwin.onblur=function(){window.setTimeout(function(){parentnode.removeChild(sortwin);},250);}
+	}else{
+		sortwin.onclick=function(){window.setTimeout(function(){parentnode.removeChild(sortwin);},50);}
+	}
+}
+
+function changeSort(p_id,sort_id,obj,old_id){
+	var old_value=document.getElementById(p_id+'_old_value').value;
+	if(navigator.appName.indexOf("Explorer") > -1){
+		var sortName = obj.innerText;
+	}else{
+		var sortName = obj.textContent;
+	}
+	var changeSort=new Ajax();
+	changeSort.getInfo("do.php?act=pals_change&id="+p_id,"post","app","name="+sortName+"&sort_id="+sort_id+"&old_sort_id="+old_value,function(c){document.getElementById('sort_name_'+p_id).innerHTML = "<span>"+sortName+"</span>";document.getElementById(p_id+'_old_value').value=sort_id;});
+}
+function changeStyle(obj,p_id){
+	obj.className = 'hover';
+}
+function recoverStyle(obj,p_id){
+	obj.className = '';
+}
+</script>
+</head>
+<body id="iframecontent">
+  <div class="create_button"><a href="modules.php?app=mypals_search">{echo:lp{mp_add};/}</a></div>
+  <h2 class="app_friend">{echo:lp{mp_mypals};/}</h2>
+  <div class="tabs">
+    <ul class="menu">
+      <li class="active"><a href="modules.php?app=mypals" title="{echo:lp{mp_list};/}">{echo:lp{mp_list};/}</a></li>
+      <li><a href="modules.php?app=mypals_request" title="{echo:lp{mp_req};/}">{echo:lp{mp_req};/}</a></li>
+      <li><a href="modules.php?app=mypals_invite" title="{echo:lp{mp_invite};/}">{echo:lp{mp_invite};/}</a></li>
+      <li><a href="modules.php?app=mypals_sort" title="{echo:lp{mp_m_sort};/}">{echo:lp{mp_m_sort};/}</a></li>
+    </ul>
+  </div>
+  <div class="search_friend">
+  	<div class="share_box right">
+	    <form method='post' action='' id='search_pals'>
+	    	<input class="small-text" type='text' maxlength='20' value='{echo:$search_name;/}' id='search_name' name='search_name' style="color:#333; background-image:nonel; background-color:#fff;" AUTOCOMPLETE='off' />
+				<span class="share_button" onclick="document.getElementById('search_pals').submit();">{echo:lp{mp_search};/}</span>
+	  	</form>
+	</div>
+    <select id="sort_id" class="tleft" onchange="javascript:location.href='modules.php?app=mypals&sort_id='+this.value">
+    	<option value='' 'selected'>{echo:lp{mp_all};/}</option>
+    	{sta:foreach($mp_sort_list as $val)[loop]}
+    	{sta:if($sort_id==$val['id'])[exc]}{sta:$select='selected';/}{end:if/}
+    	{sta:if($sort_id!=$val['id'])[exc]}{sta:$select='';/}{end:if/}
+    	<option value='{echo:$val['id'];/}' {echo:$select;/}>{echo:$val['name'];/} ({echo:$val['count'];/})</option>
+    	{end:foreach/}
+    </select>
+	</div>
+  <div id="mypals_iframe">
+	{sta:if($mp_list_rs)[exc]}
+		<div class="friend_list">
+			<ul id="tab0_content0" class="user_list">
+				{sta:foreach($mp_list_rs as $rs)[loop]}
+				{sta:$psort_name=$rs['pals_sort_name']?$rs['pals_sort_name']:lp{mp_select_sort};/}
+					<li onmouseover='changeStyle(this,{echo:$rs["id"];/})' onmouseout='recoverStyle(this,{echo:$rs["id"];/})'>
+						<div class="photo">
+						  <a href="home.php?h={echo:$rs['pals_id'];/}" target="_blank" class="avatar">
+							<img title="{echo:lp{mp_en_home};/}" src={echo:$rs['pals_ico'];/}  onerror="parent.pic_error(this)" /></a>
+						</div>
+						<dl>
+							<dt>{echo:$rs['pals_name'];/}</dt>
+							<input type='hidden' value='{echo:$rs["pals_sort_id"];/}' id='{echo:$rs["pals_id"];/}_old_value' />
+							<dd class="sort"><a href="javascript:void(0);" onclick='show_sort_list(this,{echo:$rs["pals_id"];/},{echo:$rs["pals_sort_id"];/})' hidefocus="true" id='sort_name_{echo:$rs["pals_id"];/}'><span>{echo:$psort_name;/}</span></a></dd>
+						</dl>
+						<div class="tool" id="ctrl_{echo:$rs['id'];/}">
+							<a title="{echo:lp{mp_del};/}" class="del_bt" href="do.php?act=del_mypals&mypals_id={echo:$rs['pals_id'];/}&sort_id={echo:$rs['pals_sort_id'];/}" onclick='return confirm("{echo:lp{mp_a_del};/}")'></a>
+							<a class="send_bt" href='modules.php?app=msg_creator&2id={echo:$rs["pals_id"];/}&nw=1' target="frame_content" title='{echo:str_replace("{he}",get_TP_pals_sex($rs["pals_sex"]),lp{mp_scrip});/}'></a>
+						</div>
+					</li>
+				{end:foreach/}
+			</ul>
+		</div>
+	{end:if/}
+  </div>
+<div class="clear"></div>
+{echo:page_show($isNull,$page_num,$page_total);/}
+
+<div class="guide_info {echo:$none_data;/}">{echo:$show_none_str;/}</div>
+<script type='text/javascript' src="im/ajax.php?act=updatapals"></script>
+</body>
+</html>

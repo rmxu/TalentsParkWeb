@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script src="servtools/area.js" type="text/javascript"></script>
+<script src="skin/default/js/jooyea.js" type="text/javascript"></script>
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=mypals">{echo:lp{mp_re_list};/}</a></div>
+    <h2 class="app_friend">{echo:lp{mp_mypals};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="modules.php?app=mypals_search" hidefocus="true">{echo:lp{mp_find};/}</a></li>
+        </ul>
+    </div>
+
+<div class="iframe_contentbox">
+	<div class="search_box">
+		<div class="search_box_ct">
+			<form action='modules.php'>
+				<input type='hidden' name='app' value='mypals_search_list' />
+				<table cellpadding="0" cellspacing="0" class="form_table">
+					<tr><th>{echo:lp{mp_name};/}：</th><td><input name="memName" value="" size="12" class="small-text" type="text"></td></tr>
+					<tr><th>{echo:lp{mp_birth};/}：</th><td><select id="s1" name='q_province'></select><select name='q_city' id="s2" ></select><script type="text/javascript">
+				setup();
+				</script></td></tr>
+					<tr><th>{echo:lp{mp_reside};/}：</th><td><select id="r1" name='s_province'></select><select name='s_city' id="r2"></select><script type="text/javascript">
+				setup2();
+				</script></td></tr>
+					<tr><th>{echo:lp{mp_age};/}：</th><td><select name='age' ><option value=''>{echo:lp{mp_none_limit};/}</option><option value='16|22'>16-22{echo:lp{mp_years};/}</option><option value='23|30'>23-30{echo:lp{mp_years};/}</option><option value='31|40'>31-40{echo:lp{mp_years};/}</option><option value='40|100'>40{echo:lp{mp_years};/}{echo:lp{mp_over};/}</option></select></select></td></tr>
+					<tr><th>{echo:lp{mp_sex};/}：</th><td><input class="input_radio" type="radio" name='sex' value='' checked />{echo:lp{mp_none_limit};/} <input class="input_radio" type="radio" name='sex' value='1' />{echo:lp{mp_man};/} <input class="input_radio" type="radio" name='sex' value='0' />{echo:lp{mp_woman};/}</td></tr>
+					<tr><th>{echo:lp{mp_online};/}：</th><td><input type="checkbox" name='online' value=1 /></td></tr>
+					<tr><th></th><td><input value="{echo:lp{mp_search};/}" class="regular-btn" type="submit"></td></tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

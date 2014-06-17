@@ -1,0 +1,47 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+<div class="create_button"><a href="modules.php?app=album_edit">{echo:lp{a_creat};/}</a></div>
+<div class="create_button"><a href="modules.php?app=photo_upload">{echo:lp{a_upload};/}</a></div>
+<h2 class="app_album">{echo:lp{a_upload};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li class="active"><a href="modules.php?app=album" hidefocus="true">{echo:lp{a_mine};/}</a></li>
+        <li><a href="modules.php?app=album_friend" hidefocus="true">{echo:lp{a_friend};/}</a></li>
+    </ul>
+</div>
+{sta:if($fs)[exc]}
+<form action='do.php?act=photo_upd&album_id={echo:$album_id;/}' method='post'>
+{sta:foreach($fs as $index=>$realtxt)[loop]}
+	{sta:$thumb_src=str_replace(dirname(__FILE__),"",$realtxt['dir']).$realtxt['thumb'];/}
+	<div class="front_cover"><input type='hidden' name='photo_id[]' value={echo:$realtxt['photo_id'];/} /><img src={echo:$realtxt['dir'];/}{echo:$realtxt['thumb'];/} onerror="parent.pic_error(this)" /></div>
+	<div class="album_remark">
+	  <p>{echo:lp{a_p_name};/}</p>
+	  <input class="small-text" type='text' name='photo_name[]' value='{echo:preg_replace("/\.\w*$/","",$realtxt['initname']);/}' style="width:100%" />
+	</div>
+	<div class="album_remark">
+	  <p>{echo:lp{a_p_inf};/}</p>
+	  <textarea class="med-textarea" rows='4'  style="width:100%" name='photo_information[]'></textarea>
+	  <p class="mt10"><input type='radio' style="vertical-align:middle" name=album_skin value={echo:$thumb_src;/} />{echo:lp{a_set_cov};/}</p>
+	</div>
+	<div class="blank"></div>
+{end:foreach/}
+	<div class="clear"></div>
+	<input type='submit' name='action' value='{echo:lp{a_b_con};/}' class='regular-btn mt10' />
+</form>
+{end:if/}
+
+{sta:if(!$fs)[exc]}
+<div class="guide_info">
+	对不起，您所上传照片不符合规范，请重新上传
+</div>
+{end:if/}
+</body>
+</html>

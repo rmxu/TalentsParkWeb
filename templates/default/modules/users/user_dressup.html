@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript'>
+function mouseOver(id){
+	var Element = document.getElementById(id+'_hover');
+	var Element2 = document.getElementById(id+'_origin');
+	var parentNode = Element.parentNode;
+	Element2.style.display = 'none';
+	Element.style.display = '';
+	Element.style.top = parentNode.offsetTop + 'px';
+	Element.style.left = parentNode.offsetLeft + 'px';
+	Element.onmouseover = function(){Element.style.display = '';}
+}
+function mouseOut(id){
+	var Element = document.getElementById(id+'_hover');
+	var Element2 = document.getElementById(id+'_origin');
+	Element2.style.display = '';
+	Element.style.display = 'none';
+}
+</script>
+</head>
+
+<body id="iframecontent">
+<h2 class="app_user">{echo:lp{u_conf};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li><a href="modules.php?app=user_info" title="{echo:lp{u_info};/}">{echo:lp{u_info};/}</a></li>
+        <li><a href="modules.php?app=user_ico" title="{echo:lp{u_icon};/}">{echo:lp{u_icon};/}</a></li>
+        <li><a href="modules.php?app=user_pw_change" title="{echo:lp{u_pw};/}">{echo:lp{u_pw};/}</a></li>
+        <li class="active"><a href="modules.php?app=user_dressup" title="{echo:lp{u_dressup};/}">{echo:lp{u_dressup};/}</a></li>
+        <li><a href="modules.php?app=user_affair" title="{echo:lp{u_set_affair};/}">{echo:lp{u_set_affair};/}</a></li>
+    </ul>
+</div>
+
+<div class="rs_head">{echo:lp{u_select_dressup};/}</div>
+<div class="dress_box">
+	<ul class="dress_list">
+		
+		{sta:foreach($home_dressup_array as	$key => $rs)[loop]}
+		
+			<li id="skin_{echo:$key;/}">
+
+				<div id="skin_{echo:$key;/}_origin" onmouseover="mouseOver('skin_{echo:$key;/}');" onmouseout="mouseOut('skin_{echo:$key;/}');" class="origin_box">
+					<div class="img_box">
+						<div class="img_c_box">
+							<img width="152" alt="{echo:$rs['title'];/}" src="{echo:$dress_url;/}/{echo:$rs['thumb'];/}" />
+						</div>
+					</div>	
+					<h3>{echo:$rs['title'];/}</h3>
+				</div>
+				
+				<div id="skin_{echo:$key;/}_hover"  onmouseover="mouseOver('skin_{echo:$key;/}');" onmouseout="mouseOut('skin_{echo:$key;/}');" class="hover_box" style="display:none;">
+					<div class="img_box">
+						<div class="img_c_box">
+							<a href='javascript:void(0)' onclick=top.location.href="home.php?h={echo:$user_id;/}&dress_name={echo:$key;/}"><img width="152" alt="{echo:$rs['title'];/}" src="{echo:$dress_url;/}/{echo:$rs['thumb'];/}" /></a>
+						</div>
+					</div>	
+					<h3>{echo:$rs['title'];/}</h3>
+					<div class="operate">
+						<input onclick='top.location.href="home.php?h={echo:$user_id;/}&dress_name={echo:$key;/}"' class="small-btn mr10" type="button" value="{echo:lp{u_scanf};/}" />
+						<input onclick='top.location.href="do.php?act=user_dress_change&dress_name={echo:$key;/}"' class="small-btn" type="button" value="{echo:lp{u_use};/}" />
+					</div>
+				</div>
+				
+			</li>
+			
+			{end:foreach/}
+
+		<div class="clear"></div>
+	</ul>
+</div>
+</body>
+</html>

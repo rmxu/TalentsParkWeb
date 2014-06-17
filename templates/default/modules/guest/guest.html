@@ -1,0 +1,15 @@
+{sta:foreach($guest_rs as $val)[loop]}
+	<li>
+		<a class="avatar" href="home.php?h={echo:$val["guest_user_id"];/}" target="_blank" title="{echo:lp{gu_see};/}">
+			<img src="{echo:$val['guest_user_ico'];/}" />
+		</a>
+		<span class="name"><a href="home.php?h={echo:$val["guest_user_id"];/}" target="_blank" title="{echo:lp{gu_see};/}">{echo:sub_str(filt_word($val['guest_user_name']),6,true);/}</a></span>
+		<span class="time">{echo:format_datetime_short($val['add_time']);/}</span>
+		<span>
+		<img style="cursor:pointer;" onclick="{echo:$send_hi;/}({echo:$val["guest_user_id"];/})" src="skin/default/jooyea/images/hi.gif" title="{echo:lp{gu_greet};/}" />
+		{sta:if(!strpos(",,$mypals,",','.$val['guest_user_id'].','))[exc]}
+		<img style="cursor:pointer;" onclick="{echo:$add_friend;/}({echo:$val["guest_user_id"];/})" src="skin/default/jooyea/images/add.gif" title="{echo:lp{gu_add_friend};/}" />
+		{end:if/}
+		</span>
+	</li>
+{end:foreach/}

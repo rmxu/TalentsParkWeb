@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Description" content="iwebSNS" />
+<meta name="Keywords" content="iwebSNS" />
+<meta name="author" content="" />
+<meta name="robots" content="all" />
+<title>关于我们 - 聚易网之聚易社区</title>
+<link rel="stylesheet" href="../skin/default/jooyea/css/layout.css" />
+<link rel="stylesheet" href="css/footpage.css" />
+<script src="servtools/ajax_client/ajax.js" language="javascript"></script>
+<script src="../skin/default/js/yui-utilities.js" type="text/javascript"></script>
+<script src="../skin/default/js/tbra.js" type="text/javascript"></script>
+<script src="../skin/default/js/jooyea.js" type="text/javascript"></script>
+<script src="../servtools/md5.js" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDrag.js"></script>
+<script type="text/javascript" language="javascript" src="servtools/dialog/zDialog.js"></script>
+<script language="javascript">
+function goLogin(){
+	Dialog.confirm("登录后才能执行操作,现在登录？",function(){top.location="index.php";});
+}
+</script>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="skin/default/js/jy.js"></script>
+<script language="javascript">
+function addBookMark()
+{
+    var nome_sito = "聚易网之聚易社区";
+    var url_sito = "http://snsdemo.jooyea.com/";
+    if ((navigator.appName == "Microsoft Internet Explorer") && (parseInt
+        (navigator.appVersion) >= 4))
+        window.external.AddFavorite(url_sito, nome_sito);
+    else if (navigator.appName == "Netscape")
+        window.sidebar.addPanel(nome_sito, url_sito, '');
+    else
+        parent.Dialog.alert("您的浏览器不允许脚本访问收藏夹，请手动添加！");
+}
+
+function setMyHomepage(url){   //  设置首页 
+		 if(!!(window.attachEvent && !window.opera)){
+				document.body.style.behavior = 'url(#default#homepage)';
+				document.body.setHomePage(url);
+		}else{
+			if(window.clipboardData && clipboardData.setData){
+		        clipboardData.setData('text', url);
+		    }else{
+		         parent.Dialog.alert('您的浏览器不允许脚本访问剪切板，请手动设置！');
+		    }
+		}
+}
+</script>
+<div class="head">
+    <h1><a href="index.php"><img alt="jooyea" src="../skin/default/jooyea/images/snslogo.gif"></a></h1>
+    <div class="search">
+        <div class="schbox">
+           <form class="search_box" action="index.php" target="_blank" onsubmit="clear_def(this,'输入姓名...');">
+            <input id="searchtop_input" maxlength='20' class="inpt" type="text" name='memName' value="输入姓名..." onblur="inputTxt(this,'set');" onfocus="inputTxt(this,'clean');" />
+            <input class="btn" type="submit" value="" />
+        	<input type='hidden' name='tg' value='search_pals_list' />
+        </form>
+        </div>
+        <a href="javascript:goLogin();">高级搜索</a>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="top_bg">
+	<div class="nav">
+	  <span class="left">
+	    <a href="../index.php">首页</a>
+	    <a href="../index.php?tg=search_pals_list&online=1">看谁在线</a>
+	    <a href="../help/help.html">帮助</a>
+		</span>
+	  <span class="right">
+		  <a href="javascript:addBookMark();">加入收藏</a>
+		  <a href="javascript:setMyHomepage('http://snsdemo.jooyea.com/');">设为首页</a>
+		  <a href="../modules.php?app=user_reg">注册</a>
+		  <a href="../index.php">请登录</a>
+	  </span>
+	</div>
+</div><div class="main">
+<div class="title">
+<img src="images/about_title.gif" alt="关于我们 About US" />
+</div>
+
+<div id="about">
+<p>iweb SNS, 是一款功能强大且易于扩展的LAMP开源SNS(社交网络)软件。</p>
+
+<p>作为一款大型高并发高负载的开源SNS软件，它基于iweb SuperInteraction(简称iweb SI)框架开发。借助iwebSI平台，站点可以轻松获得支持热插拔及快速增加新节点的集群计算与处理能力（分布式计算与存储/高可用性/负载均衡），以方便管理web2.0类站点持续增长的数据量。SI的web层、db层负载均衡，基于内存的分布式缓存系统、dfs（分布式文件系统）、分布式数据存储等可以轻松支持站点拥有服务于百万甚至千万级庞大用户群的能力，并且不管这些交互式服务的请求是来自计算机还是移动终端。</p>
+
+<p>另外，Jooyea技术团队还提供了一个轻量级的支持库，这使iwebSNS也可以轻松部署在虚拟主机上。</p>
+
+<p>iwebSNS为站点用户提供一个友好易用的个人信息和消息管理ajax界面。通过它，建站者可以轻松构建一个以好友关系为核心的交流网络，让站点用户可以通过空间、日志、动态、好友圈、群组、相册、站内信、留言板、心情等功能模块记录、展示和分享生活；了解好友动态。</p>
+
+<p>如果你已经拥有大用户群，想向SNS方向扩展；或者你想部署一个能满足用户持续快速增长，并且平滑实现规模化的SNS站点，那么iwebSNS正适合你。</p>
+
+<p><b>iweb SNS功能及特点：</b></p>
+<ul>
+<li>1、通过成本更低廉并且更优秀扩展能力的SI平台库支持，iweb SNS可轻松应对庞大的流量与新增数据。</li>
+<li>2、高性能的编译型模板引擎和app工具插件、功能扩展插件使系统具有良好的扩展性和伸缩性。</li>
+<li>3、灵活的社交关系模型，这意味用户能便捷的通过好友发展新的关系，通过社交关系图彼此可以相互订阅最新动态。</li>
+<li>4、安全的隐私管理，用户可以对自己帐户的内容项目进行保密设置，或者针对特殊关系组进行保密设置。</li>
+<li>5、多语言接口，安装相应的语言包，使用iweb SNS架设的站点内所有信息均可以实现多语言切换。</li>
+<li>6、既时状态公开传讯，以便及时让好友了解自己的最新动态。</li>
+<li>7、相册图片及日志分享</li>
+<li>8、心情分享</li>
+<li>9、群组或圈子</li>
+<li>10、通知与请求</li>
+<li>11、丰富简练的用户概况</li>
+</ul>
+<hr />
+<p>访问Jooyea技术团队官方网站:<a href="http://tech.jooyea.com/" target="_blank">http://tech.jooyea.com/</a></p>
+<p>访问Jooyea开发者社区:<a href="http://tech.jooyea.com/bbs/" target="_blank">http://tech.jooyea.com/bbs/</a></p>
+
+
+</div>
+<div class="clear"></div>
+<div class="foot">
+	<a href="about.html">关于我们</a>
+	<a href="privacy.html">隐私安全</a>	
+	<a href="http://tech.jooyea.com/bbs/">开发者社区</a>
+	<a href="mailto:">联系邮件</a>Powered by <strong>iWeb<b>SNS</b>1.0</strong> &copy; 2009-2010 Jooyea.net</div>
+
+<div style="display: none;" class="emBg" id="face_list_menu"></div>
+<div id="append_parent"></div><SCRIPT language=JavaScript src="servtools/ajax_client/auto_ajax.js"></SCRIPT>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=group">{echo:lp{g_return};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_manage};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li><a href="modules.php?app=group_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info};/}" class="nowbutl">{echo:lp{g_info};/}</a></li>
+            <li><a href="modules.php?app=group_info_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info_change};/}">{echo:lp{g_info_change};/}</a></li>
+            <li class="active"><a href="modules.php?app=group_member_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_manage_member};/}">{echo:lp{g_manage_member};/}</a></li>
+            <li><a href="modules.php?app=group_space&group_id={echo:$group_id;/}" title="{echo:lp{g_en_space};/}">{echo:lp{g_en_space};/}</a></li>
+        </ul>
+    </div>
+<div class="clear mt20"></div>
+<table class="msg_inbox" cellspacing="1" cellpadding="1">
+	<thead>
+		<tr>
+			<td>{echo:lp{g_m_name};/}</td>
+			<td>{echo:lp{g_sex};/}</td>
+			<td>{echo:lp{g_role};/}</td>
+			<td>{echo:lp{g_ctrl};/}</td>
+		</tr>
+    </thead>
+	{sta:foreach($member_rs as $rs)[loop]}
+
+			{sta:$act_show=show_manage_act($group_creat,$rs['role'],$group_id);/}
+
+    <tr>
+    	<td>{echo:$rs['user_name'];/}</td>
+    	<td>{echo:get_user_sex($rs['user_sex']);/}</td>
+    	<td>{echo:get_g_role($rs['role']);/}</td>
+    	<td>
+    		<a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:lp{g_examine};/}</a>
+				<span class="{echo:$act_show['b_del'];/}">|&nbsp<a href="do.php?act=group_del_member&userid={echo:$rs['user_id'];/}&group_id={echo:$group_id;/}" onclick='return confirm("{echo:lp{g_del_member};/}")'>{echo:lp{g_del};/}</a></span>
+				<span class="{echo:$act_show['b_app'];/}">|&nbsp<a href="do.php?act=group_appoint&userid={echo:$rs['user_id'];/}&group_id={echo:$group_id;/}">{echo:lp{g_set_manager};/}</a> </span>
+				<span class="{echo:$act_show['b_rev'];/}">|&nbsp<a href="do.php?act=group_revoke&userid={echo:$rs['user_id'];/}&group_id={echo:$group_id;/}">{echo:lp{g_revoke_manager};/}</a></span>
+    	</td>
+    </tr>
+
+  {end:foreach/}
+
+</table>
+<div class="clear mt20"></div>
+<div class="rs_head">{echo:lp{g_req_member};/}</div>
+
+<table class="msg_inbox {echo:$req_data;/}" cellspacing="1" cellpadding="1">
+	{sta:foreach($req_member_rs as $rs)[loop]}
+	<tr>
+		<td>{echo:$rs['user_name'];/}</td>
+		<td>{echo:get_user_sex($rs['user_sex']);/}</td>
+		<td>{echo:lp{g_not_pass};/}</td>
+		<td>{echo:$rs['add_time'];/}</td>
+		<td>
+			<a href="do.php?act=group_approve&userid={echo:$rs['user_id'];/}&group_id={echo:$group_id;/}">{echo:lp{g_check};/}</a>&nbsp|&nbsp
+			<a href="do.php?act=group_del_req&userid={echo:$rs['user_id'];/}&group_id={echo:$group_id;/}">{echo:lp{g_del};/}</a>&nbsp|&nbsp
+			<a href="home.php?h={echo:$rs['user_id'];/}" target="_blank">{echo:lp{g_examine};/}</a>
+		</td>
+	</tr>
+	{end:foreach/}
+</table>
+{echo:page_show($isNull,$page_num,$page_total);/}
+</body>
+</html>

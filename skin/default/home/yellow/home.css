@@ -1,0 +1,13 @@
+body#home{background:#0b0119;}
+body#home .top_bg{ _height:42px; background:url(images/top_bg.gif) repeat-x; }
+body#home .nav {background:url(images/logo.gif) no-repeat scroll 1px 11px transparent;}
+body#home .home_start{background:url(images/12345.jpg) no-repeat;padding:100px 0 0}
+.user_box{margin:0 auto 100px;}
+.user_status{text-align:left;padding:10px 15px 8px 10px; float:left; background:#fff; opacity: 0.7;filter: Alpha(Opacity=70); }
+.ap_menu{border:1px solid #eabd30;border-top:0;}
+.ap_menu li {border-bottom:1px solid #fef0c3;}
+.tabs {border-bottom:1px solid #eabd30;}
+.tabs li {background-color:#eabd30;}
+.tabs li.active{word-break:keep-all;border:1px #eabd30 solid;border-bottom:0;background-color:#fff;font-weight:bold}
+.tabs li a { color:#fff;}
+.tabs li.active a { color:#eabd30}

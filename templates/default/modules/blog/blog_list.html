@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<link rel="stylesheet" type="text/css" href="servtools/menu_pop/menu_pop.css">
+<script type='text/javascript' src='servtools/ajax_client/ajax.js'></script>
+{sta:echo $is_self=='Y' ? "<script type='text/javascript' src='servtools/menu_pop/group_user.php'></script>" : "";/}
+<script type='text/javascript' src="servtools/menu_pop/menu_pop.js"></script>
+</head>
+<body id="iframecontent" oncontextmenu='return false'>
+{sta:if($is_self=='Y')[exc]}
+<div class="create_button"><a href="modules.php?app=blog_edit">{echo:lp{b_creat};/}</a></div>
+{end:if/}
+<h2 class="app_blog">{echo:$str_title;/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs">
+	<ul class="menu">
+	  <li class="active"><a href="modules.php?app=blog_list" hidefocus="true">{echo:lp{b_mine};/}</a></li>
+	  <li><a href="modules.php?app=blog_friend" hidefocus="true">{echo:lp{b_friend};/}</a></li>
+  </ul>
+</div>
+{end:if/}
+{sta:foreach($blog_rs as $rs)[loop]}
+{sta:$is_pri=check_pri($rs["user_id"],$rs["privacy"]);/}
+<dl class="log_list" {sta:if($is_self=='Y')[exc]}title="{echo:lp{b_right_set_competence};/}" onmouseDown="menu_pop_show(event,this);" id='{echo:$t_blog;/}:{echo:$rs['log_id'];/}:{echo:$rs["privacy"];/}'{end:if/}>
+	<dt>
+		<strong><a href='{echo:$is_pri ? rewrite_fun("modules.php?app=blog&id=".$rs['log_id'].$url_userid):"javascript:void(0)";/}'>{echo:$is_pri ? filt_word($rs["log_title"]): lp{b_limit_blog};/}</a></strong>
+		{sta:if(!$is_pri)[exc]}
+		<img src='skin/default/jooyea/images/user_privacye.gif' />
+		{end:if/}
+		<br /><span>{echo:lp{b_sort};/}：<a href="modules.php?app=blog_list&sort_id={echo:$rs['log_sort'];/}&sort_name={echo:urlencode($rs['log_sort_name']);/}{echo:$url_userid;/}" title="{echo:lp{b_same_sort};/}">{echo:empty($rs['log_sort_name']) ? lp{b_default_sort} :filt_word($rs['log_sort_name']);/}</a></span><span>{echo:$rs["add_time"];/}</span>
+	</dt>
+	<dd class="log_list_content">{echo:$is_pri ? sub_str(strip_tags($rs["log_content"]),180):lp{b_limit_blog};/}</dd>
+	<dd>
+		{sta:if($rs['tag'])[exc]}<span>{echo:lp{b_label};/}：{echo:$rs['tag'];/}</span>{end:if/}
+		<span>{echo:lp{b_limit};/}：{echo:show_pri($rs["privacy"]);/}</span>
+		<span>{echo:str_replace("{b_com_num}",$rs['comments'],lp{b_com_num});/}</span><span>|</span><span>{echo:str_replace("{b_read_num}",$rs['hits'],lp{b_read_num});/}</span>
+	</dd>
+</dl>
+{end:foreach/}
+{sta:page_show($isNull,$page_num,$page_total);/}
+  <div class="guide_info {echo:$content_data_none;/}">
+		{echo:$no_data_text;/}
+  </div>
+</body>
+</html>

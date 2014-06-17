@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title></title>
+  <base href='{echo:$siteDomain;/}' />
+  <script type="text/javascript" language="javascript">
+  	function uploadImg(formObj)
+  	{
+  		if(document.getElementById("imgUrl").value == '')
+  		{
+  			return false;
+  		}
+  		return true;
+  	}
+  </script><link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/base.css">
+
+  </head>
+    <body style="background-color:transparent; text-align:left; padding-top:5px;*padding-top:8px">
+    <form name="upload" method="post" action="do.php?act=upload_act" onSubmit="return uploadImg(this);" enctype="multipart/form-data" class="left">    
+        <input type="file" class='left mr10' style="height:22px;" id="imgUrl" name="attach[]"/><input type="submit" class='small-btn left' name="submit" value=" {echo:lp{pu_button};/} " /><div class="clear"></div>（{echo:lp{pu_file_label};/}）     
+    </form>
+    </body>
+</html>

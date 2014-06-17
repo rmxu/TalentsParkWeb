@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+  {sta:if($is_self=='Y')[exc]}
+  <div class="create_button"><a href="modules.php?app=group_select" hidefocus="true">{echo:lp{g_search_group};/}</a></div>
+  <div class="create_button"><a href="modules.php?app=group_creat">{echo:lp{g_creat};/}</a></div>
+  {end:if/}
+  <h2 class="app_group">{echo:$group_title;/}</h2>
+  {sta:if($is_self=='Y')[exc]}
+  <div class="tabs">
+      <ul class="menu">
+          <li class="active"><a href="modules.php?app=group" hidefocus="true">{echo:lp{g_mine};/}</a></li>
+          <li><a href="modules.php?app=group_hot" hidefocus="true">{echo:lp{g_hot};/}</a></li>
+      </ul>
+  </div>
+  {end:if/}
+	{sta:foreach($group_rs as $rs)[loop]}
+		<div class="group_box" onmouseover="this.className = 'group_box_active';" onmouseout="this.className='group_box';">
+			<div class="group_box_content">
+				<div class="group_control">
+          <a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'>{echo:lp{g_en_space};/}</a>
+          {sta:$action=show_action($rs['add_userid'],$rs['member_count'],$rs['group_manager_id']);/}
+          <a class="{echo:$action['drop'];/} {echo:$show_mine;/}" href="do.php?act=group_drop&group_id={echo:$rs['group_id'];/}" onclick="return confirm('{echo:lp{g_a_drop};/}');">{echo:lp{g_drop};/}</a>
+          <a class="{echo:$action['manage'];/} {echo:$show_mine;/}" href="modules.php?app=group_manager&group_id={echo:$rs['group_id'];/}">{echo:lp{g_manage};/}</a>
+          <a class="{echo:$action['exit'];/} {echo:$show_mine;/}" href='do.php?act=group_exit&group_id={echo:$rs["group_id"];/}' onclick="return confirm('{echo:lp{g_exit};/}'); ">{echo:lp{g_exit};/}</a>
+				</div>
+        <div class="group_photo"><a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'><img src="{echo:$rs['group_logo'] ? $rs['group_logo'] : 'uploadfiles/group_logo/default_group_logo.jpg';/}" width='100px' height='100px' alt="{echo:$rs['group_name'];/}" onerror="parent.pic_error(this)" /></a></div>
+				<dl class="group_list">
+					<dt><a href='modules.php?app=group_space&group_id={echo:$rs["group_id"];/}&user_id={echo:$url_uid;/}'>{echo:filt_word($rs['group_name']);/}</a></dt>
+					<dd>{echo:lp{g_type};/}：{echo:$rs['group_type'];/}</dd>
+					<dd>{echo:str_replace('{num}','<span>'.$rs['member_count'].'</span>',$g_join_num);/}</dd>
+					<dd class="{echo:$show_his;/}"></dd>
+					<dd class="{echo:$show_mine;/}">{echo:lp{g_iam};/}<span>{echo:get_group_role($rs['add_userid'],$rs['group_manager_id']);/}</span><label>({echo:join_type($rs['group_join_type']);/})</label></dd>
+				</dl>
+			</div>
+		</div>
+	{end:foreach/}
+	<div class="guide_info {echo:$list_hidden;/}">
+		{echo:$no_data;/}
+	</div>
+</body>
+</html>

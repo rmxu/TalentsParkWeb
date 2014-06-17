@@ -1,0 +1,6 @@
+body#home{background:url(images/bg.gif);}
+body#home .top_bg{ _height:42px; background:url(images/top_bg.gif) repeat-x; }
+body#home .nav {background:url(images/logo.gif) no-repeat scroll 1px 11px transparent;}
+body#home .home_start{background:url(images/12345.jpg) center  top no-repeat;padding:100px 0 0}
+.user_box{margin:0 auto 100px;}
+.user_status{text-align:left;padding:10px 15px 8px 10px; float:left; background:#fff; opacity: 0.7;filter: Alpha(Opacity=70);}

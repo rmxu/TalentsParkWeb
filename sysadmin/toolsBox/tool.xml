@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE toolbox SYSTEM "tool.dtd">
+<toolbox>
+
+
+<tool_item id="del_user">
+		<toolName>删除用户工具</toolName>
+		<author>nswe</author>
+		<date>2009-02-01</date>
+		<explain>用于删除系统内的注册用户数据。</explain>
+		<contentIndex>del_user</contentIndex>
+		<contentAct>del_user.php</contentAct>
+		<programList>del_user.php</programList>
+	</tool_item><tool_item id="clear_test">
+		<toolName>测试数据清理器</toolName>
+		<author>nswe</author>
+		<date>2009-12-29</date>
+		<explain>用于清理系统安装时默认存在的用户测试数据。</explain>
+		<contentIndex>clear_test</contentIndex>
+		<contentAct>tool_clearTestData.php</contentAct>
+		<programList>tool_clearTestData.php</programList>
+		<programList>ftool_clearTestData.php</programList>
+	</tool_item></toolbox>

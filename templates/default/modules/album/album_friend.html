@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+</head>
+<body id="iframecontent">
+<div class="create_button"><a href="modules.php?app=album_edit">{echo:lp{a_creat};/}</a></div>
+<div class="create_button"><a href="modules.php?app=photo_upload">{echo:lp{a_upload};/}</a></div>
+<h2 class="app_album">{echo:lp{a_title};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li><a href="modules.php?app=album" hidefocus="true">{echo:lp{a_mine};/}</a></li>
+        <li class="active"><a href="modules.php?app=album_friend" hidefocus="true">{echo:lp{a_friend};/}</a></li>
+    </ul>
+</div>
+<div class="album_holder">
+  {sta:foreach($album_rs as $val)[loop]}
+  {sta:$is_pri=check_pri($val['user_id'],$val['privacy']);/}
+		<dl class="list_album" onmouseover="this.className += ' list_album_active';" onmouseout="this.className='list_album';" >
+			<dt><a href='{echo:$is_pri ? "modules.php?app=photo_list&album_id=".$val['album_id']."&user_id=".$val['user_id']:"javascript:void(0)";/}'><img src={echo:$is_pri ? $val['album_skin'] : "skin/$skinUrl/images/errorpage.gif";/} onerror="parent.pic_error(this)" class='user_ico'></a></dt>
+			<dd><strong><a href="{echo:$is_pri ? "modules.php?app=photo_list&album_id=".$val['album_id']."&user_id=".$val['user_id']:"javascript:void(0)";/}">{echo:filt_word($val['album_name']);/}</a></strong></dd>
+			<dd>{echo:$val['user_name'];/}{echo:lp{a_of_album};/}<label>({echo:str_replace('{holder}',$val['photo_num'],lp{a_num});/})</label></dd>
+			<dd>{echo:lp{a_label};/}：{echo:$val['tag'];/}</dd>
+            <dd>{echo:lp{a_update_in};/}{echo:$val['update_time'];/}</dd>
+			<dd>{echo:lp{a_crt_time};/}{echo:$val['add_time'];/}</dd>
+			<dd>
+				{sta:if($is_pri)[exc]}
+				<span><a href="javascript:void(0);" onclick="parent.show_share(2,{echo:$val['album_id'];/},'{echo:$val['album_name'];/}','','');">{echo:lp{a_share};/}</a></span>
+				{end:if/}
+				<span><a href="javascript:void(0);" onclick="parent.report(2,{echo:$val['user_id'];/},{echo:$val['album_id'];/});">{echo:lp{a_report};/}</a></span>
+			</dd>
+		</dl>
+	{end:foreach/}
+	<div class="blank"></div>
+	{sta:page_show($isNull,$page_num,$page_total);/}
+</div>
+	
+<div class="guide_info {echo:$t_fri;/}">
+	{echo:lp{a_no_fri};/}
+</div>	
+</body>
+</html>

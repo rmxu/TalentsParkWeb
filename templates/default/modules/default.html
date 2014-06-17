@@ -1,0 +1,160 @@
+<script src="skin/default/js/login.js" language="javascript"></script>
+<div class="snsidea"><a href="modules.php?app=user_reg" hidefocus="true"><img src="skin/default/jooyea/images/sns_idea1.jpg" width="664" height="314" /></a></div>
+  	<div class="login">
+        <h2>{echo:lp{l_momber_login};/} <span id="loadingmsg"></span></h2>
+        <form name="login_form" method="post" onsubmit="return false;">
+            <p><label>{echo:lp{l_email};/}： <span id="emailmsg" class="red"></span></label><input class="input" name="login_email" id="login_email" type="text" /></p>
+            <p><label>{echo:lp{l_pass};/}： <span id="pwdmsg" class="red"></span></label><input class="pwd" name="login_pws" id="login_pws" type="password" /></p>
+            <p class="chk">
+                <label for="tmpiId">
+                    <input name="tmpiId" class="chk" id="tmpiId" type="checkbox" value="save" checked="checked" onKeyDown="getEnt();">
+                    {echo:lp{l_save_aco};/}
+                </label>
+                <label for="hidden">
+                	<input name="hidden" class="chk" id="hidden" type="checkbox" value="1" onKeyDown="getEnt();">
+                	{echo:lp{l_hid};/}
+                </label>
+            </p>
+            <p><span><a href="modules.php?app=user_forget" class="forget">{echo:lp{ah_forgot_password};/}？</a></span><input type="submit" onclick="login();" class="button"  name="loginsubm" id="loginsubm" hidefocus="true" value="{echo:lp{l_login};/}"></p>
+        </form>
+	<!--插件位置!-->
+	<div class="index_right">
+		
+		{echo:isset($plugins['index_right'])?show_plugins($plugins['index_right']):'';/}
+	</div>
+	<!--插件位置!-->
+	</div>
+
+</div>
+<div class="clear"></div>
+<div class="main recom_user">
+	<div class="cont">
+    	<div class="user_holder">
+            <h2>{echo:lp{ah_total};/}{echo:$total_member;/}{echo:lp{ah_member_events_here};/}</h2>
+    <div class="left_part">
+        <div id="MainPromotionBanner">
+            <div id="SlidePlayer">
+                <ul class="Slides">
+                    {sta:if(!empty($rec_rs1))[exc]}
+                    {sta:foreach($rec_rs1 as $val)[loop]}
+                    <li><a href="home.php?h={echo:$val['user_id'];/}" target="_blank"><img src="{echo:$val['show_ico'];/}" alt="{echo:$val['user_name'];/}" /></a></li>
+                    {end:foreach/}
+                    {end:if/}
+                    {sta:if(empty($rec_rs1))[exc]}
+                    <li><a href="#"><img src="skin/default/jooyea/images/def.jpg" alt="" /></a></li>
+                    {end:if/}
+                </ul>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+        TB.widget.SimpleSlide.decorate('SlidePlayer', {eventType:'mouse', effect:'scroll'});
+        </script>
+	</div>
+    <div class="right_part">
+        {sta:foreach($user_rs as $val)[loop]}
+            <dl>
+                <dt><a class="avatar" hidefocus="true" href="home.php?h={echo:$val['user_id'];/}" target="_blank"><img src="{echo:$val['user_ico'];/}" alt="{echo:$val['user_name'];/}" /></a></dt>
+                <dd><a href="home.php?h={echo:$val['user_id'];/}" hidefocus="true" target="_blank">{echo:sub_str($val['user_name'],5,true);/}</a></dd>
+                <dd class="time">{echo:format_datetime_short($val['lastlogin_datetime']);/}</dd>
+            </dl>
+        {end:foreach/}
+    </div>
+
+        </div>
+        <div class="snsintro">
+        	<dl>
+                <dt class="space1">{echo:lp{ah_personal_space};/}</dt>{echo:lp{ah_personal_space_detail};/}
+            </dl>
+            <dl>
+                <dt class="group2">{echo:lp{ah_groups_share};/}</dt>{echo:lp{ah_groups_share_detail};/}
+            </dl>
+            <dl>
+                <dt class="game3">{echo:lp{ah_game_application};/}</dt>{echo:lp{ah_game_application_detail};/}
+            </dl>
+        </div>
+	</div>
+	<!--插件位置!-->
+	<div class="index_newMember">
+		
+		{echo:isset($plugins['index_newMember'])?show_plugins($plugins['index_newMembers']):'';/}
+	</div>
+	<!--插件位置!-->
+<script language="javascript">
+function goLogin(){
+	Dialog.confirm("{echo:lp{pu_login};/}",function(){top.location="{echo:$indexFile;/}";});
+}
+function getEnt(){
+	document.onkeydown = function (e){
+		var theEvent = window.event || e;
+		var code = theEvent.keyCode || theEvent.which;
+		if(code == 13){
+			  login();
+		}
+	}
+}
+function inputTxt(obj,act)
+{
+  var str="{echo:lp{ah_enter_name};/}";
+  if(obj.value==''&&act=='set')
+  {
+     obj.value=str;
+     obj.style.color='#cccccc';
+  }
+  if(obj.value==str&&act=='clean')
+  {
+     obj.value='';
+     obj.style.color='gray';
+  }
+}
+//ajax
+function login_callback(content)
+{
+	var check=/\.php/;
+	if(check.test(content)){
+		 if($("tmpiId").checked){
+			saveTmpEmail(1);
+		 }else{
+			  saveTmpEmail(0);
+		 }
+		 window.location.href=content;
+	}else{
+		$("emailmsg").innerHTML = '';
+		$("pwdmsg").innerHTML = '';
+		$("loadingmsg").innerHTML = '';
+		var return_array=content.split("|");
+		$(return_array[0]).innerHTML = return_array[1];
+	}
+}
+function login_unready_callback(){
+	var argb_div = $("loadingmsg");
+	if($("emailmsg").innerHTML == '' || $("pwdmsg").innerHTML == ''){
+		argb_div.innerHTML='';
+	}else{
+		argb_div.innerHTML="<img src='skin/default/jooyea/images/login_loading.gif' align='top' >{echo:lp{l_loading};/}";
+	}
+}
+function saveTmpEmail(para){
+	var email_time=new Date();
+	var login_time=new Date();
+	email_time.setTime(email_time.getTime() +3600*1000*24*300 );
+	login_time.setTime(login_time.getTime() +3600*250 );
+	if(para==1){
+		var uemailStr=$("login_email").value;
+		document.cookie='iweb_email='+uemailStr+';expires='+ email_time.toGMTString();
+	}
+	document.cookie="IsReged=Y;expires="+ login_time.toGMTString();
+}
+function login(){
+	u_email=$('login_email').value;
+	u_pws=$('login_pws').value;
+	u_hidden=0;
+	if($('hidden').checked){
+		u_hidden=1;
+	}
+	var ajax_login=new Ajax();
+	ajax_login.getInfo("do.php?act=login","post","app","u_email="+u_email+"&u_pws="+u_pws+"&hidden="+u_hidden,function(c){login_callback(c);},function(){login_unready_callback();});
+}
+//取得cookie值
+$('login_email').value=get_cookie('iweb_email');
+</script>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+
+<body>
+  <div class="main_right_title">
+     <span class="main_title main_title_dot9"></span>
+     <span class="main_title_txt">{echo:str_replace("{holder}",$holder_name,lp{u_vis_conf});/}</span>
+  </div>
+
+	
+		<div class='container' style='padding-top:15px;margin-top:0px'>
+			<div class='rs_head' style='margin-top:0px'>{echo:$user_info['user_name'];/}{echo:lp{u_inf};/}</div>
+		</div>
+		
+		<table class='main main_left'>
+			<tr>
+				<th>{echo:lp{u_name};/}</th>
+				<td>{echo:filt_word($user_info['user_name']);/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{u_sex};/}</th>
+				<td>{echo:info_item_format($info_item_init,$user_sex_txt);/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{u_marr};/}</th>
+				<td>{echo:info_item_format($info_item_init,$user_marrstate);/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{u_bird};/}</th>
+				<td>{echo:info_item_format($info_item_init,$user_birthday);/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{u_bld};/}</th>
+				<td>{echo:info_item_format($info_item_init,get_user_blood($user_info["user_blood"]));/}</td>
+			</tr>
+
+			<tr>
+				<th>{echo:lp{u_birc};/}</th>
+				<td>{echo:info_item_format($info_item_init,$user_info["birth_province"].$user_info["birth_city"]);/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{u_res};/}</th>
+				<td>{echo:info_item_format($info_item_init,$user_info["reside_province"].$user_info["reside_city"]);/}</td>
+			</tr>
+             
+			<tr>
+				<th>QQ</th>
+				<td>{echo:info_item_format($info_item_init,$user_info["user_qq"]);/}</td>
+			</tr>
+             
+			<tr>
+				<th>EMAIL</th>
+				<td>{echo:info_item_format($info_item_init,$user_info["user_email"]);/}</td>
+			</tr>
+
+		</table>
+		
+</body>
+</html>

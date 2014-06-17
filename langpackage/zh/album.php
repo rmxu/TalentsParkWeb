@@ -1,0 +1,75 @@
+<?php
+class albumlp{
+	var $a_title="相册";
+	var $a_mine="我的相册";
+	var $a_holder="{holder}的相册";
+	var $a_friend="好友相册";
+	var $a_creat="新建相册";
+	var $a_upload="上传相片";
+	var $a_name = "相册名称：";
+	var $a_inf = "相册描述：";
+	var $a_secret = "可见性：";
+	var $a_all = "所有人";
+	var $a_fri = "我的好友";
+	var $a_myself = "我自己";
+	var $a_crt_time = "创建于";
+	var $a_num = "共{holder}张图片";
+	var $a_edit="编辑相册";
+	var $a_del = "删除相册";
+	var $a_com="网友回复";
+	var $a_out_time="发表于:";
+	var $a_com_del="删除";
+	var $a_my_com="我要回复";
+	var $a_p_inf="描述:";
+	var $a_set_cov="设置为相册封面";
+	var $a_cho="选择相册";
+	var $a_upl_err="每张不能超过1M,图片类型为 jpg | png | gif ";
+	var $a_page_up="上一页";
+	var $a_page_down="下一页";
+	var $a_bak_list = "返回照片列表";
+	var $a_del_asc = "您确定要删除吗？";
+	var $a_no_fri = "对不起，当前没有您可以访问的相册";
+	var $a_pht_inf = "单击此处来编辑图片信息";
+	var $a_no_alb = "您还没有相册";
+	var $a_crt_alb = "点击创建相册";
+	var $a_fri_alb = "浏览好友的相册";
+	var $a_no_upl = "您还没有上传照片";
+	var $a_upl_pht = "点击上传照片";
+	var $a_ine = "您所访问的照片不存在";
+	var $a_f_no_pht = "用户还没有上传照片";
+	var $a_b_crt = "创建";
+	var $a_b_upd = "更新";
+	var $a_b_com = "回复";
+	var $a_b_del = "关闭";
+	var $a_b_con = "确定";
+	var $a_b_upl = "上传";
+	var $a_upd_false = "更新失败,请重新上传！";
+	var $a_no_pht = "没有相片，请重新选择！";
+	var $a_no_jpg = "您上传的文件类型不是图片！";
+	var $a_big = "您上传的文件超过了1MB！";
+	var $a_add_pvw = "对不起，您没有权限！";
+	var $a_inp_err = "请正确填入相册名和描述！";
+	var $a_alb_cho = "请选择相册,或选择创建新相册！";
+	var $a_pht_cho = "请选择相片！";
+	var $a_change_upload="切换上传方式";
+	var $a_face="表情";
+	var $a_send_time="上传时间:{date}";
+	var $a_p_name="名称:";
+	var $a_set_info="编辑说明";
+	var $a_see_pic="查看原图";
+	var $a_tip_pri="点击右键设置访问权限";
+	var $a_pri="权限";
+	
+	var $a_label="标签";
+	var $a_privacy_set="隐私设置";
+	var $a_of_album="的相册";
+	var $a_share="分享";
+	var $a_report="举报";
+	var $a_update_in="更新于";
+	var $a_in_album="在相册";
+	var $a_upload_new_photo="中上传了新照片";
+	var $a_upload_maximum = "每次最多可上传";
+	var $a_attachments = "个附件";
+		
+}
+?>

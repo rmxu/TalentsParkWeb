@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script language=JavaScript src="skin/default/js/jooyea.js"></script>
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<script type='text/javascript'>
+	function open_div(obj_id){
+		if($(obj_id).style.display=='none'){
+			$(obj_id).style.display='';
+		}else{
+			$(obj_id).style.display='none';
+		}
+	}
+	
+	function act_hidden_callback(content){
+		if(content=='success'){
+			parent.Dialog.alert('{echo:lp{pr_handle_suc};/}');
+			window.location.reload();
+		}else{
+			parent.Dialog.alert(content);
+		}	
+	}
+	
+	function act_hidden(type_id,hidden_value,is_del){
+		var act_hidden=new Ajax();
+		act_hidden.getInfo("do.php","GET","app","act=pr_affair&type="+type_id+"&hidden_value="+hidden_value+"&is_del="+is_del,function(c){act_hidden_callback(c);});
+	}
+</script>
+</head>
+
+<body id="iframecontent">
+<h2 class="app_user">{echo:lp{u_conf};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+        <li><a href="modules.php?app=user_info" title="{echo:lp{u_info};/}">{echo:lp{u_info};/}</a></li>
+        <li><a href="modules.php?app=user_ico" title="{echo:lp{u_icon};/}">{echo:lp{u_icon};/}</a></li>
+        <li><a href="modules.php?app=user_pw_change" title="{echo:lp{u_pw};/}">{echo:lp{u_pw};/}</a></li>
+        <li><a href="modules.php?app=user_dressup" title="{echo:lp{u_dressup};/}">{echo:lp{u_dressup};/}</a></li>
+        <li class="active"><a href="modules.php?app=user_affair" title="{echo:lp{u_set_affair};/}">{echo:lp{u_set_affair};/}</a></li>
+    </ul>
+</div>
+<div class="rs_head">{echo:lp{pr_forget_sort};/}</div>
+
+<table class="affair_table tleft" border="0" cellpadding="5" cellspacing="5">
+<tr>
+	<td width="50%" align="left">
+		{echo:lp{pr_add_sort};/}：<input class="small-btn" type='button' onclick='open_div("hidden_type");' value='{echo:lp{pr_chose};/}' />
+	</td>
+	<td width="50%">{echo:lp{pr_shield_sort};/}：</td>	
+</tr>
+<tr>
+	<td>	
+		<div id="hidden_type" style='display:none;'>
+			<ul>
+			{sta:$l=0;/}
+			{sta:foreach($type_array as $val)[loop]}
+				<li><a href="javascript:act_hidden(1,{echo:$l;/},0);">{echo:$val;/}</a></li>
+			{sta:$l++;/}
+			{end:foreach/}
+			</ul>
+		</div>
+	</td>
+	<td>
+			<ul>
+			{sta:foreach($hidden_type_rs as $key=>$val)[loop]}
+				<li>{echo:$val;/} | <a href="javascript:act_hidden(1,{echo:$key;/},1);">{echo:lp{pr_del};/}</a></li>
+			{end:foreach/}				
+			</ul>
+	</td>
+</tr>
+</table>
+			<div class="rs_head">{echo:lp{pr_forget_list};/}</div>
+<table class="affair_table" border="0" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="50%">
+			{echo:lp{pr_add_list};/}：<input class="small-btn" type='button' onclick='open_div("hidden_pals");' value='{echo:lp{pr_chose};/}' />
+		</td>
+		<td width="50%">
+			{echo:lp{pr_shield_list};/}：
+		</td>
+	</tr>
+	<tr>
+		<td width="50%">
+			<div id="hidden_pals" style='display:none;'>
+					<ul>
+					{sta:$i=0;/}
+					{sta:foreach($mypals as $val)[loop]}
+						<li><a href="javascript:act_hidden(0,{echo:$val['pals_id'];/},0);">{echo:$val['pals_name'];/}</a></li>
+					{sta:$i++;/}
+					{end:foreach/}
+					</ul>
+			</div>
+		</td>
+		<td width="50%">
+				<ul>
+					{sta:foreach($hidden_pals_rs as $rs)[loop]}
+						<LI>{echo:$rs['user_name'];/} | <A href="javascript:act_hidden(0,{echo:$rs['user_id'];/},1);">{echo:lp{pr_del};/}</A></LI>
+					{end:foreach/}
+				</ul>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

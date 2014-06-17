@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=group">{echo:lp{g_return};/}</a></div>
+    <h2 class="app_group">{echo:lp{g_manage};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+            <li class="active"><a href="modules.php?app=group_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info};/}" class="nowbutl">{echo:lp{g_info};/}</a></li>
+            <li><a href="modules.php?app=group_info_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_info_change};/}">{echo:lp{g_info_change};/}</a></li>
+            <li><a href="modules.php?app=group_member_manager&group_id={echo:$group_id;/}" title="{echo:lp{g_manage_member};/}">{echo:lp{g_manage_member};/}</a></li>
+            <li><a href="modules.php?app=group_space&group_id={echo:$group_id;/}" title="{echo:lp{g_en_space};/}">{echo:lp{g_en_space};/}</a></li>
+        </ul>
+    </div>
+	
+<table class='form_table {echo:$content_list;/}'>		
+			<tr>
+				<th width="16%">{echo:lp{g_name};/}</th>
+				<td width="*">{echo:$group_row['group_name'];/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_type};/}</th>
+				<td>{echo:$group_row['group_type'];/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_m_num};/}</th>
+				<td>{echo:$group_row['member_count'];/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_creator};/}</th>
+				<td>{echo:$group_row['group_creat_name'];/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_time};/}</th>
+				<td>{echo:$group_row['group_time'];/}</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_manager};/}</th>
+				<td>
+					
+					{echo:get_group_manager($group_row['group_manager_name']);/}
+					
+				</td>
+			</tr>
+			
+			<tr>
+				<th>{echo:lp{g_join_type};/}</th>
+				<td>{echo:$text_join_type;/}</td>
+		 	</tr>
+		 	
+		  <tr>
+		  	<th>{echo:lp{g_tag};/}</th>
+		  	<td>{echo:$group_row['tag'];/}</td>
+		  </tr>
+		  
+		  <tr>
+		  	<th>{echo:lp{g_resume};/}</th>
+		  	<td>{echo:$group_row['group_resume'];/}</td>
+		  </tr>
+		  
+		  <tr>
+		  	<th>{echo:lp{g_gonggao};/}</th>
+		  	<td>{echo:$group_row['affiche'];/}</td>
+		  </tr>
+</table>
+</body>
+</html>

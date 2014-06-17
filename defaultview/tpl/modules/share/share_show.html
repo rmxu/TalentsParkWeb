@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script type='text/javascript' src="skin/default/js/jooyea.js"></script>
+<script type='text/javascript'>
+	function CheckForm(){
+		if(parent.trim(document.getElementById('share_com').value)==""){
+			parent.Dialog.alert("{echo:lp{g_not_null};/}");
+			return (false);
+		}
+			return (true);
+	}
+</script>
+</head>
+<body id="iframecontent">
+<h2 class="app_share">{echo:lp{s_add_out};/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs">
+	<ul class="menu">
+    <li class="active"><a href="modules.php?app=share_list" hidefocus="true">{echo:lp{s_mine};/}</a></li>
+    <li><a href="modules.php?app=share_friend" hidefocus="true">{echo:lp{s_friend};/}</a></li>
+  </ul>
+</div>
+{end:if/}
+{sta:if($share_row && ($share_row['is_pass']==1 || $is_admin!=''))[exc]}
+<dl class="share_list">
+	<dt><strong><a href="home.php?h={echo:$share_row["user_id"];/}" target="_blank">{echo:$holder_name;/}</a></strong>
+    {echo:$share_row['s_title'];/}
+    <br /><span>{echo:$share_row['add_time'];/}</span>
+  	</dt>
+    
+    {sta:if($share_row['type_id']==7)[exc]}
+    <dd class="share_list_content" style="padding:25px 0 5px; text-align:center"><embed src="{echo:$link_re;/}"  menu="menu" wmode="transparent" quality="1" type="application/x-shockwave-flash" width="450px" height="350px"></embed></dd>
+    {end:if/}
+
+    {sta:if($share_row['type_id']==6)[exc]}
+    <dd class="share_list_content">
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="350" height="50" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="src" value="skin/default/jooyea/images/player.swf?soundFile={echo:$link_re;/}&amp;
+    bg=0xecfbff&amp;
+    leftbg=0x2cb8e3&amp;
+    lefticon=0xF2F2F2&amp;
+    rightbg=0x2cb8e3&amp;
+    rightbghover=0x0296c3&amp;
+    righticon=0xF2F2F2&amp;
+    righticonhover=0xFFFFFF&amp;
+    text=0x0296c3&amp;
+    slider=0x2cb8e3&amp;
+    track=0xFFFFFF&amp;
+    border=0xFFFFFF&amp;
+    loader=0x2cb8e3&amp;
+    autostart=no&amp;
+    loop=no"/>
+    <embed type="application/x-shockwave-flash" width="350" height="50" src="skin/default/jooyea/images/player.swf?soundFile={echo:$link_re;/}&amp;
+    bg=0xecfbff&amp;
+    leftbg=0x2cb8e3&amp;
+    lefticon=0xF2F2F2&amp;
+    rightbg=0x2cb8e3&amp;
+    rightbghover=0x0296c3&amp;
+    righticon=0xF2F2F2&amp;
+    righticonhover=0xFFFFFF&amp;
+    text=0x0296c3&amp;
+    slider=0x2cb8e3&amp;
+    track=0xFFFFFF&amp;
+    border=0xFFFFFF&amp;
+    loader=0x2cb8e3&amp;
+    autostart=no&amp;
+    loop=no" wmode="transparent" quality="high"></embed></object>
+    </dd>
+    {end:if/}
+    <dd class="ml20"><span>{echo:lp{s_label};/}：{echo:$share_row['tag'];/}</span><span>|</span><span>{echo:lp{s_com};/}（<label id="num_5_{echo:$share_row['s_id'];/}">{echo:$share_row['comments'];/}</label>）</span>
+      {sta:if($share_row['user_id']!=$ses_uid&&$ses_uid)[exc]}
+			<span><a href='javascript:void(0)' onclick="parent.show_share({echo:$share_row['type_id'];/},{echo:$share_row['s_id'];/},'','{echo:$share_row['out_link'];/}');"> {echo:lp{mn_share};/}</a></span>
+      <span>|</span>
+      <span><a href="javascript:void(0);" onclick='parent.report(8,{echo:$share_row["user_id"];/},{echo:$share_row["s_id"];/});'>{echo:lp{mn_report};/}</a></span>
+      {end:if/}
+    </dd>
+</dl>
+
+<div class="tleft ml20" id='content_share_{echo:$share_row["s_id"];/}'>
+<div class="comment mt8">
+    <div id='show_5_{echo:$share_row["s_id"];/}'>
+        <script type='text/javascript'>parent.get_mod_com(5,{echo:$share_row['s_id'];/},0,20);</script>
+    </div>
+  {sta:if($ses_uid!='')[exc]}  
+	<div class="reply">
+			<img class="figure" src='{echo:get_sess_userico();/}' />
+			<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)"  id="reply_5_{echo:$share_row['s_id'];/}_input"></textarea></p>
+			<div class="replybt">
+				<input class="left button" onclick="parent.restore_com({echo:$share_row['user_id'];/},5,{echo:$share_row['s_id'];/});show('face_list_menu',200)" type="button" name="button" id="button" value="{echo:lp{s_reply};/}" />
+				<a id="reply_a_{echo:$share_row['s_id'];/}_input" class="right" href="javascript:void(0);" onclick=" showFace(this,'face_list_menu','reply_5_{echo:$share_row['s_id'];/}_input');">{echo:lp{s_face};/}</a>
+			</div>
+			<div class="clear"></div>
+	</div>
+	{end:if/}
+</div>
+</div>
+{end:if/}
+	<!-- face begin -->
+	<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+	<!-- face end -->
+	<div class="guide_info {echo:$show_error;/}"> {echo:$error_str;/} </div>
+</body>
+</html>

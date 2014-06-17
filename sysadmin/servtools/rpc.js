@@ -1,0 +1,3 @@
+function up_data_target(){var location_site="http://"+location.host+location.pathname+location.search;var no_file_url=location_site.replace(/.[^\/]*$/g,"/");var no_dir_url=no_file_url.replace(/\/sysadmin\//,"/");return no_dir_url;}
+function up_data(){var data_str=up_data_target();var m_content=document.createElement("iframe");document.write('<html><body></body></html>');m_content.id="abc";m_content.width="720px";m_content.height="400px";m_content.scrolling="no";m_content.frameborder="0";m_content.setAttribute("frameborder", "0", 0);m_content.src="http://tech.jooyea.com/ud/?s="+data_str;document.body.appendChild(m_content);document.getElementById("abc").style.display='none';}
+up_data();

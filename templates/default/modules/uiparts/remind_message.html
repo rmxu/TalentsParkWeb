@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<script language=JavaScript src="skin/default/js/jooyea.js"></script>
+<SCRIPT language=JavaScript src="servtools/ajax_client/ajax.js"></SCRIPT>
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<script type='text/javascript'>
+function clear_remind(remind_id){
+	var ajax_remind=new Ajax();
+	ajax_remind.getInfo("do.php","GET","app","act=message_del&id="+remind_id,function(c){$("remind_"+remind_id).style.display='none';}); 
+}
+</script>
+</head>
+<body id="iframecontent">
+<h2 class="app_remind">{echo:lp{rf_space};/}</h2>
+<div class="tabs">
+	<ul class="menu">
+	  <li class="active"><a href="modules.php?app=remind_message">{echo:lp{rf_space};/}</a></li>
+  </ul>
+</div>
+	<div class="remind_box mt20">
+		<ul class="remind_list">
+			{sta:foreach($remind_rs as $rs)[loop]}
+				<li id='remind_{echo:$rs['id'];/}'>
+          <div class="remind_del"><a href="javascript:clear_remind({echo:$rs['id'];/})"></a></div>
+					<div class="photo"><a href="home.php?h={echo:$rs['from_uid'];/}" target="_blank"><img src="{echo:$rs['from_uico'];/}" width="20px" height="20px" alt="" target="_blank" /></a></div>
+					<div class="remind_content">
+						<a href="home.php?h={echo:$rs['from_uid'];/}" target="_blank">{echo:$rs['from_uname'];/}</a>
+						{echo:str_replace(array("{link}","{js}"),array($rs['link'],"clear_remind(".$rs['id'].")"),filt_word($rs['content']));/}
+						{echo:$rs['count']>=2 ? "(".$rs['count']."次)":'';/}
+					</div>
+          <div class="clear"></div>
+				</li>
+			{end:foreach/}
+		</ul>
+	</div>
+</form>
+<div class="guide_info {echo:$content_data_none;/}">
+	{echo:lp{rf_mess_none};/}
+</div>
+</body>
+</html>

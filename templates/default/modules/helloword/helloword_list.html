@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="skin/default/css/row_menus.css">
+<link rel="stylesheet" type="text/css" href="skin/default/css/right.css">
+</head>
+<body ><h1 style="text_align:center">HelloWord</h1>
+<div class='main_right_title'>
+<table width="100%">
+<tr><td>编号</td><td>信息</td><td>操作</td></tr>
+{sta:foreach($hello_list as $rs)[loop]}
+<tr><td>{echo:$rs['id'];/}</td><td>{echo:$rs['msg'];/}</td><td><a
+href="do.php?act=hello_del&hello_id={echo:$rs['id'];/}">删除</a></td></tr>
+{end:foreach/}
+</table>
+</div>
+<form action="do.php?act=hello_add" method="post">
+信息:<input name="hello_msg"/><br/>
+<input type="submit" value="提交"/>
+</form>
+</body>
+</html>

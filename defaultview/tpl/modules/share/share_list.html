@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+<SCRIPT type='text/javascript' src="servtools/ajax_client/ajax.js"></SCRIPT>
+<SCRIPT language=JavaScript src="skin/default/js/jooyea.js"></SCRIPT>
+<script type='text/javascript'>
+	function fixImage(i,w,h){
+		return true;
+	}
+
+	function add_share_callback(content,outer_re){
+		var return_array=content.split("^");
+		s_title='';
+		if(return_array[1]){
+			s_title=return_array[1];
+		}
+		if(return_array[0]){
+			type_id=return_array[0];
+		}
+		var diag = new parent.Dialog();
+		diag.Width = 300;
+		diag.Height = 180;
+		diag.Top="50%";
+		diag.Left="50%";
+		diag.Title = "{echo:lp{s_share};/}";
+		diag.InnerHtml= '<div class="share">{echo:lp{s_title};/}<input maxlength="50" type="text" ' + (type_id<5 || type_id==8 ? 'disabled="disabled"' : '') + ' id="out_title" value="'+s_title+'" />{echo:lp{s_label};/}：<input type="text" id="tag" name="tag" value="" />{echo:lp{s_add_com};/}<textarea id="share_com"></textarea></div>';
+		diag.OKEvent = function(){parent.act_share(type_id,0,s_title,outer_re);diag.close();};
+		diag.show();
+	}
+
+	function add_out_share(){
+		var outer_re=document.getElementById("add_outer_share").value;
+		var reg_http=/^http:\/\//i;
+		if(trim(outer_re)&&trim(outer_re)!='http://'){
+			if(!reg_http.test(outer_re)){
+				var h_head="http://";
+				var outer_re=h_head+outer_re;
+			}
+			var diag = new parent.Dialog();
+			diag.Width = 300;
+			diag.Height = 50;
+			diag.Top="50%";
+			diag.Left="50%";
+			diag.Title = "{echo:lp{s_data_loading};/}";
+			diag.InnerHtml= '<div class="loading"><img src="skin/default/jooyea/images/loading.gif">{echo:lp{s_data_loading};/}...</div>';
+			diag.show();
+			var add_out_share=new Ajax();
+			add_out_share.getInfo("do.php?act=share_get_info","post","app","outer_link="+outer_re,function(c){diag.close();add_share_callback(c,outer_re);});
+		}else{
+			parent.Dialog.alert('{echo:lp{s_no_right};/}');
+		}
+	}
+
+	function share_com(share_id,mod_id,type_id,start_num,end_num,ref_type){
+		var obj_share=$('content_share_'+share_id);
+		if(obj_share.style.display=='none'){
+			obj_share.style.display='';
+			if($("show_"+type_id+"_"+mod_id).innerHTML==''){
+				parent.get_mod_com(type_id,mod_id,start_num,end_num);
+			}
+		}else{
+			obj_share.style.display='none';
+		}
+	}
+function inputTxt(obj,act){
+	var str="http://";
+	if(obj.value==str&&act=='set')
+	{
+		obj.style.color="#ccc"
+	}
+	if(obj.value==str&&act=='clean')
+	{
+		obj.style.color="#666"
+	}
+}
+</script>
+</head>
+<body id="iframecontent">
+{sta:if($is_self=='Y')[exc]}
+<div class="share_box right" >
+	<input type='text' id='add_outer_share' value="http://" onblur="inputTxt(this,'set');" onfocus="inputTxt(this,'clean');" />
+	<span class="share_button" onclick="add_out_share();">{echo:lp{s_add_out};/}</span>
+</div>
+{end:if/}
+<h2 class="app_share">{echo:$str_title;/}</h2>
+{sta:if($is_self=='Y')[exc]}
+<div class="tabs">
+	<ul class="menu">
+    <li class="active"><a href="modules.php?app=share_list" hidefocus="true">{echo:lp{s_mine};/}</a></li>
+    <li><a href="modules.php?app=share_friend" hidefocus="true">{echo:lp{s_friend};/}</a></li>
+  </ul>
+</div>
+{end:if/}
+{sta:foreach($share_rs as $rs)[loop]}
+<dl class="share_list">
+  <dt><strong><a href="home.php?h={echo:$rs["user_id"];/}" target="_blank">{echo:filt_word($rs['user_name']);/}</a></strong>{echo:filt_word($rs['s_title']);/}
+  <br /><span>{echo:$rs['add_time'];/}</span></dt>
+  <dd class="share_list_content">{echo:filt_word($rs['content']);/}</dd>
+  <dd>
+  	<span>{echo:lp{s_label};/}：{echo:$rs['tag'];/}</span><span>|</span>
+  	<span><a href='javascript:share_com({echo:$rs["s_id"];/},{echo:$rs["s_id"];/},5,0,10,0);'>{echo:lp{s_com};/}(<label id='num_5_{echo:$rs['s_id'];/}'>{echo:$rs['comments'];/}</label>)</a></span>
+		{sta:if($rs['user_id']==$ses_uid)[exc]}
+		<span><a href="do.php?act=share_del&share_id={echo:$rs['s_id'];/}">{echo:lp{s_del};/}</a></span>
+		{end:if/}
+		{sta:if($rs['user_id']!=$ses_uid&&$ses_uid)[exc]}
+		<span><a href="javascript:void(0);" onclick='parent.report(8,{echo:$rs["user_id"];/},{echo:$rs["s_id"];/});'>举报</a></span>
+		{end:if/}
+  </dd>
+</dl>
+	<div class="tleft ml20" style="display:none;" id='content_share_{echo:$rs["s_id"];/}'>
+		<div class="comment">
+	    <div id='show_5_{echo:$rs["s_id"];/}'></div>
+	    {sta:if($ses_uid!='')[exc]}    
+			<div class="reply">
+					<img class="figure" src='{echo:get_sess_userico();/}' />
+					<p><textarea type="text" maxlength="150" onkeyup="return isMaxLen(this)"  id="reply_5_{echo:$rs['s_id'];/}_input"></textarea></p>
+					<div class="replybt">
+						<input class="left button" onclick="parent.restore_com({echo:$rs['user_id'];/},5,{echo:$rs['s_id'];/});show('face_list_menu',200)" type="button" name="button" id="button" value="{echo:lp{s_reply};/}" />
+						<a id="reply_a_{echo:$rs['s_id'];/}_input" class="right" href="javascript:void(0);" onclick=" showFace(this,'face_list_menu','reply_5_{echo:$rs['s_id'];/}_input');">{echo:lp{s_face};/}</a>
+					</div>
+					<div class="clear"></div>
+			</div>
+			{end:if/}
+		</div>
+	</div>
+	{end:foreach/}
+{echo:page_show($isNull,$page_num,$page_total);/}
+<div class="guide_info {echo:$content_data_none;/}">{echo:lp{s_his_none};/}</div>
+{sta:if(isset($_GET['remind']))[exc]}
+<script type='text/javascript'>
+	share_com({echo:$_GET['mod'];/},{echo:$_GET['mod'];/},5,0,10);
+</script>
+{end:if/}
+<div id="face_list_menu" class="emBg" style="display:none;z-index:100;"></div>
+</body>
+</html>

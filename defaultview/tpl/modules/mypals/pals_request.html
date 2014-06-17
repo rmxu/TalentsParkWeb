@@ -1,0 +1,58 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<base href='{echo:$siteDomain;/}' />
+<link rel="stylesheet" type="text/css" href="skin/default/jooyea/css/iframe.css">
+</head>
+<body id="iframecontent">
+    <div class="create_button"><a href="modules.php?app=mypals_search">{echo:lp{mp_add};/}</a></div>
+    <h2 class="app_friend">{echo:lp{mp_mypals};/}</h2>
+    <div class="tabs">
+        <ul class="menu">
+          <li><a href="modules.php?app=mypals" title="{echo:lp{mp_list};/}">{echo:lp{mp_list};/}</a></li>
+          <li class="active"><a href="modules.php?app=mypals_request" title="{echo:lp{mp_req};/}">{echo:lp{mp_req};/}</a></li>
+          <li><a href="modules.php?app=mypals_invite" title="{echo:lp{mp_invite};/}">{echo:lp{mp_invite};/}</a></li>
+          <li><a href="modules.php?app=mypals_sort" title="{echo:lp{mp_m_sort};/}">{echo:lp{mp_m_sort};/}</a></li>
+        </ul>
+    </div>
+<div class="clear mt20"></div>
+<table class="msg_inbox {echo:$isset_data;/}">
+{sta:foreach($request_rs as $rs)[loop]}
+	<tr>
+		<td width="70" align="center">
+			<div class="avatar"><a href="home.php?h={echo:$rs['req_id'];/}" target="_blank"><img src='{echo:$rs["req_ico"];/}' height='43px' width='43px' onerror="parent.pic_error(this)" /></a>
+			</div>
+		</td>
+		<td width="180">
+			<a href="home.php?h={echo:$rs['req_id'];/}" target="_blank">{echo:$rs["req_name"];/}</a>{echo:lp{mp_add_you};/}
+      <br/><label class="gray">{echo:$rs["add_time"];/}</label>
+    </td>
+		<td>
+			<div id='request_{echo:$rs['req_id'];/}'>
+			<span>
+				<a href='do.php?act=confirm_both&req_id={echo:$rs["id"];/}&req_user_id={echo:$rs["req_id"];/}' target='request_{echo:$rs['req_id'];/}' name='ajax'>{echo:lp{mp_both_pal};/}</a>
+			</span>
+      <span>|</span> 
+      <span><a href='do.php?act=confirm_other&req_id={echo:$rs["id"];/}&req_user_id={echo:$rs["req_id"];/}' target='request_{echo:$rs['req_id'];/}' name='ajax'>{echo:lp{mp_other_pal};/}</a></span>
+      <span>|</span>
+      <span><a href='do.php?act=refuse_req&req_id={echo:$rs["id"];/}&req_user_id={echo:$rs["req_id"];/}' target='request_{echo:$rs['req_id'];/}' name='ajax'>{echo:lp{mp_ref_pal};/}</a></span>
+			</div>
+		</td>
+    <td width="20">
+       <a href='do.php?act=del_req&req_id={echo:$rs['id'];/}&req_uid={echo:$rs['req_id'];/}' onclick='return confirm("{echo:lp{mp_con_del_req};/}")';><img title="{echo:lp{mp_del_req};/}" src="skin/default/jooyea/images/del.png" /></a>
+    </td>
+	</tr>
+{end:foreach/}
+</table>
+
+	<div class='guide_info {echo:$none_data;/}'>
+		{echo:lp{mp_no_req};/}
+	</div>
+
+<script type='text/javascript' src="servtools/ajax_client/ajax.js"></script>
+<script type='text/javascript' src="servtools/ajax_client/auto_ajax.js"></script>
+</body>
+</html>

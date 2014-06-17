@@ -1,0 +1,91 @@
+<script type='text/javascript' language="javascript">
+function goLogin(){
+	Dialog.confirm("{echo:lp{pu_login};/}",function(){top.location="{echo:$indexFile;/}";});
+}
+
+function mypalsAddInit(other_id)
+{
+	  var mypals_add=new Ajax();
+	  mypals_add.getInfo("do.php","GET","app","act=add_mypals&other_id="+other_id,function(c){if(c=="success"){Dialog.alert("{echo:lp{ah_friends_add_suc};/}");}else{Dialog.alert(c);}});
+}
+function hi_action_int(){
+	{echo:$send_hi;/};
+}
+
+function report_action_int(){
+	{echo:$send_report;/}
+}
+
+function report_action(type_id,user_id,mod_id){
+	var diag = new Dialog();
+	diag.Width = 300;
+	diag.Height = 150;
+	diag.Top="50%";
+	diag.Left="50%";
+	diag.Title = "{echo:lp{pu_report};/}";
+	diag.InnerHtml= '<div class="report_notice">{echo:lp{pu_report_info};/}{echo:lp{pu_report_re};/}<textarea id="reason"></textarea></div>';
+	diag.OKEvent = function(){act_report(type_id, user_id, mod_id);diag.close();};
+	diag.show();
+}
+
+function hi_action(uid){
+	var diag = new Dialog();
+	diag.Width = 330;
+	diag.Height = 150;
+	diag.Top="50%";
+	diag.Left="50%";
+	diag.Title = "{echo:lp{u_choose_type};/}";
+	diag.InnerHtml= '{echo:hi_window();/}';
+	diag.OKEvent = function(){send_hi(uid);diag.close();};
+	diag.show();
+}
+
+function send_hi_callback(content){
+	if(content=="success"){
+		Dialog.alert("{echo:lp{hi_success};/}");
+	}else{
+		Dialog.alert(content);
+	}
+}
+
+function send_hi(uid){
+	var hi_type=document.getElementsByName("hi_type");
+	for(def=0;def<hi_type.length;def++){
+		if(hi_type[def].checked==true){
+			var hi_t=hi_type[def].value;
+		}
+	}
+	var get_album=new Ajax();
+	get_album.getInfo("do.php","get","app","act=user_add_hi&to_userid="+uid+"&hi_t="+hi_t,function(c){send_hi_callback(c);});
+}
+</script>
+<div class="homeside">
+	<div class="usershow">
+		<a class="figure"><img src="{echo:str_replace("_small","",$user_info['user_ico']);/}" /></a>
+		{sta:if($is_self=='N')[exc]}<a href="{echo:$add_friend;/}" class="addfriend">{echo:lp{ah_add_friend};/}</a>{end:if/}
+		<span class="userstatus"><img src={echo:$ol_state_ico;/} />{echo:$ol_state_label;/}{echo:$timer_txt;/}</span>
+	</div>
+	{sta:if($is_self=='N')[exc]}
+	<div class="handle">
+		<ul>
+      <li><a href="javascript:void(0);" onclick="hi_action_int();"><img src="skin/{echo:$skinUrl;/}/images/hi.gif" />{echo:lp{ah_say_hello_to};/}</a></li>
+      <li><a href="{echo:$send_msgscrip;/}" target="frame_content"><img src="skin/{echo:$skinUrl;/}/images/mail.gif" />{echo:lp{ah_send_letter};/}</a></li>
+      <li><a href="javascript:void(0);" onclick="report_action_int();"><img src="skin/{echo:$skinUrl;/}/images/police.gif" />{echo:lp{ah_report_user};/}</a></li>
+		</ul>
+	</div>
+	{end:if/}
+
+	<div class="userinfo">
+		<dl>
+			<dt>{echo:lp{ah_basic_info};/}</dt>
+			<dd>{echo:lp{ah_residence};/}：<span>{echo:$user_info["reside_province"]?($user_info["reside_province"]==$user_info["reside_city"]?$user_info["reside_province"]:$user_info["reside_province"].$user_info["reside_city"]):lp{u_set};/}</span></dd>
+      <dd>{echo:lp{ah_birthday};/}：<span>{echo:$user_info["birth_year"]&&$user_info["birth_month"]&&$user_info["birth_day"]?$user_info["birth_year"].lp{u_year}.$user_info["birth_month"].lp{u_month}.$user_info["birth_day"].lp{u_day}:lp{u_set};/}</span></dd>
+			<dd>{echo:lp{ah_hometown};/}：<span>{echo:$user_info["birth_province"]?($user_info["birth_province"]==$user_info["birth_city"]?$user_info["birth_province"]:$user_info["birth_province"].$user_info["birth_city"]):lp{u_set};/}</span></dd>
+		</dl>
+	</div>
+	<!-- plugins !-->
+	<div class='home_info_bottom'>
+		{echo:isset($plugins['home_info_bottom'])?show_plugins($plugins['home_info_bottom']):'';/}
+	</div>
+	<!-- plugins !-->	
+</div>
