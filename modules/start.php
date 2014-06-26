@@ -191,7 +191,6 @@ parent.showDiv();
     <ul class="menu">
         <li onclick="list_recent_affair(<?php echo $user_id;?>,0);changeStyle(this);" class="active"><a href="javascript:;" hidefocus="true"><?php echo $rf_langpackage->rf_affair;?></a></li>
         <li onclick="list_recent_affair(<?php echo $user_id;?>,1);changeStyle(this);"><a href="javascript:;" hidefocus="true"><?php echo $rf_langpackage->rf_state;?></a></li>
-        <li onclick="list_recent_affair(<?php echo $user_id;?>,2);changeStyle(this);"><a href="javascript:;" hidefocus="true"><?php echo $rf_langpackage->rf_album;?></a></li>
         <li onclick="list_recent_affair(<?php echo $user_id;?>,3);changeStyle(this);"><a href="javascript:;" hidefocus="true"><?php echo $rf_langpackage->rf_blog;?></a></li>
         <li onclick="list_recent_affair(<?php echo $user_id;?>,4);changeStyle(this);"><a href="javascript:;" hidefocus="true"><?php echo $rf_langpackage->rf_share;?></a></li>
     </ul>
