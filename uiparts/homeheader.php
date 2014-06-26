@@ -1,15 +1,5 @@
 <?php
-/*
- * 注意：此文件由tpl_engine编译型模板引擎编译生成。
- * 如果您的模板要进行修改，请修改 templates/default/uiparts/homeheader.html
- * 如果您的模型要进行修改，请修改 models/uiparts/homeheader.php
- *
- * 修改完成之后需要您进入后台重新编译，才会重新生成。
- * 如果您开启了debug模式运行，那么您可以省去上面这一步，但是debug模式每次都会判断程序是否更新，debug模式只适合开发调试。
- * 如果您正式运行此程序时，请切换到service模式运行！
- *
- * 如有您有问题请到官方论坛（http://tech.jooyea.com/bbs/）提问，谢谢您的支持。
- */
+
 ?><?php
 //���԰�����
 $ah_langpackage=new arrayhomelp;
@@ -24,7 +14,6 @@ $ah_langpackage=new arrayhomelp;
                     <a href="main.php?app=mag_app"><?php echo $mn_langpackage->mn_app;?></a>
                     <ul class="ap_menu" id="ap_menu" style="display:none;" onmouseover="apMenuShow(true);" onmouseout="apMenuShow(false);">
                         <li><span class="am_left"><img src="skin/<?php echo $skinUrl;?>/images/blog.gif" /></span><span class="am_center"><a href="main.php?app=blog_list" hidefocus="true"><?php echo $mn_langpackage->mn_blog;?></a></span><span class="am_right"><a href="modules.php?app=blog_edit" target="frame_content" hidefocus="true"><?php echo $mn_langpackage->mn_publish;?></a></span></li>
-                        <li><span class="am_left"><img src="skin/<?php echo $skinUrl;?>/images/album.gif" /></span><span class="am_center"><a href="main.php?app=album" hidefocus="true"><?php echo $mn_langpackage->mn_album;?></a></span><span class="am_right"><a href="modules.php?app=photo_upload" target="frame_content" hidefocus="true"><?php echo $mn_langpackage->mn_upload;?></a></span></li>
                         <li><span class="am_left"><img src="skin/<?php echo $skinUrl;?>/images/share.gif" /></span><span class="am_center"><a href="main.php?app=share_list" hidefocus="true"><?php echo $mn_langpackage->mn_share;?></a></span></li>
                         <li><span class="am_left"><img src="skin/<?php echo $skinUrl;?>/images/group.gif" /></span><span class="am_center"><a href="main.php?app=group" hidefocus="true"><?php echo $mn_langpackage->mn_group;?></a></span><span class="am_right"><a href="modules.php?app=group_creat" hidefocus="true" target="frame_content"><?php echo $mn_langpackage->mn_creat;?></a></span></li>
                         <li><span class="am_left"><img src="skin/<?php echo $skinUrl;?>/images/poll.gif" /></span><span class="am_center"><a href="main.php?app=poll_mine" hidefocus="true"><?php echo $mn_langpackage->mn_poll;?></a></span><span class="am_right"><a href="modules.php?app=poll_send" hidefocus="true" target="frame_content"><?php echo $mn_langpackage->mn_start;?></a></span></li>

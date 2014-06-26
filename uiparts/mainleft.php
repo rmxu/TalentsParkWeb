@@ -14,7 +14,6 @@
 ?><div class="appbar">
     <ul>
         <li class="app_blog"><a href="javascript:void(0);" onclick="frame_content.location.href='<?php echo $siteDomain;?>modules.php?app=blog_list';return false;"  hidefocus="true"><span><?php echo $mn_langpackage->mn_blog;?></span></a></li>
-        <li class="app_album"><a href="javascript:void(0);" onclick="frame_content.location.href='<?php echo $siteDomain;?>modules.php?app=album';return false;" hidefocus="true"><span><?php echo $mn_langpackage->mn_album;?></span></a></li>
         <li class="app_share"><a href="javascript:void(0);" onclick="frame_content.location.href='<?php echo $siteDomain;?>modules.php?app=share_list&m=mine';return false;" hidefocus="true"><span><?php echo $mn_langpackage->mn_share;?></span></a></li>
         <li class="app_group"><a href="javascript:void(0);" onclick="frame_content.location.href='<?php echo $siteDomain;?>modules.php?app=group';return false;" hidefocus="true"><span><?php echo $mn_langpackage->mn_group;?></span></a></li>
         <li class="app_vote"><a href="javascript:void(0);" onclick="frame_content.location.href='<?php echo $siteDomain;?>modules.php?app=poll_mine';return false;" hidefocus="true"><span><?php echo $mn_langpackage->mn_poll;?></span></a></li>

@@ -26,16 +26,6 @@ $actArray=array(
     "group_approve"=> array('action/group/group_approve.action.php'),
     "group_change_group_info"=> array('action/group/group_info_change.action.php'),
 
-    "album_creat"=> array('action/album/album_creat.action.php'),
-    "album_del"=> array('action/album/album_del.action.php','modules.php?app=album'),
-    "album_upd"=> array('action/album/album_upd.action.php','modules.php?app=album'),
-    "photo_del"=> array('action/album/photo_del.action.php'),
-    "album_skin"=> array('action/album/album_skin.action.php'),
-    "photo_im"=> array('action/album/photo_im.action.php'),
-    "photo_upd"=> array('action/album/photo_upd.action.php'),
-    "photo_upl"=> array('action/album/photo_upl.action.php'),
-    "photo_upl_flash"=> array('action/album/photo_upl_flash.action.php'),
-
     "msg_crt"=> array('action/msgscrip/msg_crt.action.php'),
     "msg_del"=> array('action/msgscrip/msg_del.action.php'),
     "msg_send"=> array('action/msgscrip/msg_send.action.php'),
