@@ -71,9 +71,6 @@ $actArray=array(
     "pr_reqcheck" => array('action/privacy/home_reqcheck_set.action.php'),
     "pr_affair" => array('action/privacy/hidden_affair.action.php'),
 
-    "poll_add" => array('action/poll/poll_add.action.php','modules.php?app=poll_mine'),
-    "poll_submit" => array('action/poll/poll_submit.action.php'),
-    "poll_set_config" => array('action/poll/poll_set_config.action.php'),
 
     "share_action" => array('action/share/share.action.php'),
     "share_del" => array('action/share/share_del.action.php'),

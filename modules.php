@@ -72,11 +72,6 @@ $appArray=array(
 		   "privacy" => 'modules/privacy/home_access_set.php',
 		   "pr_inputmess" => 'modules/privacy/home_inputmess_set.php',
 		   "pr_reqcheck" => 'modules/privacy/request_check_set.php',
-		   "poll_mine" => 'modules/poll/poll_mine.php',
-		   "poll" => 'modules/poll/poll_show.php',
-		   "poll_send" => 'modules/poll/poll_send.php',
-		   "poll_list" => 'modules/poll/poll_list.php',
-		   "poll_show_config" => 'modules/poll/poll_show_config.php',
 		   'hello'=>'modules/helloword/helloword_list.php',
        );
 
