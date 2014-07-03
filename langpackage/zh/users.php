@@ -96,7 +96,7 @@ class userslp{
 	var $u_inte_more="积分每满{up_integ}个，就会拥有一个初级图标<img src='skin/{skinUrl}/images/star.gif' /><br />每满{change_ico}个当前图标就会升级为一个上级图标<br />图标等级由高到低为：<img src='skin/{skinUrl}/images/sun.gif' /><img src='skin/{skinUrl}/images/moon.gif' /><img src='skin/{skinUrl}/images/star.gif' />";
 	var $u_increa_inte="积分增加规则";
 	var $u_desc_inte="积分减少规则";
-	var $u_send_blog="发布日志";
+	var $u_send_blog="发布课程";
 	var $u_upload_photo="上传图片";
 	var $u_send_com="发布评论/留言";
 	var $u_send_subject="发起话题";
@@ -104,7 +104,7 @@ class userslp{
 	var $u_inv_fri="邀请好友注册成功";
 	var $u_e_login="每天登录";
 	var $u_s_ico="设置头像";
-	var $u_del_blog="日志被删除";
+	var $u_del_blog="课程被删除";
 	var $u_del_photo="图片被删除";
 	var $u_del_com="评论/留言被删除";
 	var $u_del_sub="话题被删除";

@@ -2,7 +2,7 @@
 class recaffairlp{
 	var $rf_ico="头像更新为";
 	var $rf_mood="心情更新为";
-	var $rf_w_blog="写了新日志";
+	var $rf_w_blog="写了新课程";
 	var $rf_see_b="点击这里查看全文";
 	var $rf_photo="在相册{album}中上传了图片";
 	var $rf_group="创建了群组";
@@ -14,7 +14,7 @@ class recaffairlp{
 	var $rf_affair="新鲜事";
 	var $rf_state="状态";
 	var $rf_album="相册";
-	var $rf_blog="日志";
+	var $rf_blog="课程";
 	var $rf_v_home="查看个人主页";
 	var $rf_none="当前没有可以显示的新鲜事";
 	var $rf_poll="发起了新投票";
@@ -23,7 +23,7 @@ class recaffairlp{
 	var $rf_inner_share="分享了<a href=\"home.php?h={hoster_id}\" target=\"_blank\">{u_name}</a>的{s_type}<a href=\"home.php?h={hoster_id}&app={address}\" target=\"_blank\">{title}</a>";
 	var $rf_outer_share="分享了{s_type}<a href=\"home.php?h={uid}&app=share_show&s_id={s_id}\" target=\"_blank\">{title}</a>";
 	var $rf_link_share="分享了链接地址<a href=\"{link_content}\" target=\"_blank\">{title}</a>";
-	var $rf_s_type_0='日志';
+	var $rf_s_type_0='课程';
 	var $rf_s_type_1='群组';
 	var $rf_s_type_2='相册';
 	var $rf_s_type_3='照片';

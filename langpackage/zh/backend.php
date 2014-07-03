@@ -15,7 +15,7 @@ class foundationlp{
 	var $f_group_num="群组总数";
 	var $f_album_num="相册总数";
 	var $f_photo_num="照片总数";
-	var $f_blog_num="日志总数";
+	var $f_blog_num="课程总数";
 	var $f_online_num="在线人数";
 	var $f_subject_num="话题总数";
 	var $f_affair_num="动态总数";
@@ -116,8 +116,8 @@ class foundationlp{
 	var $f_add="增加(+)";
 	var $f_abatement_integral="减少积分操作";
 	var $f_abatement="减少(-)";
-	var $f_add_blog="发布日志";
-	var $f_del_blog="日志被删除";
+	var $f_add_blog="发布课程";
+	var $f_del_blog="课程被删除";
 	var $f_add_poll="发布投票";
 	var $f_del_poll="投票被删除";
 	var $f_add_pic="上传图片";
@@ -317,7 +317,7 @@ class modulelp{
 	var $m_only_self="仅自己";
 	var $m_preg_link="分享了链接地址";
 	var $m_astrict_no="不限";
-	var $m_blog="日志";
+	var $m_blog="课程";
 	var $m_subject="话题";
 	var $m_album="相册";
 	var $m_photo="图片";
@@ -369,9 +369,9 @@ class modulelp{
 	var $m_visitor_home="访问主页";
 	var $m_email="邮箱";
 	//blog
-	var $m_blog_list="日志列表";
+	var $m_blog_list="课程列表";
 	var $m_title="标题";
-	var $m_blog_id="指定日志ID";
+	var $m_blog_id="指定课程ID";
 	var $m_scanf_num="查看数";
 	var $m_reply_num="回复数";
 	var $m_send_date="发布时间";
@@ -706,7 +706,7 @@ class adminmenulp{
 	var $ad_manage_sub="话题管理";
 	var $ad_manage_gro="群组管理";
 	var $ad_manage_poll="投票管理";
-	var $ad_manage_blog="日志管理";
+	var $ad_manage_blog="课程管理";
 	var $ad_manage_recom="推荐会员";
 	var $ad_manage_member="会员管理";
 	var $ad_manage_photo="照片管理";

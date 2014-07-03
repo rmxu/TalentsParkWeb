@@ -209,29 +209,7 @@ parent.hiddenDiv();
 				<?php echo isset($plugins['blog_add_bottom'])?show_plugins($plugins['blog_add_bottom']):'';?>
 			</div>
 			<!-- plugins !-->
-	    <tr>
-	    	<td></td>
-	    	<td colspan="2"><?php echo album_name($album_rs,$album_id);?><?php echo $b_langpackage->b_sel_album;?></td>
-	    	<script type='text/javascript'>
-				var album_select=document.getElementById("album_name");
-				album_select.onchange=list_album_photos;
-				function list_album_photos(){//获取接受返回信息层
-					var album_select_val=document.getElementById("album_name").value;
-					var photos_list=document.getElementById("photos_list");
-					if(album_select_val==""){
-						return false;
-					}else{
-						photos_list.innerHTML="<?php echo $b_langpackage->b_data_loading;?>";
-						var get_album=new Ajax();//实例化Ajax
-						get_album.getInfo("modules.php","get","app","app=user_ico_select&type=blog_photo&album_id="+album_select_val,function(c){photos_list.innerHTML=c});
-					}
-				}
-			</script>
-			</tr>
-			<tr>
-				<td></td>
-				<td colspan="2"><div id='photos_list'></div></td>
-			</tr>
+
      		<tr>
 			<th></th>
 			<td colspan="2">

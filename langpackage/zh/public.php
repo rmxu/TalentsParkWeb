@@ -43,7 +43,7 @@ class publiclp{
 }
 
 class restore{
-	var $res_blog="在日志{title}中回复了您";
+	var $res_blog="在课程{title}中回复了您";
 	var $res_photo="在照片{title}中回复了您";
 	var $res_album="在相册{title}中回复了您";
 	var $res_share="在分享{title}中回复了您";
@@ -67,7 +67,7 @@ class menulp{
 	var $mn_scrip="小纸条";
 	var $mn_pal="朋友圈";
 	var $mn_group="群组";
-	var $mn_blog="日志";
+	var $mn_blog="课程";
 	var $mn_album="相册";
 	var $mn_msg="留言板";
 	var $mn_mood="心情";
