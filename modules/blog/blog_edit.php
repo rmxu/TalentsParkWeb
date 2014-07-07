@@ -41,7 +41,7 @@
 	$usubPara='';
 	$ulogTxt='';
 	$album_id='';
-	$form_action="do.php?act=blog_add";
+	$form_action="do.php?act=blog_add";  //定义form的动作php
 	$blog_sort_name='';
   $privacy='';
   $privacy_str='';
@@ -118,12 +118,12 @@ parent.hiddenDiv();
    <form action="<?php echo $form_action;?>" method="post"  name="myform" onSubmit="return CheckForm();">
 	<table border="0" cellpadding="2" cellspacing="1" class="form_table">
         <tr>
-			<th><?php echo $b_langpackage->b_title;?>：</th>
+			<th><?php echo $b_langpackage->b_title;?>：</th>   		<!-- //课程名 -->
 			<td colspan="2"><input class="med-text" type="text" autocomplete='off' name="blog_title" value="<?php echo $ulogTitle;?>" maxlength="30">
 			</td>
 		</tr>
    		<tr>
-			<th><?php echo $b_langpackage->b_sort;?>：</th>
+			<th><?php echo $b_langpackage->b_sort;?>：</th>    <!-- //类别 -->
 			<td colspan="2">
 			  <script language=JavaScript>
 					function trim(str){ //删除左右两端的空格
@@ -180,16 +180,16 @@ parent.hiddenDiv();
         </td>
       </tr>
       <tr>
-      	<th><?php echo $b_langpackage->b_label;?>：</th>
+      	<th><?php echo $b_langpackage->b_label;?>：</th> <!--  //标签 -->
         <td><input type='text' class='small-text' name='tag' value='<?php echo $tag;?>' /></td>
         <td><span class="right"><input type='hidden' name='privacy' id='privacy' value='<?php echo $privacy;?>' /></span></td>
       </tr>
-      <tr>
-		<th width="60"><?php echo $b_langpackage->b_limit;?>：</th>
+<!--       <tr>
+		<th width="60"><?php echo $b_langpackage->b_limit;?>：</th>  //权限
 		<td colspan="2">
 			<a href="javascript:void(0)" onmousedown='menu_pop_show(event,this,1);' id='<?php echo $t_blog;?>:<?php echo $ulog_id;?>:<?php echo $privacy;?>' class="authority_set"><?php echo $b_langpackage->b_set_permissions;?></a></div>
 		</td>
-		</tr>      
+		</tr>   -->
       <tr>
 		<th valign="top"><?php echo $b_langpackage->b_content;?>：</th>
         <td colspan="2" style="line-height:1.5">

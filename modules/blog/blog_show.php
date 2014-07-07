@@ -120,9 +120,9 @@ function CheckForm(){
 					<span class="log_del_link">
 						<a href='do.php?act=blog_del&id=<?php echo $blog_row["log_id"];?>' onclick='return confirm("<?php echo $b_langpackage->b_a_del;?>");'><?php echo $b_langpackage->b_del;?></a>
 					</span>
-					<span onmousedown='menu_pop_show(event,this,1);' id='<?php echo $t_blog;?>:<?php echo $blog_row["log_id"];?>:<?php echo $blog_row["privacy"];?>' class="authority_set">
+					<!-- <span onmousedown='menu_pop_show(event,this,1);' id='<?php echo $t_blog;?>:<?php echo $blog_row["log_id"];?>:<?php echo $blog_row["privacy"];?>' class="authority_set">
 						<a href="javascript:void(0)"><?php echo $b_langpackage->b_pri;?></a>
-					</span>
+					</span> -->
 					<?php }?>
        </dd>
 		<!--评论控制显示!-->

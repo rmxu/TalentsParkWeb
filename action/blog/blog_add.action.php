@@ -13,7 +13,7 @@
 	//变量取得
   $ulog_title=short_check(get_argp("blog_title"));
   $ulog_sort=intval(get_argp("blog_sort_list"));
-  $privacy=short_check(get_argp("privacy"));
+  // $privacy=short_check(get_argp("privacy"));
   $ulog_txt=big_check(get_argp("CONTENT"));
 	$user_id=get_sess_userid();
 	$user_name=get_sess_username();
@@ -36,7 +36,7 @@
 	dbtarget('w',$dbServs);
 	increase_integral($dbo,$int_blog,$user_id);
   plugin_submit_form();//plugins表单分发
-	$sql="insert into $t_blog (user_id,log_title,log_sort,log_content,add_time,log_sort_name,user_name,user_ico,privacy,`tag`) values ($user_id,'$ulog_title',$ulog_sort,'$ulog_txt',NOW(),'$blog_sort_name','$user_name','$uico_url','$privacy','$tag')";
+	$sql="insert into $t_blog (user_id,log_title,log_sort,log_content,add_time,log_sort_name,user_name,user_ico,`tag`) values ($user_id,'$ulog_title',$ulog_sort,'$ulog_txt',NOW(),'$blog_sort_name','$user_name','$uico_url','$tag')";
 	if(!$dbo->exeUpdate($sql)){
 		action_return(0,$b_langpackage->b_add_fal,'-1');exit;
 	}
