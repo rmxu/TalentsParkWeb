@@ -38,7 +38,6 @@ $hello_list= $dbo->getRs($sql);
 <tr><td>编号</td><td>信息</td><td>操作</td></tr>
 <?php foreach($hello_list as $rs){?>
 <tr><td><?php echo $rs['id'];?></td><td><?php echo $rs['msg'];?></td><td><a
-
 href="do.php?act=hello_del&hello_id=<?php echo $rs['id'];?>">删除</a></td></tr>
 <?php }?>
 </table>

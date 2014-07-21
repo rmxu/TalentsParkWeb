@@ -88,7 +88,7 @@
 <div class="tabs">
 	<ul class="menu">
 	  <li class="active"><a href="modules.php?app=blog_list" hidefocus="true"><?php echo $b_langpackage->b_mine;?></a></li>
-	<!--   <li><a href="modules.php?app=blog_friend" hidefocus="true"><?php echo $b_langpackage->b_friend;?></a></li> //取消好友课程-->
+	  <li><a href="modules.php?app=blog_friend" hidefocus="true"><?php echo $b_langpackage->b_friend;?></a></li>
   </ul>
 </div>
 <?php }?>
@@ -105,7 +105,7 @@
 	<dd class="log_list_content"><?php echo $is_pri ? sub_str(strip_tags($rs["log_content"]),180):$b_langpackage->b_limit_blog;?></dd>
 	<dd>
 		<?php if($rs['tag']){?><span><?php echo $b_langpackage->b_label;?>：<?php echo $rs['tag'];?></span><?php }?>
-<!-- //取消权限显示		<span><?php echo $b_langpackage->b_limit;?>：<?php echo show_pri($rs["privacy"]);?></span> -->
+		<span><?php echo $b_langpackage->b_limit;?>：<?php echo show_pri($rs["privacy"]);?></span>
 		<span><?php echo str_replace("{b_com_num}",$rs['comments'],$b_langpackage->b_com_num);?></span><span>|</span><span><?php echo str_replace("{b_read_num}",$rs['hits'],$b_langpackage->b_read_num);?></span>
 	</dd>
 </dl>

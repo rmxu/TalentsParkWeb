@@ -41,7 +41,7 @@
 	$usubPara='';
 	$ulogTxt='';
 	$album_id='';
-	$form_action="do.php?act=blog_add";  //定义form的动作php
+	$form_action="do.php?act=blog_add";
 	$blog_sort_name='';
   $privacy='';
   $privacy_str='';
@@ -118,12 +118,12 @@ parent.hiddenDiv();
    <form action="<?php echo $form_action;?>" method="post"  name="myform" onSubmit="return CheckForm();">
 	<table border="0" cellpadding="2" cellspacing="1" class="form_table">
         <tr>
-			<th><?php echo $b_langpackage->b_title;?>：</th>   		<!-- //课程名 -->
+			<th><?php echo $b_langpackage->b_title;?>：</th>
 			<td colspan="2"><input class="med-text" type="text" autocomplete='off' name="blog_title" value="<?php echo $ulogTitle;?>" maxlength="30">
 			</td>
 		</tr>
    		<tr>
-			<th><?php echo $b_langpackage->b_sort;?>：</th>    <!-- //类别 -->
+			<th><?php echo $b_langpackage->b_sort;?>：</th>
 			<td colspan="2">
 			  <script language=JavaScript>
 					function trim(str){ //删除左右两端的空格
@@ -180,16 +180,16 @@ parent.hiddenDiv();
         </td>
       </tr>
       <tr>
-      	<th><?php echo $b_langpackage->b_label;?>：</th> <!--  //标签 -->
+      	<th><?php echo $b_langpackage->b_label;?>：</th>
         <td><input type='text' class='small-text' name='tag' value='<?php echo $tag;?>' /></td>
         <td><span class="right"><input type='hidden' name='privacy' id='privacy' value='<?php echo $privacy;?>' /></span></td>
       </tr>
-<!--       <tr>
-		<th width="60"><?php echo $b_langpackage->b_limit;?>：</th>  //权限
+      <tr>
+		<th width="60"><?php echo $b_langpackage->b_limit;?>：</th>
 		<td colspan="2">
 			<a href="javascript:void(0)" onmousedown='menu_pop_show(event,this,1);' id='<?php echo $t_blog;?>:<?php echo $ulog_id;?>:<?php echo $privacy;?>' class="authority_set"><?php echo $b_langpackage->b_set_permissions;?></a></div>
 		</td>
-		</tr>   -->
+		</tr>      
       <tr>
 		<th valign="top"><?php echo $b_langpackage->b_content;?>：</th>
         <td colspan="2" style="line-height:1.5">
@@ -209,7 +209,29 @@ parent.hiddenDiv();
 				<?php echo isset($plugins['blog_add_bottom'])?show_plugins($plugins['blog_add_bottom']):'';?>
 			</div>
 			<!-- plugins !-->
-
+	    <tr>
+	    	<td></td>
+	    	<td colspan="2"><?php echo album_name($album_rs,$album_id);?><?php echo $b_langpackage->b_sel_album;?></td>
+	    	<script type='text/javascript'>
+				var album_select=document.getElementById("album_name");
+				album_select.onchange=list_album_photos;
+				function list_album_photos(){//获取接受返回信息层
+					var album_select_val=document.getElementById("album_name").value;
+					var photos_list=document.getElementById("photos_list");
+					if(album_select_val==""){
+						return false;
+					}else{
+						photos_list.innerHTML="<?php echo $b_langpackage->b_data_loading;?>";
+						var get_album=new Ajax();//实例化Ajax
+						get_album.getInfo("modules.php","get","app","app=user_ico_select&type=blog_photo&album_id="+album_select_val,function(c){photos_list.innerHTML=c});
+					}
+				}
+			</script>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2"><div id='photos_list'></div></td>
+			</tr>
      		<tr>
 			<th></th>
 			<td colspan="2">

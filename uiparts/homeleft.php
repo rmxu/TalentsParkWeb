@@ -86,6 +86,8 @@ function send_hi(uid){
 			var hi_t=hi_type[def].value;
 		}
 	}
+	var get_album=new Ajax();
+	get_album.getInfo("do.php","get","app","act=user_add_hi&to_userid="+uid+"&hi_t="+hi_t,function(c){send_hi_callback(c);});
 }
 </script>
 <div class="homeside">
