@@ -4,10 +4,10 @@ $langPackagePara="zh";
 
 //配置信息
 $webRoot=strtr(dirname(__FILE__),"\\","/")."/";
-$metaDesc="寻找你的校友";
-$metaKeys="iwebSNS";
+$metaDesc="寻找你的老师和学生";
+$metaKeys="Talents Park";
 $metaAuthor="";
-$siteName="校友网";
+$siteName="达人帮";
 $copyright="2010版权所有www.jooyea.net";
 $domainRemark="";
 $offLine=0;
